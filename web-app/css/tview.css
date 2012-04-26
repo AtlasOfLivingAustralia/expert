@@ -1,0 +1,193 @@
+.link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* layout table */
+
+table.taxonList {
+    width: 100%;
+    background-color: white;
+}
+
+table.taxonList td {
+    text-align: left;
+    vertical-align: middle;
+}
+
+img.list {
+    max-width: 285px;
+    max-height: 150px;
+}
+
+img.dist {
+    max-width: 200px;
+    max-height: 100px;
+}
+
+table.taxonList td:first-child {
+    text-align: center;
+}
+
+table.genera td:first-child {
+    text-align: left;
+}
+
+table.taxonList td:last-child, th:last-child {
+    padding-right: 15px;
+}
+
+table.taxonList > tbody > tr > td:nth-child(2) a {
+    font-weight: bold;
+}
+
+table.taxonList > tbody > tr {
+    border-bottom: 3px solid #F0F0E8;/*#FaF9F2;*/
+}
+/*table.taxonList tr:nth-child(even) {
+    background-color: #FaF9F2;
+}*/
+
+/* image */
+table.taxonList span.rights {
+    font-size: 8px;
+}
+
+#popupMetadata p {
+    margin: 0;
+    padding-bottom: 3px;
+}
+
+details {
+    display: none;
+}
+
+summary {
+    font-weight: bold;
+    font-size: larger;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+dt, dd {
+    display: inline;
+}
+
+dd {
+    padding-left: 4px;
+}
+
+dd::after {
+    content: "\a";
+    white-space: pre;
+}
+
+dt::after {
+    content: ":";
+}
+
+#cboxLoadedContent {
+    margin-bottom: 10px !important;
+}
+
+/* columns */
+#tlCheckbox {
+    width: 5%;
+    text-align: center;
+}
+
+#tlCheckbox input {
+    padding-left: 20px;
+    float: right;
+}
+
+#tlName {
+    width: 20%;
+}
+
+#tlCommonName {
+    width: 20%;
+}
+
+#tlImage {
+    text-align: center;
+    width: 33%;
+}
+
+#tlGenera {
+    width: 12%;
+}
+
+#toggleGenera {
+    float: right;
+    padding-right: 20px;
+}
+/* genus */
+img.thumb {
+    max-width: 75px;
+    max-height: 75px;
+}
+
+table.genera {
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+table.genera td {
+    /*text-align: center;*/
+    padding: 0;
+}
+
+table.genera td a {
+    position: relative;
+    top: -10px;
+}
+
+/* pagination */
+#pagination ul {
+    display: inline-block;
+}
+
+#pagination li {
+    display: inline;
+    list-style: none;
+    font-size: 13px;
+    padding: 0 5px;
+}
+
+#pagination li a {
+    text-decoration:none;
+}
+
+li.currentPage {
+    font-size: 110%;
+    font-weight: bold;
+    color: #DD3102;
+}
+
+/* footer */
+#pagination ul {
+    padding-bottom: 12px;
+}
+
+#pagination p {
+    text-align: left;
+    margin-left: 30px;
+}
+
+#pagination span {
+    margin-left: 30px;
+}
+
+/* search controls */
+#controls {
+    float: right;
+    padding-right: 10px;
+}
+
+#controls label {
+    margin-left: 5px;
+}
