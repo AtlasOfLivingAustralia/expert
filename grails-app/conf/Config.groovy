@@ -37,10 +37,17 @@ if(System.getenv(ENV_NAME) && new File(System.getenv(ENV_NAME)).exists()) {
 }
 
 /******************************************************************************\
+ *  APPLICATION SWITCHES
+ \******************************************************************************/
+if (!expert.images.useConstructedUrls) {
+    expert.images.useConstructedUrls = false
+}
+
+/******************************************************************************\
  *  EXTERNAL SERVERS
  \******************************************************************************/
 if (!bie.baseURL) {
-    bie.baseURL = "http://bie.ala.org.au"
+    bie.baseURL = "http://bie.ala.org.au/ws"
 }
 /*
 if (!bie.searchPath) {
