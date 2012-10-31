@@ -52,8 +52,8 @@
                 <h3><span>Fish types</span></h3>
                 <div id="taxonLeft">
                     <div class="widgets">
-                        <g:select name="fishGroup" from="${['Sharks','Rays','Chimaeras']}" value="${criteria.fishGroup}"
-                                  keys="['sharks','rays','chimaeras']" noSelection="['':'All fishes']"/>
+                        <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}"
+                                  keys="${fishGroups.keys}" noSelection="['':'All fishes']"/>
                     </div>
                     <div class="advanced widgets" id="advancedTaxonSearch">
                         <label for="ecosystem">Primary ecosystem</label><br/>

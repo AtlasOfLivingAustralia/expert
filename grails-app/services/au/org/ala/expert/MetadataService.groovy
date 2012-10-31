@@ -15,6 +15,17 @@ class MetadataService {
             'slope only (200-500m)',
             'any (0-2000+m)']
 
+    static fishGroups = [
+            'Australian salmons','billfishes','boarfishes','breams','catfishes','chimaeras','cods', 'dories','eels',
+            'emperors','flatfishes','flatheads','garfishes','gemfishes','gurnards & latchets','hagfishes','hakes',
+            'herrings & anchovies','jewfishes','lampreys','leatherjackets','morwongs','mullets','oreos','pikes',
+            'rays','redfishes','rockcods','roughies','seaperches','sharks','smelts','threadfin breams','trevallas',
+            'trevallies','trumpeters','whalefishes','whitings','wrasses']
+
+    def getFishGroups() {
+        return [keys: fishGroups, display: fishGroups.collect {it[0].toUpperCase() + it[1..-1]}]
+    }
+
     def getLocalityNames() {
         return localities.keySet().sort()
     }

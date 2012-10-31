@@ -14,8 +14,8 @@ class SearchController {
     def index() {
         def model =
             [bathomeValues: metadataService.bathomeValues, imcras: metadataService.getMarineRegions(),
-            localities: metadataService.localities2, allFamilies: metadataService.getAllFamilies(),
-            criteria: new SearchCommand()]
+             localities: metadataService.localities2, allFamilies: metadataService.getAllFamilies(),
+             fishGroups: metadataService.getFishGroups(), criteria: new SearchCommand()]
         
         /*if (params.key) {
             model.key = params.key
@@ -75,9 +75,9 @@ class SearchController {
      */
     def ajaxSearch(SearchCommand cmd) {
 
-        /*println "params-----"
+        println "params-----"
         params.each { println it }
-        println "params-----"*/
+        println "params-----"
 
         // families does not seem to bind automatically
         cmd.families = params.families
