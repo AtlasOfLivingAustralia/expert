@@ -108,7 +108,7 @@ class SearchController {
             // add the family metadata (image, common name, etc)
             /*startTime = System.currentTimeMillis();
             println "timing----- 0"*/
-            searchResults.families = bieService.getFamilyMetadata(searchResults.results, startTime)
+            searchResults.families = bieService.getFamilyMetadata(searchResults.results/*, startTime*/)
             /*println "family processing took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
             startTime = System.currentTimeMillis();*/
