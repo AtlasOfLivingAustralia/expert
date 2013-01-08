@@ -13,7 +13,7 @@ class BieService {
      * @param list of species
      * @return map of families
      */
-    def getFamilyMetadata(list) {
+    def getFamilyMetadata(list/*, startTime*/) {
 
         // map to hold family metadata
         def families = [:]
@@ -23,24 +23,21 @@ class BieService {
         def speciesGuids = []
 
         // get unique families + known metadata
-        def uniqueByFamily = list.clone().unique({it.family})
-        uniqueByFamily.each {
-            families.put it.family, [
-                    guid: it.familyGuid,
-                    anySpeciesGuid: it.guid,
-                    caabCode: it.familyCaabCode
-            ]
-            if (ConfigurationHolder.config.expert.images.useConstructedUrls) {
-                families[it.family].image = [largeImageUrl: ConfigurationHolder.config.bie.baseURL +
-                        '/species/image/large/' + it.guid]
-            }
-            if (it.familyGuid) {
+        list.each {
+            if (!families.containsKey(it.family)) {
+                families.put it.family, [
+                        guid: it.familyGuid,
+                        anySpeciesGuid: it.guid,
+                        caabCode: it.familyCaabCode
+                ]
+                if (ConfigurationHolder.config.expert.images.useConstructedUrls) {
+                    families[it.family].image = [largeImageUrl: ConfigurationHolder.config.bie.baseURL +
+                            '/species/image/large/' + it.guid]
+                }
                 familyGuids << it.familyGuid
             }
-            if (it.guid) {
-                speciesGuids << it.guid
-            }
         }
+        //println "family loop finished at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
         // bulk lookup by guid for families
         def data = doBulkLookup(familyGuids)
@@ -57,29 +54,15 @@ class BieService {
             }
         }
 
-/*
-        // bulk lookup by guid for species
-        def spdata = doBulkLookup(speciesGuids)
-        families.each { name, fam ->
-            def spData = spdata[fam.anySpeciesGuid]
-            if (spData) {
-                fam.image = spData.image
-            }
-            else {
-                println "no image data found for ${name}"
-            }
-        }
-*/
-
         return families
     }
 
     def doBulkLookup(guids) {
         def url = ConfigurationHolder.config.bie.baseURL
-        println url
+        //println url
         def data = webService.doJsonPost(url,
                 "species/guids/bulklookup.json", "", (guids as JSON).toString())
-        println data
+        //println data
         Map results = [:]
         data.searchDTOList.each {item ->
             results.put item.guid, [
