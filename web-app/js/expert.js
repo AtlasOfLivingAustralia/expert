@@ -126,6 +126,10 @@ var customDepth = {
                 this.setMaxDepth(maxDepth);
                 this.inputChange();
         }
+    },
+    // returns true if advanced search criteria exist
+    isAdvanced: function () {
+        return this.$bathome.val() === "custom depth range";
     }
 };
 
@@ -244,6 +248,10 @@ var locationWidgets = {
     },
     hasImcra: function () {
         return this.$imcra.val() !== '';
+    },
+    // returns true if advanced search criteria exist
+    isAdvanced: function () {
+        return this.hasImcra();
     }
 
 };
@@ -251,6 +259,7 @@ var locationWidgets = {
 // handles searching for specific families ----------------------------------------------------
 var familyWidget = {
     $list: null,
+    $fishGroup: null,
     init: function () {
         var that = this;
 
@@ -259,6 +268,8 @@ var familyWidget = {
 
         // cache the display list
         this.$list = $('#familyList');
+        // cache the fish groups widget
+        this.$fishGroup = $('#fishGroup');
 
         // bind add button
         $('#addFamily').click(function () {
@@ -267,6 +278,7 @@ var familyWidget = {
             if (fam && $('#familyList li:contains("' + fam + '")').length === 0) {
                 that.$list.append('<li id="' + fam + '">' + fam + '<span class="delete">d</span></li>');
                 that.setHiddenValue();
+                that.setTypeState();
                 $('#family-widget input').val('');
             }
         });
@@ -274,6 +286,8 @@ var familyWidget = {
         // bind remove buttons
         $('#familyList').on('click', 'span.delete', function () {
             $(this).parent().remove();
+            that.setHiddenValue();
+            that.setTypeState();
         });
     },
     clear: function () {
@@ -293,7 +307,19 @@ var familyWidget = {
             this.$list.append('<li id="' + list[i] + '">' + list[i] + '<span class="delete">d</span></li>');
         }
         this.setHiddenValue();
+        this.setTypeState();
         $('#family-widget input').val('');
+    },
+    // controls the value and enablement of the fish types widget to reflect the state of the families list.
+    // if any families are selected, type must be 'all' and disabled
+    setTypeState: function () {
+        if (this.$list.find('li').length > 0) {
+            this.$fishGroup.val('All fishes');
+            this.$fishGroup.attr('disabled','disabled');
+        }
+        else {
+            this.$fishGroup.removeAttr('disabled');
+        }
     }
 };
 
