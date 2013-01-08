@@ -213,4 +213,9 @@ class ResultsController {
         results.keys = results.keys.sort({it.time}).reverse()
         render results as JSON
     }
+
+    def clearCache = {
+        resultsCacheService.clear()
+        render 'cleared'
+    }
 }

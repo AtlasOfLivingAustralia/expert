@@ -15,4 +15,8 @@ class ResultsCacheService {
     def put(key, value) {
         cache.put key, value
     }
+
+    def clear() {
+        cache = [:]
+    }
 }
