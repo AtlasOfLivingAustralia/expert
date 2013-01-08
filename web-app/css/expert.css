@@ -58,19 +58,18 @@ section.searchGroup label {
     /*height: 113px;*/
 }
 
-#taxonLeft {
+#taxonLeft div {
     float: left;
 }
 
 #taxonRight {
-    float: left;
+    clear: both;
     padding-left: 10px;
-    padding-top: 0;
-    margin-top: -15px;
+    padding-top: 20px;
 }
 
 #taxonRight ul {
-    width: 290px;
+    /*width: 290px;*/
     padding: 10px 0 0 0;
     list-style: none;
     margin-left: 10px;
@@ -151,6 +150,9 @@ span.hint {
 
 div.advanced {
     display: none;
+}
+
+div.top-pad {
     padding-top: 15px;
 }
 
