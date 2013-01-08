@@ -5,11 +5,10 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ResultsController {
 
+    def resultsCacheService
     static allowedMethods = [submit:'POST']
 
     def index() { }
-    
-    static cache = [:]
 
     /**
      * Store the supplied results list with a generated key.
@@ -22,7 +21,7 @@ class ResultsController {
         def bodyText = request.reader.text
         def body = JSON.parse(bodyText as String)
         def key = body.key ?: body.query.encodeAsMD5()
-        cache.put key, [list: body.list, query: body.query, queryDescription: body.queryDescription, time: new Date()]
+        resultsCacheService.put key, [list: body.list, query: body.query, queryDescription: body.queryDescription, time: new Date()]
         def result = [key: key]
         render result as JSON
     }
@@ -34,7 +33,7 @@ class ResultsController {
      * @return
      */
     def getResults(String key) {
-        def results = cache[key]
+        def results = resultsCacheService.get(key)
         if (results) {
             render results as JSON
         }
@@ -62,9 +61,9 @@ class ResultsController {
      * @return a json representation of the page of results
      */
     def getPage(String key) {
-        def query = cache[key]?.query
-        def queryDescription = cache[key]?.queryDescription
-        def list = cache[key]?.list
+        def query = resultsCacheService.get(key)?.query
+        def queryDescription = resultsCacheService.get(key)?.queryDescription
+        def list = resultsCacheService.get(key)?.list
         if (list) {
             def speciesList = list.results?.clone()
 
@@ -199,6 +198,7 @@ class ResultsController {
     }
 
     def dumpCache = {
+        def cache = resultsCacheService.cache
         def results = [totalEntries: cache.size(), keys: []]
         results.keys = cache.keySet().collect {
             [key:  it, query: cache[it].query, time: cache[it].time,
