@@ -9,7 +9,7 @@ import grails.util.GrailsUtil
 
 class SearchController {
 
-    def searchService, metadataService, webService, bieService, resultsService
+    def searchService, metadataService, webService, bieService, resultsCacheService
 
     def index() {
         def model =
@@ -75,50 +75,80 @@ class SearchController {
      */
     def ajaxSearch(SearchCommand cmd) {
 
-        println "params-----"
+        /*println "params-----"
         params.each { println it }
-        println "params-----"
+        println "params-----"*/
+
+        def result
 
         // families does not seem to bind automatically
         cmd.families = params.families
 
-        // do the search
-        def searchResults = searchService.search(cmd)
-        if (searchResults.error) {
-            println searchResults.error
+        // check to see if the same search is already in the results cache
+        def key = searchService.buildQuery(cmd).encodeAsMD5()
+        //println "Calculated key = ${key}"
+        if (resultsCacheService.hasKey(key)) {
+            def cachedResult = resultsCacheService.get(key)
+            // bundle the results
+            result = [summary: [total: cachedResult.list.total,
+                    familyCount: cachedResult.list.familyCount], query: cachedResult.query,
+                    queryDescription: cmd.queryDescription, key: key]
+            //println "serving results from cache"
         }
-
-        // add the family metadata (image, common name, etc)
-        searchResults.families = bieService.getFamilyMetadata(searchResults.results)
-
-        // create a summary
-        def summary = searchService.speciesListSummary(searchResults.results)
-
-        // inject some summary counts into the results
-        searchResults.total = summary.total
-        searchResults.familyCount = summary.familyCount
-
-        // register the results with the results service
-        def storeError = ""
-        def key = ""
-        if (!searchResults.error) {
-            key = submitResults(searchResults, cmd.queryDescription, "")
-            if (key == null) {
-                storeError = "Failed to save search results."
+        else {
+            // do the search
+            /*long startTime = System.currentTimeMillis();
+            println "timing----- 0"*/
+            def searchResults = searchService.search(cmd)
+            //println "search took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+            if (searchResults.error) {
+                println searchResults.error
             }
-            println "stored key = ${key}"
+
+            // add the family metadata (image, common name, etc)
+            /*startTime = System.currentTimeMillis();
+            println "timing----- 0"*/
+            searchResults.families = bieService.getFamilyMetadata(searchResults.results, startTime)
+            /*println "family processing took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+
+            startTime = System.currentTimeMillis();*/
+
+            // create a summary
+            def summary = [total: searchResults.results.size(),
+                    familyCount: searchResults.families.size()]
+            //searchService.speciesListSummary(searchResults.results)
+
+            // inject some summary counts into the results
+            searchResults.total = summary.total
+            searchResults.familyCount = summary.familyCount
+
+            //println "summary at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+
+            // register the results with the results service
+            def storeError = ""
+            if (!searchResults.error) {
+                key = submitResults(searchResults, cmd.queryDescription, "")
+                if (key == null) {
+                    storeError = "Failed to save search results."
+                }
+                println "stored key = ${key}"
+            }
+            //println "stored at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+
+            // bundle the results
+            result = [summary: summary, query: searchResults.query,
+                    queryDescription: cmd.queryDescription, key: key]
+            if (storeError) {
+                result.error = storeError
+            }
+            if (searchResults.error) {
+                result.error = searchResults.error
+            }
+
+            //println "remaining processing took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
         }
 
-        // bundle the results
-        def result = [summary: summary, query: searchResults.query,
-                queryDescription: cmd.queryDescription, key: key]
-        if (storeError) {
-            result.error = storeError
-        }
-        if (searchResults.error) {
-            result.error = searchResults.error
-        }
-
+        //println "sending response with ${result.summary.total} species"
         render result as JSON
     }
     
