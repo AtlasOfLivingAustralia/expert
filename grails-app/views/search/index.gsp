@@ -38,7 +38,7 @@
                     <label for="bathome">Bathome</label>
                     <g:select name="bathome" from="${bathomeValues}"
                               value="${criteria.bathome ?: 'coastal/shallow water (0-40m)'}"/>
-                    <div class="advanced" id="advancedDepthSearch">
+                    <div class="advanced top-pad" id="advancedDepthSearch">
                         <span>OR</span>
                         <label style="padding-right: 5px;">Custom depth range (m)</label>
                         Min: <g:textField name="minDepth" class="depthInput" value="${criteria.minDepth}"/>
@@ -55,8 +55,8 @@
                         <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}"
                                   keys="${fishGroups.keys}" noSelection="['':'All fishes']"/>
                     </div>
-                    <div class="advanced widgets" id="advancedTaxonSearch">
-                        <label for="ecosystem">Primary ecosystem</label><br/>
+                    <div class="advanced widgets">
+                        <label for="ecosystem">Primary ecosystem</label>
                         <g:select name="ecosystem" from="['estuarine','coastal','demersal','pelagic']"
                                   noSelection="['':'any']"/><br/>
                     </div>
@@ -64,8 +64,7 @@
                 <div id="taxonRight" class="advanced" style="display:none;">
                     <div id="family-widget">
                         <label for="family">Only these families</label>
-                        <span class="hint">(Type a few letters or pick from list.)</span><br/>
-                        <g:select title="select" name="family" from="${allFamilies}" noSelection="['':'']"/>
+                        <g:select title="Type a few letters or pick from list." name="family" from="${allFamilies}" noSelection="['':'']"/>
                         <button type="button" id="addFamily">
                         <img alt="add selected family" title="Add selected family to search criteria"
                              src="${resource(dir:'images/skin',file:'plus_icon.gif')}"/></button>
@@ -84,7 +83,7 @@
                     <label for="radiusSlider">Distance from locality</label>
                     <div id="radiusSlider"></div><span id="radiusDisplay">50km</span>
                 </div>
-                <div class="advanced" id="advancedRegionSearch">
+                <div class="advanced top-pad" id="advancedRegionSearch">
                     <span style="padding-right: 10px;">OR</span>
                     <label for="imcra">Marine bioregion</label>
                     <select name="imcra" id="imcra">
@@ -107,7 +106,7 @@
                 where a species is expected to be found (as opposed to records of where specimens have actually been
                 recorded). The maps are developed by a person or group of people with
                 expert knowledge of the domain. The source of these distributions is available in the metadata for each
-                map. Read more about <a href="">expert distibutions</a>.</div>
+                map.</div>
                 <div id="map-controls" style="display: none">
                     <p><span id="or">OR</span> <strong>draw an area on the map</strong></p>
                     <ul>
