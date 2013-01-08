@@ -4,10 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class SearchService {
 
-    def search(SearchCommand cmd) {
-        println "location based on ${cmd.locationBasedOn}"
-        //println "Radius = ${cmd.radius}"
-        def results = []
+    def buildQuery(SearchCommand cmd) {
         def criteria = []
         switch (cmd.locationBasedOn) {
             case 'wkt': criteria << "wkt=" + cmd.wkt; break
@@ -21,7 +18,7 @@ class SearchService {
                 criteria << "fid=cl21"
                 criteria << "objectName=" + cmd.getMarineArea().imcra
         }
-            
+
         if (cmd.depthBasedOn != 'all') {
             def dep = cmd.depthRange
             if (dep.minD) {
@@ -40,14 +37,20 @@ class SearchService {
             criteria.addAll getEcosystemQuery(cmd.ecosystem)
         }
 
-        //println "families=" + cmd.families
         if (cmd.families) {
             cmd.families.each {
                 criteria << "family=" + it
             }
         }
 
-        def query = criteria.join('&')
+        return criteria.join('&')
+    }
+
+    def search(SearchCommand cmd) {
+        //println "location based on ${cmd.locationBasedOn}"
+        //println "Radius = ${cmd.radius}"
+        def results = []
+        def query = buildQuery(cmd)
         println "Query = " + query
         def servicePath = '/ws/distributions'
         if (cmd.locationBasedOn == 'circle' || cmd.locationBasedOn == 'locality') {
