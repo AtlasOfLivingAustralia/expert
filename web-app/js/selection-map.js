@@ -104,7 +104,7 @@ map = {
         // when the user has drawn something
         google.maps.event.addListener(this.drawingManager, 'overlaycomplete', function (e) {
             that.clearShapes();
-            that.shapes.push(e.overlay);
+            that.shapes[0] = e.overlay;
             that.currentShapeCallback('user-drawn', e.type, e.overlay);
             that.gmap.setOptions({scrollwheel: false});
         });
@@ -148,7 +148,7 @@ map = {
                         map: this.gmap
                     });
                     circle.setOptions(this.overlayOptions);
-                    this.shapes.push(circle);
+                    this.shapes[0] = circle;
                     // simulate drawingManager drawn event
                     this.currentShapeCallback(type, google.maps.drawing.OverlayType.CIRCLE, circle);
                 }
@@ -162,7 +162,7 @@ map = {
                     bounds: arg1,
                     map: this.gmap
                 });
-                this.shapes.push(rect);
+                this.shapes[0] = rect;
                 rect.setOptions(this.overlayOptions);
                 // simulate drawingManager drawn event
                 this.currentShapeCallback(type, google.maps.drawing.OverlayType.RECTANGLE, rect);
@@ -173,7 +173,7 @@ map = {
                     map: this.gmap
                 });
                 poly.setOptions(this.overlayOptions);
-                this.shapes.push(poly);
+                this.shapes[0] = poly;
                 // simulate drawingManager drawn event
                 this.currentShapeCallback(type, google.maps.drawing.OverlayType.POLYGON, poly);
                 break;
