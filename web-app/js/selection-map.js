@@ -155,7 +155,7 @@ map = {
                 break;
             case 'wkt':
                 var paths = wktToArray(arg1);
-                this.showArea('polygon', paths)
+                this.showArea('polygon', paths);
                 break;
             case 'rectangle':
                 var rect = new google.maps.Rectangle({
@@ -215,7 +215,7 @@ var controls = {
         this.tools = $('#map-controls li');
         this.serverUrl = serverUrl;
 
-        // handlers
+        // clear button handler
         $('#clear').click(function () {
             // remove objs
             map.clearShapes();
@@ -232,7 +232,7 @@ var controls = {
         });
 
         // drawing button action
-        $('#map-controls li[id!="clear"]').click(function () {
+        $('#control-buttons li[id!="clear"]').click(function () {
             if (this.id === 'reset') { return; }
             // set mode
             map.mode = this.id;
@@ -289,10 +289,23 @@ var controls = {
                         new google.maps.LatLng(nelat,nelon)));
             }
         });
-        // bind listeners for undo
-        $('#circRadiusUndo').click( function () {
-            $('#circRadius').val('20');
+        $('#polygonArea').on('change', 'input', function () {
+            var path = new Array(),
+                lastLat = 0;
+            // create a path from the list of inputs (2 inputs per point)
+            $('#polygonArea input').each(function (index) {
+                if (index % 2 === 0) {
+                    lastLat = $(this).val();
+                } else {
+                    path.push(new google.maps.LatLng(lastLat, $(this).val()));
+                }
+            });
+            map.showArea('polygon', path);
         });
+        // bind listeners for undo
+        /*$('#circRadiusUndo').click( function () {
+            $('#circRadius').val('20');
+        });*/
     },
     drawingModeFromId: function (id) {
         switch (id) {
