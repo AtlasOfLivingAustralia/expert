@@ -89,11 +89,11 @@
         });
     </script>
 </head>
-<body class="fish landing">
+<body class="fish ${pageProperty(name:'body.class')}">
 
 <hf:banner logoutUrl="${ConfigurationHolder.config.grails.serverURL}/taxon/logout"/>
 
-<hf:menu/>
+%{--<hf:menu/>--}%
 
 <g:layoutBody />
 
