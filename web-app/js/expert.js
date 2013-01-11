@@ -166,7 +166,7 @@ var locationWidgets = {
 
         // initialise slider for locality radius
         this.$slider.slider({
-            min: 5000,
+            min: 25000,
             max: 100000,
             value: initialRadius,
             step: 5000,
@@ -382,7 +382,7 @@ function search() {
         // check for errors
         if (data.error) {
             // show error
-            $('#resultsText span').html('Search failed due to an error: ' + data.error);
+            $('#resultsText span.results').html('Search failed due to an error: ' + data.error);
             // hide links
             $('#resultsText a').css('display','none');
             // show results if hidden
@@ -409,7 +409,7 @@ function search() {
 
 function setResults(data) {
     // set counts
-    $('#resultsText span').html('Search found <strong>' + data.summary.total +
+    $('#resultsText span.results').html('Search found <strong>' + data.summary.total +
             '</strong> species in <strong>' + data.summary.familyCount +
             '</strong> families.</span>');
     // create links with the returned key
