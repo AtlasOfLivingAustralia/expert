@@ -146,7 +146,7 @@ environments {
         //grails.host = "woodfired.ala.org.au"
         grails.serverURL = "http://${grails.host}:8081/${appName}"
         results.cache.baseUrl = grails.serverURL + "/results"
-        explorer.baseUrl = "http://${grails.host}:8082/tviewer"
+        explorer.baseUrl = "http://${grails.host}:8083/tviewer"
     }
     test {
         grails.host = "ala-testweb1.vm.csiro.au"
