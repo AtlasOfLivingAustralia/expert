@@ -6,15 +6,45 @@ h2 > a {
     font-size: 12px;
 }
 
+/* banners */
+.search #page-header hgroup {
+    background: url("../images/fishmap-banner­find-fishes.jpg") white center no-repeat;
+}
+
+#page-header hgroup {
+    height: 136px;
+    color: transparent;  /* only for text readers - visual title is in the banner image */
+}
+
+#page-header .inner {
+    padding-top: 0;
+}
+
+#breadcrumb {
+    margin-top: -15px;
+    color: #007c84;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 /* coloured header requires white links */
 .landing #page-header hgroup a:link, .landing #page-header hgroup a:visited {
     color: white;
 }
 
+#search {
+    float: left;
+    width: 370px;
+}
+
+#map {
+    float: right;
+    width: 600px;
+}
+
 /* search sections */
 p.searchInstructions {
-    padding-bottom: 0;
-    margin-left: 10px;
+    padding-bottom: 15px;
     font-size: 14px;
 }
 
@@ -32,8 +62,18 @@ color-test {
     color: #DF4A21;
 }
 
-section.searchGroup label {
+.mainLabel {
     font-weight: bold;
+    color: #007c84;
+    font-size: 1.3em;
+}
+
+label {
+    padding-right: 4px;
+}
+
+.search-block {
+    padding-bottom: 15px;
 }
 
 #depthTaxonContainer {
@@ -82,20 +122,25 @@ section.searchGroup label {
 
 /* family picker */
 
+#familyList {
+    margin: 0;
+    padding: 0;
+}
+
 #familyList li {
     display: inline-block;
-    width: 140px;
+    padding-right: 3px;
 }
 
 #familyList span.delete {
     background: transparent url("../images/skin/remove.png") no-repeat right;
-    padding-left: 10px;
+    padding-left: 7px;
     color: #FFFEF7;
 }
 
 #familyList span.delete:hover {
     background: transparent url("../images/skin/remove-hover.png") no-repeat right;
-    padding-left: 10px;
+    padding-left: 7px;
 }
 
 #familyList .ui-combobox {
@@ -153,15 +198,11 @@ div.advanced {
 }
 
 div.top-pad {
-    padding-top: 15px;
+    padding-top: 4px;
 }
 
 #depthSearch div.advanced {
     padding-bottom: 15px;
-}
-
-div.widgets {
-    padding-left: 15px;
 }
 
 section.searchGroup h3 {
@@ -200,16 +241,26 @@ button.simpleButton {
     text-decoration: underline;
 }
 
+button.toggleAdvanced {
+    color: #007c84;
+}
+
 span.or {
     padding: 0 10px;
 }
 
-button.searchButton {
-    margin-left: 40px;
+#searchButton {
+    border: #007c84 solid thin;
+    color: #007c84;
+    padding: 1px 6px;
 }
 
-button.clear {
-    margin-left: 20px;
+#clearButton {
+    background: white none;
+    color: #007c84;
+    padding: 1px 6px;
+    border: none;
+    text-decoration: underline;
 }
 
 button.simpleButton:last-child {
@@ -217,11 +268,9 @@ button.simpleButton:last-child {
 }
 
 #submit-buttons, #submit-buttons2 {
-    margin-left: 200px;
 }
 
 #submit-buttons {
-    padding-top: 10px;
 }
 
 #submit-buttons2 {
@@ -229,7 +278,7 @@ button.simpleButton:last-child {
 }
 
 #showQueryToggle {
-    padding-left: 50px;
+    padding-left: 0;
 }
 
 /* widgets */
@@ -239,38 +288,81 @@ input.depthInput {
 }
 
 #radiusSlider {
-    margin: 0 9px -2px 4px;
-    width: 200px;
+    margin: 0 6px 0 3px;
+    width: 180px;
     display: inline-block;
+    vertical-align: middle;
+}
+
+#radiusDisplay {
+    float: right;
+    margin-right: 13px;
 }
 
 #depthRangeSlider {
-    width: 380px;
+    width: 350px;
     margin-top: 6px;
 }
 
-#polygonArea input {
-    float: none !important;
-    width: 85px;
-    margin-right: 5px;
+#imcra {
+    margin: 0 0 4px 0;
 }
 
 /* results */
-#searchResults > div {
-    padding-left: 60px;
+#searchResults {
+    margin: 20px 10px 0 0;
+    padding: 8px;
+
+    background-image: linear-gradient(left , rgb(167,212,214) 0%, rgb(255,255,255) 100%);
+    background-image: -o-linear-gradient(left , rgb(167,212,214) 0%, rgb(255,255,255) 100%);
+    background-image: -moz-linear-gradient(left , rgb(167,212,214) 0%, rgb(255,255,255) 100%);
+    background-image: -webkit-linear-gradient(left , rgb(167,212,214) 0%, rgb(255,255,255) 100%);
+    background-image: -ms-linear-gradient(left , rgb(167,212,214) 0%, rgb(255,255,255) 100%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        right top,
+        color-stop(0, rgb(167,212,214)),
+        color-stop(1, rgb(255,255,255))
+    );
+
+    border: none;
+
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 7px;
+    -o-border-radius: 3px;
+    -icab-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 7px;
+
+}
+
+#searchResults h3 {
+    color: #007c84;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-bottom: 5px;
+}
+
+span.sea {
+    color: #007c84;
 }
 
 #searchResults a {
-    padding-left: 20px;
+    padding-left: 11px;
+    padding-right: 11px;
+    color: #007c84;
+    font-weight: bold;
 }
 
 span.results {
     font-size: 14px;
     color: black;
+    padding-bottom: 5px;
 }
 
 #queryDescription {
-    padding: 15px 0 0 0;
+    padding: 9px 0 0 0;
     color: #444;
 }
 
@@ -278,6 +370,7 @@ span.results {
     padding: 2px 0 0 0;
     color: #999;
     display: none;
+    width: 350px;
 }
 /* .. */
 
@@ -298,12 +391,13 @@ button {
 /* map */
 #map-wrap {
     position:relative;
-    margin: 20px 20px 0 20px;
+    /*margin: 20px 20px 0 20px;*/
 }
 
 #map-canvas{
     position: relative;
-    width: 648px;
+    /*width: 648px;*/
+    width: 600px;
     height: 470px;
     display: block;
     float: left;
@@ -311,30 +405,29 @@ button {
 }
 
 #intro-text {
-    float: right;
-    width: 200px;
-    padding: 10px;
+    clear: both;
+    padding: 10px 0;
 }
 
 #map-controls {
-    float: right;
-    width: 220px;
+    margin-top: 4px;
 }
 
-#map-controls img {
+#control-buttons img {
     padding: 2px;
     vertical-align: middle;
 }
 
-#map-controls li {
+#control-buttons li {
     border: 1px solid transparent;
+    float: left;
 }
 
-#map-controls li.active {
+#control-buttons li.active {
     border: 1px solid #ccc;
 }
 
-#map-controls li.hover {
+#control-buttons li.hover {
     border: 1px dashed #ccc;
 }
 
@@ -347,12 +440,49 @@ button {
     display: none;
 }
 
-#drawnArea input {
-    /*float: right;*/
+#drawnArea li {
+    display: inline-block;
 }
 
-#circleArea label {
-    display: inline-block;
-    width: 55px;
+#drawnArea label {
+    display: inline-block; /* so we can set width */
+}
+
+#rectangleArea label {
+    width: 50px;
+}
+
+#rectangleArea li {
+    padding-left: 30px;
+}
+
+#circleArea input {
+    width: 130px;;
+}
+
+#circleArea li {
+    padding-left: 20px;
+}
+
+#polygonArea li {
+    padding-bottom: 10px;
+    margin-right: 4px;
+}
+
+#polygonArea li:after {
+    content: ">"
+}
+
+#polygonArea li:last-child:after {
+    content: ""
+}
+
+#polygonArea input {
+    margin-right: -1px;
+    width: 85px;
+}
+
+#polygonArea input:not(:first-child) {
+    margin-right: 4px;
 }
 /* .. */
