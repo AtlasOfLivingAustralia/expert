@@ -62,7 +62,14 @@ class MetadataService {
     def getAllFamilies = {
         if (!familiesCache) {
             def all = webService.getJson(ConfigurationHolder.config.spatial.layers.service.url + "/distributions.json")
-            familiesCache = all.collect({it.family}).unique().sort()
+            all.each {
+                if (it.family == "") println it.scientific + " has blank family"
+                if (it.family == null) println it.scientific + " has null family"
+                if (!familiesCache.contains(it.family) && it.family != "" && it.family != null) {
+                    familiesCache << it.family
+                }
+            }
+            familiesCache.sort()
         }
         return familiesCache
     }
