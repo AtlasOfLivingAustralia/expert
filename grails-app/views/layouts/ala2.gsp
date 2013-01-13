@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,18 +13,11 @@
     <link rel="stylesheet" type="text/css" media="screen" href="http://ala.org.au/wp-content/themes/ala2011/css/search.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="http://ala.org.au/wp-content/themes/ala2011/css/skin.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="http://ala.org.au/wp-content/themes/ala2011/css/sf.css" />
-    <script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
-    <!--[if lt IE 9]>
-        <g:javascript library="html5" />
-    <![endif]-->
-
-    <g:javascript library="application" />
-    <g:layoutHead />
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
     %{--<script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>--}%
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/uservoice.js"></script>
-    <script type="text/javascript">
+    <r:script>
 
         // initialise plugins
 
@@ -87,11 +79,14 @@
                 selectFirst: false
             });
         });
-    </script>
+    </r:script>
+    <r:require module="html5" />
+    <g:layoutHead />
+    <r:layoutResources />
 </head>
 <body class="fish ${pageProperty(name:'body.class')}">
 
-<hf:banner logoutUrl="${ConfigurationHolder.config.grails.serverURL}/taxon/logout"/>
+<hf:banner logoutUrl="${grailsApplication.config.grails.serverURL}/taxon/logout"/>
 
 %{--<hf:menu/>--}%
 

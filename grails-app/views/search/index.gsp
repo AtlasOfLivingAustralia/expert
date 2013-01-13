@@ -1,4 +1,4 @@
-<%@ page import="grails.converters.JSON; org.codehaus.groovy.grails.commons.ConfigurationHolder" contentType="text/html;charset=UTF-8" %>
+<%@ page import="grails.converters.JSON" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,13 +7,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'expert.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.19.custom.css')}" type="text/css" media="screen"/>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=drawing"></script>
-    <g:javascript library="jquery-ui-1.8.19.custom.min"/>
-    <g:javascript library="wms"/>
-    <g:javascript library="expert"/>
-    <g:javascript library="selection-map"/>
-    <g:javascript library="keydragzoom"/>
-    <g:javascript library="jquery.ba-bbq.min"/>
-    <g:javascript library="combobox"/>
+    <r:require modules="jquery, jqueryui, application"/>
+    <r:layoutResources />
 </head>
 <body class="search">
 <header id="page-header">
@@ -104,11 +99,11 @@
                     <div id="resultsText">
                         <span class="results">Search found <strong id="total">${summary?.total}</strong> species in <strong id="familyCount">${summary?.familyCount}</strong> families.</span><br>
                         <p style="font-weight:bold;padding-bottom:3px;padding-top:3px;">View results by:</p>
-                        <a id="familiesLink" href="${ConfigurationHolder.config.explorer.baseUrl}/taxon/view?key=${key}">family list</a>
+                        <a id="familiesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/view?key=${key}">family list</a>
                         <span class="sea">|</span>
-                        <a id="speciesLink" href="${ConfigurationHolder.config.explorer.baseUrl}/taxon/species?key=${key}">species list</a>
+                        <a id="speciesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/species?key=${key}">species list</a>
                         <span class="sep">|</span>
-                        <a id="speciesDataLink" href="${ConfigurationHolder.config.explorer.baseUrl}/taxon/data?key=${key}">species data</a>
+                        <a id="speciesDataLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/data?key=${key}">species data</a>
                         <p id="queryDescription">For the query: <span id="qDescription">${criteria?.queryDescription}</span>
                             <button style="color:#606060" type="button" class="simpleButton" id="showQueryToggle">show full query</button></p>
                         <p id="queryDisplay">(${query})</p>
@@ -184,9 +179,9 @@
             </div>
     </section>
 </div>
-<script type="text/javascript">
+<r:script>
 
-    var serverUrl = "${ConfigurationHolder.config.grails.serverURL}";
+    var serverUrl = "${grailsApplication.config.grails.serverURL}";
 
     $(document).ready( function () {
 
@@ -203,9 +198,9 @@
         // create map and controls
         init_map({
             server: serverUrl,
-            spatialService: '${ConfigurationHolder.config.spatial.layers.service.url}',
-            spatialWms: '${ConfigurationHolder.config.spatial.wms.url}',
-            spatialCache: '${ConfigurationHolder.config.spatial.wms.cache.url}',
+            spatialService: '${grailsApplication.config.spatial.layers.service.url}',
+            spatialWms: '${grailsApplication.config.spatial.wms.url}',
+            spatialCache: '${grailsApplication.config.spatial.wms.cache.url}',
             mapContainer: 'map-canvas'
         });
 
@@ -431,6 +426,6 @@
         return true
     }
 
-</script>
+</r:script>
 </body>
 </html>
