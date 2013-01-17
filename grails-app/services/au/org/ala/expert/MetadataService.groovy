@@ -2,11 +2,10 @@ package au.org.ala.expert
 
 import au.com.bytecode.opencsv.CSVReader
 import grails.converters.JSON
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class MetadataService {
 
-    def webService
+    def webService, grailsApplication
     
     static bathomeValues = [
             'coastal/shallow water (0-40m)',
@@ -61,7 +60,9 @@ class MetadataService {
     static familiesCache = []
     def getAllFamilies = {
         if (!familiesCache) {
-            def all = webService.getJson(ConfigurationHolder.config.spatial.layers.service.url + "/distributions.json")
+            def all = webService.getJson(grailsApplication.config.spatial.layers.service.url +
+                    "/distributions.json?dataResourceUid=" +
+                    grailsApplication.config.distribution.maps.dataResourceUid)
             all.each {
                 if (it.family == "") println it.scientific + " has blank family"
                 if (it.family == null) println it.scientific + " has null family"

@@ -76,6 +76,12 @@ if (!spatial.layers.service.url) {
 if (!headerAndFooter.baseURL) {
     headerAndFooter.baseURL = /*"http://localhost/~markew/commonui"//*/"http://www2.ala.org.au/commonui"
 }
+
+/******************************************************************************\
+ *  APP CONFIG
+ \******************************************************************************/
+distribution.maps.dataResourceUid = 'dr803'
+
 /******************************************************************************\
  *  SECURITY
  \******************************************************************************/

@@ -1,11 +1,11 @@
 package au.org.ala.expert
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-
 class SearchService {
 
+    def grailsApplication
+
     def buildQuery(SearchCommand cmd) {
-        def criteria = []
+        def criteria = ['dataResourceUid=' + grailsApplication.config.distribution.maps.dataResourceUid]
         switch (cmd.locationBasedOn) {
             case 'wkt': criteria << "wkt=" + cmd.wkt; break
             case ['circle','locality']:
@@ -57,7 +57,7 @@ class SearchService {
             servicePath += '/radius'
         }
         try {
-            withHttp(uri: ConfigurationHolder.config.spatial.baseURL) {
+            withHttp(uri: grailsApplication.config.spatial.baseURL) {
                 def json = post(path: servicePath, body: query)
                 //println json
                 json.each {
