@@ -22,8 +22,8 @@
 <div class="inner">
     <section id="search">
         <p class="searchInstructions">Select depth, fish group and location and press the 'Search' button below or
-        use the <button type="button" style="padding: 0;" class="toggleAdvanced simpleButton">advanced search</button>
-            <span class="sea">&gt;</span>.</p>
+        use the <button type="button" style="padding: 0;" class="toggleAdvanced
+            simpleButton">advanced search</button><span class="sea">&gt;</span>.</p>
         <g:form action="search" class="searchGroup">
             <div class="search-block">
                 <label for="bathome" class="mainLabel">Depth</label>
@@ -177,6 +177,7 @@
                     </ul>
                 </div>
             </div>
+        </div>
     </section>
 </div>
 <r:script>
@@ -241,43 +242,7 @@
 
         // wire simple/advanced toggle and set initial state
         var advanced = window.sessionStorage ? window.sessionStorage.getItem('advancedSearch') : false;
-        toggle(serverUrl, advanced);
-
-
-        // redraw the location for the current query if present
-        /*var basedOn = "${criteria.getLocationBasedOn()}";
-         switch (basedOn) {
-         case 'locality':
-         var loc = locationWidgets.parseLocality("${criteria.locality}");
-         showOnMap('circle', loc.lat, loc.lng, "${criteria.radius}");
-         break;
-         case 'circle':
-         showOnMap('circle', ${criteria.circleLat ?: '""'}, ${criteria.circleLon ?: '""'}, ${criteria.circleRadius ?: '""'});
-         break;
-         case 'marine area':
-         showOnMap('wktFromPid', ${criteria.imcraPid ?: '""'});
-         break;
-         case 'wkt':
-         showOnMap('wkt', "${criteria.wkt}");
-         break;
-         }*/
-
-        // redraw based on widget values that are preserved on browser back-button
-        var initialImcra = $('#imcra').val();
-        if (initialImcra) {
-            locationWidgets.imcraChange();
-            /*var selectedId = $('#imcra').find('option[value="' + initialImcra + '"]').attr('id');
-             showOnMap('wktFromPid', selectedId);*/
-        }
-        var initialLocality = $('#locality').val();
-        if (initialLocality) {
-            locationWidgets.localityChange();
-            /*var loc = this.getLocality();
-             if (loc !== null) {
-             showOnMap('locality', loc.lat, loc.lng, this.getRadius());
-             }*/
-        }
-
+        toggle(advanced);
     });
 
     function clearData() {
