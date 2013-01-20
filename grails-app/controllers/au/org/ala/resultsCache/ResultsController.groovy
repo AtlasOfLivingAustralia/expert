@@ -61,6 +61,7 @@ class ResultsController {
      * @return a json representation of the page of results
      */
     def getPage(String key) {
+        //params.each {println it}
         def query = resultsCacheService.get(key)?.query
         def queryDescription = resultsCacheService.get(key)?.queryDescription
         def list = resultsCacheService.get(key)?.list
@@ -80,21 +81,22 @@ class ResultsController {
             }
 
             // sort the list
-            if (params.sortBy && speciesList.any{it[params.sortBy]}) {
+            /*if (params.sortBy && speciesList.any{it[params.sortBy]}) {
                 speciesList.sort {it[params.sortBy]}
                 if (params.sortOrder == 'reverse') {
                     speciesList = speciesList.reverse()
                 }
-            }
+            }*/
+
             // paginate the list
-            if (!params.returnAll == 'true') {
+            /*if (!(params.returnAll == 'true')) {
                 def start = params.start ? params.start as int : 0
                 def pageSize = params.pageSize ? params.pageSize as int : 10
                 int size = speciesList.size()
                 if (size > pageSize) {
                     speciesList = speciesList[start..Math.min(start+pageSize,size)-1]
                 }
-            }
+            }*/
 
             // return the json
             def results = [queryDescription: queryDescription, query: query]
@@ -148,53 +150,61 @@ class ResultsController {
         return facets
     }
 
-    def familyHierarchy(list) {
-        def results = []
-        
-        // find unique families
-        def families = list.clone().unique({it.family}).collect {it.family}
-        //println "size = " + families.size()
-        
-        // for each family
-        families.each { familyName ->
-            def genera = []
-            def genusRecords = list.findAll {it.family == familyName}
-            // find unique genera
-            def genusNames = genusRecords.unique({it.genus}).collect() {it.genus}
-            // for each genus
-            genusNames.each { genusName ->
-                def species = list.findAll {it.genus == genusName}
-                genera << [name: genusName, species: species]
-            }
-            results << [name: familyName, genera: genera.sort {it.name}]
-        }
-        
-        return results
-    }
-
     def buildFamilyHierarchy(list) {
         def results = []
-        
+
         // get unique families
         def families = list.families
+        def speciesRecords = list.results
         //println "size = " + families.size()
+
+        //def findTime = 0, uniqueTime = 0, processTime = 0
+
+        // try gathering records by family in one pass rather than searching separately for each
+        // 100x faster for large results sets
+        def recordsByFamily = [:]
+        //long startTime = System.currentTimeMillis()
+        speciesRecords.each {
+            if (!recordsByFamily.containsKey(it.family)) {
+                recordsByFamily.put it.family, []
+            }
+            recordsByFamily[it.family] << it
+        }
+        //println "collecting records by family: ${System.currentTimeMillis() - startTime}"
 
         // for each family
         families.each { name, data ->
+//            println "Family: " + name
+            //startTime = System.currentTimeMillis()
             def genera = []
-            def genusRecords = list.results.findAll {it.family == name}
+            def genusRecords = recordsByFamily[name] //speciesRecords.findAll {it.family == name}
+            //findTime += System.currentTimeMillis() - startTime
+
             // find unique genera
-            def genusNames = genusRecords.unique({it.genus}).collect() {it.genus}
-            // for each genus
-            genusNames.each { genusName ->
-                def species = list.results.findAll {it.genus == genusName}
-                genera << [name: genusName, speciesCount: species.size(), guid: species[0].genusGuid,
-                        repSppGuid: resultsService.pickFirstBestImage(species)?.guid]
+            def genusNames = []
+            //startTime = System.currentTimeMillis()
+            genusRecords.each{
+                if (!genusNames.contains(it.genus)) {
+                    genusNames << it.genus
+                }
             }
+            //uniqueTime += System.currentTimeMillis() - startTime
+
+            // for each genus
+            //println "processing genera"
+            //startTime = System.currentTimeMillis()
+            genusNames.each { genusName ->
+                def species = genusRecords.findAll {it.genus == genusName}
+                genera << [name: genusName, speciesCount: species.size(), guid: species[0].genusGuid,
+                        repSppGuid: /*resultsService.pickFirstBestImage(species)?*/species[0].guid]
+            }
+            //processTime += System.currentTimeMillis() - startTime
+            //println "done"
             results << [name: name, guid: data.guid, common: data.common, image: data.image,
                     caabCode: data.caabCode, genera: genera.sort {it.name}]
         }
 
+        //println "finding records: ${findTime} - unique genera: ${uniqueTime} - processing: ${processTime}"
         return results
     }
 
