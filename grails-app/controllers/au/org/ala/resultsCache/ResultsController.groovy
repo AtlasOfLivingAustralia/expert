@@ -191,15 +191,13 @@ class ResultsController {
             //uniqueTime += System.currentTimeMillis() - startTime
 
             // for each genus
-            //println "processing genera"
             //startTime = System.currentTimeMillis()
             genusNames.each { genusName ->
                 def species = genusRecords.findAll {it.genus == genusName}
                 genera << [name: genusName, speciesCount: species.size(), guid: species[0].genusGuid,
-                        repSppGuid: /*resultsService.pickFirstBestImage(species)?*/species[0].guid]
+                        repSppGuid: resultsService.pickFirstBestImage(species)?.guid]
             }
             //processTime += System.currentTimeMillis() - startTime
-            //println "done"
             results << [name: name, guid: data.guid, common: data.common, image: data.image,
                     caabCode: data.caabCode, genera: genera.sort {it.name}]
         }
