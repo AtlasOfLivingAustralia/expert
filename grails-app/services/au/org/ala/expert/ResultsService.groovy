@@ -59,4 +59,29 @@ class ResultsService {
 
         return model
     }
+
+    def pickFirstBestImage(list) {
+        // use for loop so we can bail early as possible
+        for (Map s in list) {
+            if (s.imageQuality == 'E') {
+                return s
+            }
+        }
+        for (Map s in list) {
+            if (s.imageQuality == 'G') {
+                return s
+            }
+        }
+        for (Map s in list) {
+            if (s.imageQuality == 'A') {
+                return s
+            }
+        }
+        for (Map s in list) {
+            if (s.imageQuality == 'P') {
+                return s
+            }
+        }
+        return list ? list[0] : null
+    }
 }
