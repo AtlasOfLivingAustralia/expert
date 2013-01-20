@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ResultsController {
 
-    def resultsCacheService
+    def resultsCacheService, resultsService
     static allowedMethods = [submit:'POST']
 
     def index() { }
@@ -188,7 +188,8 @@ class ResultsController {
             // for each genus
             genusNames.each { genusName ->
                 def species = list.results.findAll {it.genus == genusName}
-                genera << [name: genusName, speciesCount: species.size(), guid: species[0].genusGuid]
+                genera << [name: genusName, speciesCount: species.size(), guid: species[0].genusGuid,
+                        repSppGuid: resultsService.pickFirstBestImage(species)?.guid]
             }
             results << [name: name, guid: data.guid, common: data.common, image: data.image,
                     caabCode: data.caabCode, genera: genera.sort {it.name}]
