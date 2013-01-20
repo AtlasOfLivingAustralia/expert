@@ -76,6 +76,7 @@ class SearchService {
                              group: it.group_name,
                              gidx: it.geom_idx,
                              authority: it.authority_,
+                             imageQuality: it.image_quality,
                              wmsurl: it.wmsurl,
                              minDepth: it.min_depth,
                              maxDepth: it.max_depth,
