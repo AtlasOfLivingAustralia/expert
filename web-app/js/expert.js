@@ -135,7 +135,6 @@ var customDepth = {
 
 // handles interaction between locality widgets -----------------------------------------------------------------------
 var locationWidgets = {
-    $state: null,
     $locality: null,
     $imcra: null,
     $slider: null,
@@ -144,7 +143,6 @@ var locationWidgets = {
             str = "";
 
         // initialise cached jquery objects after the page is rendered
-        this.$state = $('#state');
         this.$locality = $('#locality');
         this.$imcra = $('#imcra');
         this.$slider = $('#radiusSlider');
@@ -160,7 +158,6 @@ var locationWidgets = {
         this.$locality.append(str);
 
         // bind listeners
-        this.$state.on('change',  function () { that.stateChange(); });
         this.$locality.on('change', function () { that.localityChange(); });
         this.$imcra.on('change', function () { that.imcraChange(); });
 
@@ -184,17 +181,6 @@ var locationWidgets = {
         // show initial radius
         $('#radiusDisplay').html(initialRadius/1000 + "km");
     },
-    stateChange: function () {
-        /*loadLocalityList();
-        if (this.$state.val()) {
-            this.$locality.val('');
-            this.$imcra.val('');
-            clearMap();
-            clearData();
-        } else {
-            clearSessionData('state');
-        }*/
-    },
     localityChange: function () {
         var loc = this.getLocality();
         clearMap();
@@ -207,7 +193,6 @@ var locationWidgets = {
     },
     imcraChange: function () {
         if (this.$imcra.val()) {
-            this.$state.val('');
             this.$locality.val('');
             clearData();
             var selectedId = this.$imcra.find('option[value="' + this.$imcra.val() + '"]').attr('id');
@@ -244,7 +229,6 @@ var locationWidgets = {
     clear: function () {
         this.$locality.val('');
         this.$imcra.val('');
-        this.$state.val('');
     },
     hasImcra: function () {
         return this.$imcra.val() !== '';
@@ -324,7 +308,7 @@ var familyWidget = {
 };
 
 // handles switching between simple and advanced views ----------------------------------------
-function toggle(serverUrl, isAdvanced) {
+function toggle(isAdvanced) {
     var $toggleAdvanced = $('button.toggleAdvanced'),
         $advancedContent = $('div.advanced'),
         $intro = $('#intro-text'),
@@ -456,6 +440,18 @@ function setPageValues() {
         // depth range
         customDepth.setFromQuery(queryParams.min_depth, queryParams.max_depth);
 
+        // imcra
+        if (queryParams.objectName) {
+            $('#imcra').val(queryParams.objectName);
+        }
+
+        // ecosystem
+        $.each(['estuarine','coastal','demersal','pelagic'], function (i,eco) {
+            if (queryParams[eco]) {
+                $('#ecosystem').val(eco);
+            }
+        });
+
         // user-drawn polygon or rectangle
         if (queryParams.wkt) {
             showOnMap('wkt', queryParams.wkt);
@@ -467,7 +463,7 @@ function setPageValues() {
         }
 
         // re-establish other page values
-        $.each(['locality','state','ecosystem','imcra'], function (i, key) {
+        $.each(['locality'], function (i, key) {
             var value = window.sessionStorage.getItem(key);
 //console.log(key + " = " + value);
             if (value) {
@@ -498,26 +494,34 @@ function storePageValues(data) {
 
     // these are data that may not be available from the search but are required to
     // re-establish the original search
-    $.each(['locality','ecosystem','state','imcra','families'], function (i, key) {
+    $.each(['locality','families'], function (i, key) {
         var value = $('#' + key).val();
-        if (value !== "") {
-//console.log("storing " + key + " = " + value);
+        if (value === "") {
+            // clear any existing value
+            window.sessionStorage.removeItem(key);
+        } else {
+            //console.log("storing " + key + " = " + value);
             window.sessionStorage.setItem(key, value);
         }
     });
     var radius = locationWidgets.getRadius();
-    if (radius !== 50000) {
-//console.log("storing radius = " + radius);
+    if (radius === 50000) {
+        window.sessionStorage.removeItem('radius');
+    } else {
+        //console.log("storing radius = " + radius);
         window.sessionStorage.setItem('radius',radius);
     }
 }
 
 function clearSessionData(key) {
+    // preserve simple/advanced state
+    var isAdv = window.sessionStorage ? window.sessionStorage.getItem('advancedSearch') : false;
     if (window.sessionStorage) {
         if (key !== undefined) {
             window.sessionStorage.removeItem(key);
         } else {
             window.sessionStorage.clear();
+            toggle(isAdv);
         }
     }
 }
