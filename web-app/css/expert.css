@@ -396,11 +396,9 @@ button {
 
 #map-canvas{
     position: relative;
-    /*width: 648px;*/
     width: 600px;
     height: 470px;
     display: block;
-    float: left;
     margin: 0 auto;
 }
 
@@ -410,7 +408,7 @@ button {
 }
 
 #map-controls {
-    margin-top: 4px;
+    margin-top: 5px;
 }
 
 #control-buttons img {
