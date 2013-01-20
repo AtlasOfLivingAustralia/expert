@@ -5,7 +5,7 @@ import grails.converters.JSON
 
 class BieService {
 
-    def webService
+    def webService, resultsService
 
     /**
      * Returns a map of the unique families in the species list with relevant family metadata.
@@ -18,31 +18,31 @@ class BieService {
         // map to hold family metadata
         def families = [:]
 
-        // list of guids to look up
-        def familyGuids = []
-        def speciesGuids = []
-
         // get unique families + known metadata
         list.each {
             if (!families.containsKey(it.family)) {
                 families.put it.family, [
                         guid: it.familyGuid,
-                        anySpeciesGuid: it.guid,
                         caabCode: it.familyCaabCode
                 ]
-                if (ConfigurationHolder.config.expert.images.useConstructedUrls) {
-                    families[it.family].image = [largeImageUrl: ConfigurationHolder.config.bie.baseURL +
-                            '/species/image/large/' + it.guid]
-                }
-                familyGuids << it.familyGuid
             }
         }
+
+        // find the first species in the results set for this family with the highest rated image
+        families.each { name, fam ->
+            def spp = list.findAll { it.family == name }
+            def repSpp = resultsService.pickFirstBestImage(spp)
+            fam.repSpeciesGuid = repSpp?.guid
+            println "Image for species ${repSpp.name} will be used for family ${name}"
+        }
+
         //println "family loop finished at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
         // bulk lookup by guid for families
-        def data = doBulkLookup(familyGuids)
+        def famBieData = doBulkLookup(families.values().collect {it.guid})
+        def sppBieData = doBulkLookup(families.values().collect {it.repSpeciesGuid})
         families.each { name, fam ->
-            def famData = data[fam.guid]
+            def famData = famBieData[fam.guid]
             if (famData) {
                 fam.common = famData.common
                 if (!ConfigurationHolder.config.expert.images.useConstructedUrls) {
@@ -51,6 +51,13 @@ class BieService {
             }
             else {
                 println "no common name found for ${name}"
+            }
+            def sppData = sppBieData[fam.repSpeciesGuid]
+            if (sppData) {
+                fam.image = sppData.image
+            }
+            else {
+                println "no image found for ${name}"
             }
         }
 
