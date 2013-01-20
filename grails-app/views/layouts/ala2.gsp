@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="http://ala.org.au/wp-content/themes/ala2011/css/skin.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="http://ala.org.au/wp-content/themes/ala2011/css/sf.css" />
 
+    <r:require module="html5" />
+    <g:layoutHead />
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
     %{--<script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>--}%
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/uservoice.js"></script>
@@ -80,8 +82,6 @@
             });
         });
     </r:script>
-    <r:require module="html5" />
-    <g:layoutHead />
     <r:layoutResources />
 </head>
 <body class="fish ${pageProperty(name:'body.class')}">
