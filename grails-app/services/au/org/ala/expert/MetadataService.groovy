@@ -2,6 +2,7 @@ package au.org.ala.expert
 
 import au.com.bytecode.opencsv.CSVReader
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.json.JSONArray
 
 class MetadataService {
 
@@ -63,6 +64,11 @@ class MetadataService {
             def all = webService.getJson(grailsApplication.config.spatial.layers.service.url +
                     "/distributions.json?dataResourceUid=" +
                     grailsApplication.config.distribution.maps.dataResourceUid)
+            // protect against an error response
+            if (!(all instanceof JSONArray)) {
+                return []
+            }
+            // add to cache
             all.each {
                 if (it.family == "") println it.scientific + " has blank family"
                 if (it.family == null) println it.scientific + " has null family"
