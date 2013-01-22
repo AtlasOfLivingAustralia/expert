@@ -81,6 +81,7 @@ if (!headerAndFooter.baseURL) {
  *  APP CONFIG
  \******************************************************************************/
 distribution.maps.dataResourceUid = 'dr803'
+image.source.dataResourceUid = 'dr660'
 
 /******************************************************************************\
  *  SECURITY
