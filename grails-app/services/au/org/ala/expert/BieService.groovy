@@ -5,7 +5,7 @@ import grails.converters.JSON
 
 class BieService {
 
-    def webService, resultsService
+    def webService, resultsService, grailsApplication
 
     /**
      * Returns a map of the unique families in the species list with relevant family metadata.
@@ -33,7 +33,7 @@ class BieService {
             def spp = list.findAll { it.family == name }
             def repSpp = resultsService.pickFirstBestImage(spp)
             fam.repSpeciesGuid = repSpp?.guid
-            println "Image for species ${repSpp.name} will be used for family ${name}"
+            //println "Image for species ${repSpp.name} will be used for family ${name}"
         }
 
         //println "family loop finished at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
@@ -45,15 +45,13 @@ class BieService {
             def famData = famBieData[fam.guid]
             if (famData) {
                 fam.common = famData.common
-                if (!ConfigurationHolder.config.expert.images.useConstructedUrls) {
-                    fam.image = famData.image
-                }
             }
             else {
                 println "no common name found for ${name}"
             }
             def sppData = sppBieData[fam.repSpeciesGuid]
-            if (sppData) {
+            if (sppData && sppData.image && sppData.image.largeImageUrl?.toString() != "null" &&
+                        sppData.image.imageSource == grailsApplication.config.image.source.dataResourceUid) {
                 fam.image = sppData.image
             }
             else {
@@ -77,7 +75,8 @@ class BieService {
                     image: [largeImageUrl: item.largeImageUrl,
                             smallImageUrl: item.smallImageUrl,
                             thumbnailUrl: item.thumbnailUrl,
-                            imageMetadataUrl: item.imageMetadataUrl]]
+                            imageMetadataUrl: item.imageMetadataUrl,
+                            imageSource: item.imageSource]]
         }
         return results
     }
