@@ -309,7 +309,7 @@ var familyWidget = {
 
 // handles switching between simple and advanced views ----------------------------------------
 function toggle(isAdvanced) {
-    var $toggleAdvanced = $('button.toggleAdvanced'),
+    var $toggleAdvanced = $('span.toggleAdvanced'),
         $advancedContent = $('div.advanced'),
         $intro = $('#intro-text'),
         $mapControls = $('#map-controls'),

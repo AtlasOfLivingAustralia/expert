@@ -22,8 +22,8 @@
 <div class="inner">
     <section id="search">
         <p class="searchInstructions">Select depth, fish group and location and press the 'Search' button below or
-        use the <button type="button" style="padding: 0;" class="toggleAdvanced
-            simpleButton">advanced search</button><span class="sea">&gt;</span>.</p>
+        use the <span style="padding: 0;" class="toggleAdvanced
+            link">advanced search</span><span class="sea">&gt;</span>.</p>
         <g:form action="search" class="searchGroup">
             <div class="search-block">
                 <label for="bathome" class="mainLabel">Depth</label>
@@ -105,7 +105,8 @@
                         <span class="sep">|</span>
                         <a id="speciesDataLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/data?key=${key}">species data</a>
                         <p id="queryDescription">For the query: <span id="qDescription">${criteria?.queryDescription}</span>
-                            <button style="color:#606060" type="button" class="simpleButton" id="showQueryToggle">show full query</button></p>
+                            <span style="color:#606060;padding-left:10px;" class="link" id="showQueryToggle">show&nbsp;full&nbsp;query</span>
+                        </p>
                         <p id="queryDisplay">(${query})</p>
                     </div>
                 </g:else>
@@ -228,10 +229,10 @@
         $queryToggle.click(function () {
             if ($queryDisplay.css('display') === 'block') {
                 $queryDisplay.css('display','none');
-                $queryToggle.html('show full query');
+                $queryToggle.html('show&nbsp;full&nbsp;query');
             } else {
                 $queryDisplay.css('display','block');
-                $queryToggle.html('hide full query');
+                $queryToggle.html('hide&nbsp;full&nbsp;query');
             }
         });
 
