@@ -22,8 +22,10 @@
 <div class="inner">
     <section id="search">
         <p class="searchInstructions">Select depth, fish group and location and press the 'Search' button below or
-        use the <span style="padding: 0;" class="toggleAdvanced
-            link">advanced search</span><span class="sea">&gt;</span>.</p>
+            use the <span style="padding: 0;" class="toggleAdvanced
+            link">advanced search</span><span class="sea">&gt;</span>.<br>
+            <span id="advWarning"><r:img uri="/images/skin/warning.png" style="padding-right:4px;"/>Some advanced criteria are hidden.</span>
+        </p>
         <g:form action="search" class="searchGroup">
             <div class="search-block">
                 <label for="bathome" class="mainLabel">Depth</label>
@@ -97,13 +99,15 @@
                 </g:if>
                 <g:else>
                     <div id="resultsText">
-                        <span class="results">Search found <strong id="total">${summary?.total}</strong> species in <strong id="familyCount">${summary?.familyCount}</strong> families.</span><br>
-                        <p style="font-weight:bold;padding-bottom:3px;padding-top:3px;">View results by:</p>
-                        <a id="familiesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/view?key=${key}">family list</a>
-                        <span class="sea">|</span>
-                        <a id="speciesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/species?key=${key}">species list</a>
-                        <span class="sep">|</span>
-                        <a id="speciesDataLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/data?key=${key}">species data</a>
+                        <span class="results">Search found <strong id="total">${summary?.total}</strong> species in <strong id="familyCount">${summary?.familyCount}</strong> families.</span>
+                        <div id="resultsLinks">
+                            <p style="font-weight:bold;padding-bottom:3px;padding-top:3px;">View results by:</p>
+                            <a id="familiesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/view?key=${key}">family list</a>
+                            <span class="sea">|</span>
+                            <a id="speciesLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/species?key=${key}">species list</a>
+                            <span class="sep">|</span>
+                            <a id="speciesDataLink" href="${grailsApplication.config.explorer.baseUrl}/taxon/data?key=${key}">species data</a>
+                        </div>
                         <p id="queryDescription">For the query: <span id="qDescription">${criteria?.queryDescription}</span>
                             <span style="color:#606060;padding-left:10px;" class="link" id="showQueryToggle">show&nbsp;full&nbsp;query</span>
                         </p>
@@ -181,11 +185,35 @@
         </div>
     </section>
 </div>
+<!-- Dialogs -->
+<div id="search-confirm" title="Selected family has not been added">
+    <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>
+        You have selected a family but have not added it to the search.<br>
+        Press the + button next to the family selector to add it to the search criteria.
+    </p>
+</div>
+
 <r:script>
 
     var serverUrl = "${grailsApplication.config.grails.serverURL}";
 
     $(document).ready( function () {
+
+        $('#search-confirm').dialog({
+            resizable: false,
+            modal: true,
+            width: 350,
+            autoOpen: false,
+            buttons: {
+                "Search anyway": function() {
+                    $(this).dialog( "close" );
+                    search(true);
+                },
+                Cancel: function() {
+                    $(this).dialog( "close" );
+                }
+            }
+        });
 
         // init some widgets before we try to set their values from stored state
         // set up depth interactions
@@ -243,7 +271,7 @@
 
         // wire simple/advanced toggle and set initial state
         var advanced = window.sessionStorage ? window.sessionStorage.getItem('advancedSearch') : false;
-        toggle(advanced);
+        searchMode.init(advanced);
     });
 
     function clearData() {
