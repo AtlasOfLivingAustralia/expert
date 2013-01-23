@@ -250,6 +250,16 @@ span.toggleAdvanced {
     color: #007c84;
 }
 
+#advWarning {
+    font-size: 0.9em;
+    color: #8d3015;
+    display: none;
+}
+
+#advWarning img {
+    vertical-align: top;
+}
+
 span.or {
     padding: 0 10px;
 }
