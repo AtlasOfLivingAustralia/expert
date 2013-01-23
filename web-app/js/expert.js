@@ -308,45 +308,106 @@ var familyWidget = {
 };
 
 // handles switching between simple and advanced views ----------------------------------------
-function toggle(isAdvanced) {
-    var $toggleAdvanced = $('span.toggleAdvanced'),
-        $advancedContent = $('div.advanced'),
-        $intro = $('#intro-text'),
-        $mapControls = $('#map-controls'),
-        $taxonSearch = $('#taxonSearch');
-    $toggleAdvanced.click(function () {
-        if ($(this).html() === "advanced search") {
-            // set up for advanced search
-            $advancedContent.slideToggle(350, function () {
-                $taxonSearch.css('min-height', '113px');
-            });
-            $intro.css('display','none');
-            $mapControls.css('display','block');
-            $toggleAdvanced.html('simple search'); // this changes all links (not just 'this')
-            if (window.sessionStorage) {
-                window.sessionStorage.setItem('advancedSearch', true);
-            }
-        } else {
-            // set up for simple search
-            $mapControls.css('display','none');
-            $intro.css('display','block');
-            $advancedContent.slideToggle(350);
-            $taxonSearch.css('min-height', 0);
-            $toggleAdvanced.html('advanced search'); // this changes all links
-            if (window.sessionStorage) {
-                window.sessionStorage.removeItem('advancedSearch');
-            }
+var searchMode = {
+    $toggleAdvanced: null,
+    $advancedContent: null,
+    $intro: null,
+    $mapControls: null,
+    $taxonSearch: null,
+    isAdvanced: function () {
+        return $('span.toggleAdvanced').html() === "simple search"
+    },
+    hasAdvancedCriteria: function () {
+        if ($('#ecosystem').val() !== "") {
+            return true;
         }
-    });
-    if (isAdvanced) {
-        $toggleAdvanced[0].click();
+        if ($('#families').val() !== "") {
+            return true;
+        }
+        if ($('#imcra').val() !== "") {
+            return true;
+        }
+        return false;
+    },
+    init: function (isAdvanced) {
+        var that = this;
+        this.$toggleAdvanced = $('span.toggleAdvanced');
+        this.$advancedContent = $('div.advanced');
+        this.$intro = $('#intro-text');
+        this.$mapControls = $('#map-controls');
+        this.$taxonSearch = $('#taxonSearch');
+        this.$toggleAdvanced.click(function () {
+            that.toggle();
+        });
+        if (isAdvanced) {
+            this.toggle();
+        }
+        this.flagHiddenCriteria();
+    },
+    set: function (advanced) {
+        if (advanced) {
+            this.setAdvanced();
+        } else {
+            this.setSimple();
+        }
+    },
+    flagHiddenCriteria: function () {
+        if (!searchMode.isAdvanced() && searchMode.hasAdvancedCriteria()) {
+            $('#advWarning').show();
+        } else {
+            $('#advWarning').hide();
+        }
+    },
+    setSimple: function(headless) {
+        // set up for simple search
+        this.$mapControls.css('display','none');
+        this.$intro.css('display','block');
+        this.$advancedContent.slideToggle(350);
+        this.$taxonSearch.css('min-height', 0);
+        this.$toggleAdvanced.html('advanced search'); // this changes all links
+        if (window.sessionStorage) {
+            window.sessionStorage.removeItem('advancedSearch');
+        }
+        // check whether we might hide active criteria
+        this.flagHiddenCriteria();
+    },
+    setAdvanced: function() {
+        var that = this;
+        // set up for advanced search
+        this.$advancedContent.slideToggle(350, function () {
+            that.$taxonSearch.css('min-height', '113px');
+        });
+        this.$mapControls.css('display','block');
+        this.$toggleAdvanced.html('simple search'); // this changes all links (not just 'this')
+        if (window.sessionStorage) {
+            window.sessionStorage.setItem('advancedSearch', true);
+        }
+        this.flagHiddenCriteria();
+    },
+    toggle: function (headless) {
+        if (this.$toggleAdvanced.html() === "advanced search") {
+            // in simple mode
+            this.setAdvanced();
+        } else {
+            // in adv mode
+            this.setSimple(headless)
+        }
     }
-}
+};
 
 // handles searching --------------------------------------------------------------------------
 var searchInProgress = false;
 
-function search() {
+// gatherers criteria and preforms a search (asynchronously)
+// param headless if true will ignore interactive warnings
+function search(headless) {
+
+    // check whether the user has selected a family but not added it to the search
+    if (searchMode.isAdvanced() && !headless && $('#family-widget input.ui-autocomplete-input').val() !== "") {
+        $('#search-confirm').dialog("open");
+        return;
+    }
+
     // don't allow concurrent searches
     if (searchInProgress) {
         return;
@@ -404,9 +465,9 @@ function setResults(data) {
     });
     // make sure links are visible unless there are no results
     if (data.summary.total == 0) {  // deliberately using coercion here
-        $('#resultsText a').css('display','none');
+        $('#resultsLinks').css('display','none');
     } else {
-        $('#resultsText a').css('display','inline');
+        $('#resultsLinks').css('display','block');
     }
     // set query
     $('#qDescription').html(data.queryDescription);
@@ -443,6 +504,7 @@ function setPageValues() {
         // imcra
         if (queryParams.objectName) {
             $('#imcra').val(queryParams.objectName);
+            locationWidgets.imcraChange();
         }
 
         // ecosystem
@@ -521,7 +583,7 @@ function clearSessionData(key) {
             window.sessionStorage.removeItem(key);
         } else {
             window.sessionStorage.clear();
-            toggle(isAdv);
+            searchMode.set(isAdv);
         }
     }
 }
