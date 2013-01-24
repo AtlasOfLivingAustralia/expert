@@ -71,7 +71,7 @@
                     <span>OR</span>
                     <label for="imcra">Marine bioregion</label>
                     <select name="imcra" id="imcra">
-                        <option value>any</option>
+                        <option value="">any</option>
                         <g:each in="${imcras}" var="ix">
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
                         </g:each>
@@ -193,7 +193,7 @@
     </p>
 </div>
 
-<r:script>
+<script>
 
     var serverUrl = "${grailsApplication.config.grails.serverURL}";
 
@@ -420,6 +420,6 @@
         return true
     }
 
-</r:script>
+</script>
 </body>
 </html>
