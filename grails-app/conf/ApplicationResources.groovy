@@ -1,7 +1,7 @@
 modules = {
     application {
         dependsOn 'jquery, jqueryui'
-        defaultBundle false
+        //defaultBundle false
         resource url:'js/expert.js', disposition: 'head'
         resource url:'js/selection-map.js', disposition: 'head'
         resource url:'js/wms.js', disposition: 'head'
