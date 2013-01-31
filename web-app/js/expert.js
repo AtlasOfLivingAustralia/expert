@@ -483,13 +483,21 @@ function setResults(data) {
     }
     // set query
     $('#qDescription').html(data.queryDescription);
-    $('#queryDisplay').html('(' + data.query + ')<br>' +
-        displayElapsedTime(data.elapsedSearchTime));
+    $('#queryDisplay').html('(' + wrappable(data.query) + ')<br>' +
+        displayElapsedTime(data.elapsedSearchTime, data.cached));
     // show it if hidden
     $('#searchResults').slideDown(350);
 }
 
-function displayElapsedTime(millis) {
+// inserts spaces into raw query string so the string will wrap on page
+function wrappable(query) {
+    if (query !== undefined && query !== null) {
+        query = query.replace(new RegExp("&","gm"),", ");
+    }
+    return query;
+}
+
+function displayElapsedTime(millis, cached) {
     var quantity = millis,
         units = 'milliseconds';
 
@@ -506,7 +514,7 @@ function displayElapsedTime(millis) {
         units = 'minutes';
     }
 
-    return 'Search took ' + quantity + ' ' + units;
+    return 'Search took ' + quantity + ' ' + units + (cached ? ' (cached)' : '');
 }
 
 function setPageValues() {
