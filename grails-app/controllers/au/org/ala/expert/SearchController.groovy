@@ -92,7 +92,7 @@ class SearchController {
             // bundle the results
             result = [summary: [total: cachedResult.list.total,
                     familyCount: cachedResult.list.familyCount], query: cachedResult.query,
-                    queryDescription: cmd.queryDescription, key: key]
+                    queryDescription: cmd.queryDescription, key: key, cached: true]
             //println "serving results from cache"
         }
         else {
