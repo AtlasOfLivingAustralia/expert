@@ -14,7 +14,7 @@
 <header id="page-header">
     <div class="inner">
         <hgroup>
-            <h1>fishmap - find Australian marine fishes</h1>
+            <h1 title="fishmap - find Australian marine fishes"></h1>
         </hgroup>
         <nav id="breadcrumb"><ol><li class="last">Search</li></ol></nav>
     </div>
