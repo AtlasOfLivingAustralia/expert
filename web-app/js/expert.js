@@ -359,9 +359,11 @@ var searchMode = {
         }
     },
     setSimple: function(headless) {
+        var that = this;
         // set up for simple search
-        this.$mapControls.css('display','none');
-        this.$intro.css('display','block');
+        this.$mapControls.slideUp(350, function () {
+            that.$intro.slideDown(350);
+        });
         this.$advancedContent.slideToggle(350);
         this.$taxonSearch.css('min-height', 0);
         this.$toggleAdvanced.html('advanced search'); // this changes all links
@@ -373,11 +375,14 @@ var searchMode = {
     },
     setAdvanced: function() {
         var that = this;
+        // swap intro text for map controls
+        this.$intro.slideUp(350, function () {
+            that.$mapControls.slideDown(350);
+        });
         // set up for advanced search
         this.$advancedContent.slideToggle(350, function () {
             that.$taxonSearch.css('min-height', '113px');
         });
-        this.$mapControls.css('display','block');
         this.$toggleAdvanced.html('simple search'); // this changes all links (not just 'this')
         if (window.sessionStorage) {
             window.sessionStorage.setItem('advancedSearch', true);
@@ -402,6 +407,8 @@ var searchInProgress = false;
 // param headless if true will ignore interactive warnings
 function search(headless) {
 
+    var start;
+
     // check whether the user has selected a family but not added it to the search
     if (searchMode.isAdvanced() && !headless && $('#family-widget input.ui-autocomplete-input').val() !== "") {
         $('#search-confirm').dialog("open");
@@ -416,10 +423,15 @@ function search(headless) {
     $('#waiting').css('visibility','');
     searchInProgress = true;
 
+    // time the search - note this is not highly accurate
+    start = new Date().getTime();
+
     // do search
     $.post(serverUrl + "/search/ajaxSearch", $('form').serialize(), function (data) {
 
         searchInProgress = false;
+
+        data.elapsedSearchTime = new Date().getTime() - start;
 
         // hide spinner
         $('#waiting').css('visibility','hidden');
@@ -471,9 +483,30 @@ function setResults(data) {
     }
     // set query
     $('#qDescription').html(data.queryDescription);
-    $('#queryDisplay').html('(' + data.query + ')');
+    $('#queryDisplay').html('(' + data.query + ')<br>' +
+        displayElapsedTime(data.elapsedSearchTime));
     // show it if hidden
     $('#searchResults').slideDown(350);
+}
+
+function displayElapsedTime(millis) {
+    var quantity = millis,
+        units = 'milliseconds';
+
+    if (millis === undefined || millis === null) {
+        return '';
+    }
+
+    if (millis > 1000) {
+        quantity = (millis / 1000).toFixed(1);
+        units = 'seconds';
+    }
+    if (millis > 2 * 1000 * 60) { // 2 minutes
+        quantity = (millis / (1000 * 60)).toFixed(1);
+        units = 'minutes';
+    }
+
+    return 'Search took ' + quantity + ' ' + units;
 }
 
 function setPageValues() {
@@ -485,7 +518,8 @@ function setPageValues() {
         key: window.sessionStorage.getItem('key'),
         query: window.sessionStorage.getItem('query'),
         queryDescription: window.sessionStorage.getItem('queryDescription'),
-        advancedSearch: window.sessionStorage.getItem('advancedSearch')
+        advancedSearch: window.sessionStorage.getItem('advancedSearch'),
+        elapsedSearchTime: window.sessionStorage.getItem('elapsedSearchTime')
     };
 
     // only do this if there is a query to represent
@@ -553,6 +587,7 @@ function storePageValues(data) {
     window.sessionStorage.setItem('familyCount',data.summary.familyCount);
     window.sessionStorage.setItem('query',data.query);
     window.sessionStorage.setItem('queryDescription',data.queryDescription);
+    window.sessionStorage.setItem('elapsedSearchTime',data.elapsedSearchTime);
 
     // these are data that may not be available from the search but are required to
     // re-establish the original search
