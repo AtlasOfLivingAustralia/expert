@@ -17,7 +17,7 @@
     <r:require module="html5" />
     <g:layoutHead />
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
-    %{--<script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>--}%
+    %{-- This clashes with jqueryui autocomplete used on the search page -- <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>--}%
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/uservoice.js"></script>
     <r:script>
 
@@ -36,32 +36,7 @@
                 parse: function(data) {
                     var rows = new Array();
                     data = data.autoCompleteList;
-                    for(var i=0; i<data.length; i++){
-                        rows[i] = {
-                            data:data[i],
-                            value: data[i].matchedNames[0],
-                            result: data[i].matchedNames[0]
-                        };
-                    }
-                    return rows;
-                },
-                matchSubset: false,
-                formatItem: function(row, i, n) {
-                    return row.matchedNames[0];
-                },
-                cacheLength: 10,
-                minChars: 3,
-                scroll: false,
-                max: 10,
-                selectFirst: false
-            });
-            jQuery("form#search-inpage input#search").autocomplete('http://bie.ala.org.au/search/auto.jsonp', {
-                extraParams: {limit: 100},
-                dataType: 'jsonp',
-                parse: function(data) {
-                    var rows = new Array();
-                    data = data.autoCompleteList;
-                    for(var i=0; i<data.length; i++){
+                    for(var i=0; i < data.length; i++){
                         rows[i] = {
                             data:data[i],
                             value: data[i].matchedNames[0],
