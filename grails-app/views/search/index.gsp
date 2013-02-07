@@ -76,7 +76,7 @@
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
                         </g:each>
                     </select>
-                    <span>OR use <a href="#">map tools</a> to draw a region.</span>
+                    <span>OR use the tools below the map to draw a region.</span>
                 </div>
             </div>
             <g:hiddenField name="radius" value="${criteria.radius ?: 50000}"/>
@@ -121,11 +121,11 @@
         <div id="map-wrap">
             <div id="map-canvas"></div>
         </div>%{--map-wrap--}%
-        <div id="intro-text">This tool searches against 'expert distributions'. These are maps of the areas
-        where a species is expected to be found (as opposed to records of where specimens have actually been
-        recorded). The maps are developed by a person or group of people with
-        expert knowledge of the domain. The source of these distributions is available in the metadata for each
-        map.</div>
+        <div id="intro-text">This tool searches ‘compiled distributions' for marine fishes inhabiting Australia’s
+    continental shelf and slope waters. These are maps of the areas where a species may be expected to be found
+    (rather than searching only collection or observation records which have false absences, and may contain
+    identifications that are out of date). The maps are developed by a person or persons with expert knowledge
+    of the group. Read more <g:link action="distributionModelling">here</g:link>.</div>
         <div id="map-controls" style="display: none">
             <ul id="control-buttons">
                 <li class="active" id="pointer">
