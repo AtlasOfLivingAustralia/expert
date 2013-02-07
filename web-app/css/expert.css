@@ -8,8 +8,12 @@ h2 > a {
 }
 
 /* banners */
-.search #page-header hgroup {
+body.search #page-header hgroup {
     background: url("../images/fishmap-banner-find-fishes.jpg") white center no-repeat;
+}
+
+body.attribution #page-header hgroup {
+    background: url("../images/fishmap-banner-modelled-fish.jpg") white center no-repeat;
 }
 
 #page-header hgroup {
@@ -521,3 +525,12 @@ button {
     margin-right: 4px;
 }
 /* .. */
+
+/* attribution page */
+body.attribution p {
+    line-height: 1.5em;
+}
+
+#references p {
+    padding-bottom: 16px;
+}
