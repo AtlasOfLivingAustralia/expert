@@ -15,27 +15,13 @@ class MetadataService {
             'slope only (200-500m)',
             'any (0-2000+m)']
 
-    static fishGroups = [
-            'Australian salmons','billfishes','boarfishes','breams','catfishes','chimaeras','cods', 'dories','eels',
-            'emperors','flatfishes','flatheads','garfishes','gemfishes','gurnards & latchets','hagfishes','hakes',
-            'herrings & anchovies','jewfishes','lampreys','leatherjackets','morwongs','mullets','oreos','pikes',
-            'rays','redfishes','rockcods','roughies','seaperches','sharks','smelts','threadfin breams','trevallas',
-            'trevallies','trumpeters','whalefishes','whitings','wrasses']
-
     def getFishGroups() {
-        return [keys: fishGroups, display: fishGroups.collect {it[0].toUpperCase() + it[1..-1]}]
+        def fg = getAllGroups()
+        return [keys: fg, display: fg.collect {it[0].toUpperCase() + it[1..-1]}]
     }
 
-    def getLocalityNames() {
-        return localities.keySet().sort()
-    }
-
-    def locationOf(String locality) {
-        localities[locality]
-    }
-
-    def getLocalities2() {
-        def list = [
+    def getLocalitiesByState() {
+        [
                 [state: 'New South Wales', localities: localities.values().findAll({it.state == 'NSW'})],
                 [state: 'Northern Territory', localities: localities.values().findAll({it.state == 'NT'})],
                 [state: 'Queensland', localities: localities.values().findAll({it.state == 'Qld'})],
@@ -59,26 +45,48 @@ class MetadataService {
     }
 
     static familiesCache = []
+    static groupsCache = []
+
+    def loadFamiliesAndGroups() {
+        def all = webService.getJson(grailsApplication.config.spatial.layers.service.url +
+                "/distributions.json?dataResourceUid=" +
+                grailsApplication.config.distribution.maps.dataResourceUid)
+        // protect against an error response
+        if (!(all instanceof JSONArray)) {
+            return []
+        }
+        // clear
+        familiesCache = []
+        groupsCache = []
+        // add each unique name to cache
+        all.each {
+            // families
+            if (it.family == "") println it.scientific + " has blank family"
+            if (it.family == null) println it.scientific + " has null family"
+            if (!familiesCache.contains(it.family) && it.family != "" && it.family != null) {
+                familiesCache << it.family
+            }
+            // groups
+            if (it.group_name != null && it.group_name != "" && !groupsCache.contains(it.group_name)) {
+                groupsCache << it.group_name
+            }
+        }
+        familiesCache.sort()
+        groupsCache.sort()
+    }
+
     def getAllFamilies = {
         if (!familiesCache) {
-            def all = webService.getJson(grailsApplication.config.spatial.layers.service.url +
-                    "/distributions.json?dataResourceUid=" +
-                    grailsApplication.config.distribution.maps.dataResourceUid)
-            // protect against an error response
-            if (!(all instanceof JSONArray)) {
-                return []
-            }
-            // add to cache
-            all.each {
-                if (it.family == "") println it.scientific + " has blank family"
-                if (it.family == null) println it.scientific + " has null family"
-                if (!familiesCache.contains(it.family) && it.family != "" && it.family != null) {
-                    familiesCache << it.family
-                }
-            }
-            familiesCache.sort()
+            loadFamiliesAndGroups()
         }
         return familiesCache
+    }
+
+    def getAllGroups = {
+        if (!groupsCache) {
+            loadFamiliesAndGroups()
+        }
+        return groupsCache
     }
 
     static localities = [
