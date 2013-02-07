@@ -30,7 +30,7 @@ class SearchService {
         }
 
         if (cmd.groupBasedOn == 'fishGroup') {
-            criteria << "groupName=" + cmd.getGroup().toLowerCase()
+            criteria << "groupName=" + formatGroupName(cmd.getGroup())
         }
 
         if (cmd.ecosystem) {
@@ -44,6 +44,11 @@ class SearchService {
         }
 
         return criteria.join('&')
+    }
+
+    def formatGroupName(name) {
+        // replace '&' with encoding
+        return name.encodeAsURL()
     }
 
     def search(SearchCommand cmd) {
