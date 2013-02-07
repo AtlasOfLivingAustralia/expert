@@ -180,12 +180,20 @@ var locationWidgets = {
         });
         // show initial radius
         $('#radiusDisplay').html(initialRadius/1000 + "km");
+        // disable distance slider
+        this.$slider.slider('option','disabled',true);
     },
     localityChange: function () {
         var loc = this.getLocality();
         clearMap();
         clearData();
-        if (loc !== null) {
+        if (loc === null) {
+            // disable distance slider
+            this.$slider.slider('option','disabled',true);
+        } else {
+            // enable distance slider
+            this.$slider.slider('option','disabled',false);
+            // clear any imcras
             this.$imcra.val('');
             // display on map
             showOnMap('locality', loc.lat, loc.lng, this.getRadius());
@@ -572,6 +580,7 @@ function setPageValues() {
 //console.log(key + " = " + value);
             if (value) {
                 $('#' + key).val(value);
+                $('#' + key).change();
             }
         });
         var families = window.sessionStorage.getItem('families');
