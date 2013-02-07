@@ -14,7 +14,7 @@ class SearchController {
     def index() {
         def model =
             [bathomeValues: metadataService.bathomeValues, imcras: metadataService.getMarineRegions(),
-             localities: metadataService.localities2, allFamilies: metadataService.getAllFamilies(),
+             localities: metadataService.localitiesByState, allFamilies: metadataService.getAllFamilies(),
              fishGroups: metadataService.getFishGroups(), criteria: new SearchCommand()]
         
         /*if (params.key) {
@@ -33,6 +33,10 @@ class SearchController {
         else {
             model
         }
+    }
+
+    def distributionModelling() {
+        [searchPage: grailsApplication.config.grails.serverURL]
     }
 
     // deprecated
