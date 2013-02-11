@@ -125,7 +125,7 @@
     continental shelf and slope waters. These are maps of the areas where a species may be expected to be found
     (rather than searching only collection or observation records which have false absences, and may contain
     identifications that are out of date). The maps are developed by a person or persons with expert knowledge
-    of the group. Read more <g:link action="distributionModelling">here</g:link>.</div>
+    of the group. Read more <g:link target="_maps" action="distributionModelling">here</g:link>.</div>
         <div id="map-controls" style="display: none">
             <ul id="control-buttons">
                 <li class="active" id="pointer">
@@ -249,6 +249,7 @@
         // wire clear button
         $('#clearButton').click( function () {
             clearSessionData();
+            document.location.href = "${createLink()}";
         });
 
         // wire show query toggle
@@ -262,11 +263,6 @@
                 $queryDisplay.css('display','block');
                 $queryToggle.html('hide&nbsp;full&nbsp;query');
             }
-        });
-
-        // clear button action
-        $('.clear').click(function () {
-            document.location.href = "${createLink()}";
         });
 
         // wire simple/advanced toggle and set initial state
