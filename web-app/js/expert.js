@@ -353,10 +353,10 @@ var searchMode = {
         this.flagHiddenCriteria();
     },
     set: function (advanced) {
-        if (advanced) {
-            this.setAdvanced();
+        if (advanced === 'true') {
+            if (!this.isAdvanced()) {this.setAdvanced();}
         } else {
-            this.setSimple();
+            if (this.isAdvanced()) {this.setSimple();}
         }
     },
     flagHiddenCriteria: function () {
@@ -526,7 +526,7 @@ function displayElapsedTime(millis, cached) {
 }
 
 function setPageValues() {
-    existingData = {
+    var existingData = {
         summary: {
             familyCount: window.sessionStorage.getItem('familyCount'),
             total: window.sessionStorage.getItem('total')
@@ -635,7 +635,9 @@ function clearSessionData(key) {
             window.sessionStorage.removeItem(key);
         } else {
             window.sessionStorage.clear();
-            searchMode.set(isAdv);
+            if (isAdv === 'true') {
+                window.sessionStorage.setItem('advancedSearch', 'true');
+            }
         }
     }
 }
