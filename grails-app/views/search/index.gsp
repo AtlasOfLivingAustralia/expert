@@ -28,10 +28,10 @@
         </p>
         <g:form action="search" class="searchGroup">
             <div class="search-block">
-                <label for="bathome" class="mainLabel">Depth</label>
-                <g:select name="bathome" from="${bathomeValues}"
+                <label for="bathome" class="mainLabel" title="Only include fish that occur in the specified depth range.">Depth</label>
+                <g:select name="bathome" from="${bathomeValues}" title="Only include fish that occur in the specified depth range."
                           value="${criteria.bathome ?: 'coastal/shallow water (0-40m)'}"/>
-                <div class="advanced top-pad" id="advancedDepthSearch">
+                <div class="advanced top-pad" id="advancedDepthSearch" title="Set custom depth range using the sliders or the value boxes.">
                     <span>OR</span>
                     <label style="padding-right: 5px;">Custom depth range (m)</label>
                     Min: <g:textField name="minDepth" class="depthInput" value="${criteria.minDepth}"/>
@@ -41,14 +41,14 @@
                 </div>
             </div>
             <div class="search-block">
-                <label for="fishGroup" class="mainLabel">Fish group</label>
+                <label for="fishGroup" class="mainLabel" title="Select fish based on common group names">Fish group</label>
                 <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}"
-                          keys="${fishGroups.keys}" noSelection="['':'All fishes']"/>
+                          keys="${fishGroups.keys}" noSelection="['':'All fishes']" title="Select fish based on common group names"/>
                 <div class="advanced top-pad" id="advancedTaxonSearch">
-                    <label for="ecosystem">Primary ecosystem</label>
+                    <label for="ecosystem" title="Restrict search to the selected ecosystem.">Primary ecosystem</label>
                     <g:select name="ecosystem" from="['estuarine','coastal','demersal','pelagic']"
-                              noSelection="['':'any']" style="margin-top:0;"/><br/>
-                    <div id="family-widget">
+                              noSelection="['':'any']" style="margin-top:0;" title="Restrict search to the selected ecosystem."/><br/>
+                    <div id="family-widget" title="Restrict the search to specified families. You can select any number. Type a few letters or select from pulldown menu. Make sure you click the + button to add the family to your list.">
                         <label for="family">Only these families</label>
                         <g:select title="Type a few letters or pick from list." name="family" from="${allFamilies}" noSelection="['':'']"/>
                         <button type="button" id="addFamily">
@@ -61,16 +61,17 @@
 
             </div>
             <div class="search-block">
-                <label for="locality" class="mainLabel">Locality</label>
-                <select name="locality" id="locality"><option value="">any</option></select>
-                <div class="top-pad">
+                <label for="locality" class="mainLabel" title="Only include fish that occur in this locality.">Locality</label>
+                <select name="locality" id="locality" title="Only include fish that occur in this locality."><option value="">any</option></select>
+                <div class="top-pad" title="Choose the radius of the area around the locality to include. You can only adjust this if a locality is selected.">
                     <label for="radiusSlider">Distance from locality</label>
                     <div id="radiusSlider"></div><span id="radiusDisplay">50km</span>
                 </div>
                 <div class="advanced top-pad" id="advancedRegionSearch">
                     <span>OR</span>
-                    <label for="imcra">Marine bioregion</label>
-                    <select name="imcra" id="imcra">
+                    <g:set var="imcraTitle" value="Restrict your search to the marine bioregion selected from the list of IMCRA demersal regions."/>
+                    <label for="imcra" title="${imcraTitle}">Marine bioregion</label>
+                    <select name="imcra" id="imcra" title="${imcraTitle}">
                         <option value="">any</option>
                         <g:each in="${imcras}" var="ix">
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
@@ -86,9 +87,9 @@
             <g:hiddenField name="circleRadius" value="${criteria.circleRadius}"/>
             <g:hiddenField name="imcraPid" value="${criteria.imcraPid}"/>
             <fieldset id="submit-buttons" class='one-line'>
-                <button type="button" id="searchButton" class="search">Search</button>
+                <button type="button" id="searchButton" class="search" title="Search using the selected criteria.">Search</button>
                 <img src="${resource(dir:'images',file:'spinner.gif')}" id="waiting" style="visibility:hidden"/>
-                <button type="button" id="clearButton" class="clear">Clear</button>
+                <button type="button" id="clearButton" class="clear" title="Clear all search criteria and results.">Clear</button>
             </fieldset>
         </g:form>
         <section id="searchResults" style="display:${summary ? 'block' : 'none'}">
@@ -128,27 +129,27 @@
     of the group. Read more <g:link target="_maps" action="distributionModelling">here</g:link>.</div>
         <div id="map-controls" style="display: none">
             <ul id="control-buttons">
-                <li class="active" id="pointer">
+                <li class="active" id="pointer" title="Drag to move. Double click or use the zoom control to zoom.">
                     <img src="${resource(dir:'images/map',file:'pointer.png')}" alt="pointer"/>
                     Move & zoom
                 </li>
-                <li id="circle">
+                <li id="circle" title="Click at centre and drag the deired radius. Values can be adjusted in the boxes.">
                     <img src="${resource(dir:'images/map',file:'circle.png')}" alt="center and radius"/>
                     Draw circle
                 </li>
-                <li id="rectangle">
+                <li id="rectangle" title="Click and drag a rectangle.">
                     <img src="${resource(dir:'images/map',file:'rectangle.png')}" alt="rectangle"/>
                     Draw rect
                 </li>
-                <li id="polygon">
+                <li id="polygon" title="Click any number of times to draw a polygon. Double click to close the polygon.">
                     <img src="${resource(dir:'images/map',file:'polygon.png')}" alt="polygon"/>
                     Draw polygon
                 </li>
-                <li id="clear">
+                <li id="clear" title="Clear the region from the map.">
                     <img src="${resource(dir:'images/map',file:'clear.png')}" alt="clear"/>
                     Clear
                 </li>
-                <li id="reset">
+                <li id="reset" title="Zoom and centre on Australia.">
                     <img src="${resource(dir:'images/map',file:'reset.png')}" alt="reset map"/>
                     Reset
                 </li>
