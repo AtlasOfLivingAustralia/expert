@@ -28,8 +28,9 @@
         </p>
         <g:form action="search" class="searchGroup">
             <div class="search-block">
-                <label for="bathome" class="mainLabel" title="Only include fish that occur in the specified depth range.">Depth</label>
-                <g:select name="bathome" from="${bathomeValues}" title="Only include fish that occur in the specified depth range."
+                <g:set var="bathomeTitle" value="Select broad depth category or use advanced search to set custom depth range."/>
+                <label for="bathome" class="mainLabel" title="${bathomeTitle}">Depth</label>
+                <g:select name="bathome" from="${bathomeValues}" title="${bathomeTitle}"
                           value="${criteria.bathome ?: 'coastal/shallow water (0-40m)'}"/>
                 <div class="advanced top-pad" id="advancedDepthSearch" title="Set custom depth range using the sliders or the value boxes.">
                     <span>OR</span>
@@ -41,14 +42,16 @@
                 </div>
             </div>
             <div class="search-block">
-                <label for="fishGroup" class="mainLabel" title="Select fish based on common group names">Fish group</label>
+                <g:set var="groupTitle" value="Commonly recognisable fish ‘groupings’ are included. To search for a specific family or multiple families click on advanced search link above and select from ‘only these families’ pull-down menu, then click ‘+’ button."/>
+                <label for="fishGroup" class="mainLabel" title="${groupTitle}">Fish group</label>
                 <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}"
-                          keys="${fishGroups.keys}" noSelection="['':'All fishes']" title="Select fish based on common group names"/>
+                          keys="${fishGroups.keys}" noSelection="['':'All fishes']" title="${groupTitle}"/>
                 <div class="advanced top-pad" id="advancedTaxonSearch">
-                    <label for="ecosystem" title="Restrict search to the selected ecosystem.">Primary ecosystem</label>
+                    <g:set var="ecosystemTitle" value="Restrict search to the selected ecosystem or choose ‘any’ to include all options."/>
+                    <label for="ecosystem" title="${ecosystemTitle}">Primary ecosystem</label>
                     <g:select name="ecosystem" from="['estuarine','coastal','demersal','pelagic']"
-                              noSelection="['':'any']" style="margin-top:0;" title="Restrict search to the selected ecosystem."/><br/>
-                    <div id="family-widget" title="Restrict the search to specified families. You can select any number. Type a few letters or select from pulldown menu. Make sure you click the + button to add the family to your list.">
+                              noSelection="['':'any']" style="margin-top:0;" title="${ecosystemTitle}"/><br/>
+                    <div id="family-widget" title="Restrict the search to specified families. Type a few letters or select from pulldown menu. Select any number of families but ensure you click the + button after selecting each family to add it to the search list. Remove a family from a completed search by clicking the red X or click the ‘clear’ button below to remove all criteria.">
                         <label for="family">Only these families</label>
                         <g:select title="Type a few letters or pick from list." name="family" from="${allFamilies}" noSelection="['':'']"/>
                         <button type="button" id="addFamily">
@@ -61,15 +64,16 @@
 
             </div>
             <div class="search-block">
-                <label for="locality" class="mainLabel" title="Only include fish that occur in this locality.">Locality</label>
-                <select name="locality" id="locality" title="Only include fish that occur in this locality."><option value="">any</option></select>
-                <div class="top-pad" title="Choose the radius of the area around the locality to include. You can only adjust this if a locality is selected.">
+                <g:set var="localityTitle" value="If area of interest is not listed, use map tools in advanced search to draw region of interest."/>
+                <label for="locality" class="mainLabel" title="${localityTitle}">Locality</label>
+                <select name="locality" id="locality" title="${localityTitle}"><option value="">any</option></select>
+                <div class="top-pad" title="Choose the radius of the area around the selected locality. You can only adjust slider bar if a locality is selected.">
                     <label for="radiusSlider">Distance from locality</label>
                     <div id="radiusSlider"></div><span id="radiusDisplay">50km</span>
                 </div>
                 <div class="advanced top-pad" id="advancedRegionSearch">
                     <span>OR</span>
-                    <g:set var="imcraTitle" value="Restrict your search to the marine bioregion selected from the list of IMCRA demersal regions."/>
+                    <g:set var="imcraTitle" value="Restrict your search to the IMCRA demersal marine bioregion selected from the list or choose ‘any’ to include all areas. Bioregion will appear on map when selected. (Source: IMCRA v.4.0, June 1996)"/>
                     <label for="imcra" title="${imcraTitle}">Marine bioregion</label>
                     <select name="imcra" id="imcra" title="${imcraTitle}">
                         <option value="">any</option>
@@ -133,7 +137,7 @@
                     <img src="${resource(dir:'images/map',file:'pointer.png')}" alt="pointer"/>
                     Move & zoom
                 </li>
-                <li id="circle" title="Click at centre and drag the deired radius. Values can be adjusted in the boxes.">
+                <li id="circle" title="Click at centre and drag the desired radius. Values can be adjusted in the boxes.">
                     <img src="${resource(dir:'images/map',file:'circle.png')}" alt="center and radius"/>
                     Draw circle
                 </li>
