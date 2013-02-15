@@ -1,6 +1,5 @@
 package au.org.ala.expert
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.ContentType
 import grails.converters.JSON
@@ -9,7 +8,7 @@ import grails.util.GrailsUtil
 
 class SearchController {
 
-    def searchService, metadataService, webService, bieService, resultsCacheService
+    def searchService, metadataService, bieService, resultsCacheService
 
     def index() {
         def model =
@@ -37,6 +36,22 @@ class SearchController {
 
     def distributionModelling() {
         [searchPage: grailsApplication.config.grails.serverURL]
+    }
+
+    static allSpecies = null
+
+    def missingImages() {
+        //if (!allSpecies) {
+            def allCmd = new SearchCommand()
+            //allCmd.fishGroup = 'flatheads'
+            allSpecies = searchService.search(allCmd)
+        //}
+        def results = bieService.listMissingImages(allSpecies.results)
+        [missing: results.matchedWithMissingImage,
+         unmatched: results.unmatched,
+         total: allSpecies.results.size(),
+         searchPage: grailsApplication.config.grails.serverURL,
+         namesOnly: params.namesOnly]
     }
 
     // deprecated
@@ -173,7 +188,7 @@ class SearchController {
     def briefList(String key) {
         def model = [:]
         if (key) {
-            withHttp(uri: ConfigurationHolder.config.results.cache.baseUrl + '/',
+            withHttp(uri: grailsApplication.config.results.cache.baseUrl + '/',
                     contentType: groovyx.net.http.ContentType.JSON) {
                 def query = [key: key]
                 ['start','pageSize','sortBy','sortOrder'].each {
@@ -196,7 +211,7 @@ class SearchController {
     }
 
     String submitResults(list, queryDescription, key) {
-        def http = new HTTPBuilder(ConfigurationHolder.config.results.cache.baseUrl + '/')
+        def http = new HTTPBuilder(grailsApplication.config.results.cache.baseUrl + '/')
         http.request( groovyx.net.http.Method.POST, groovyx.net.http.ContentType.JSON ) {
             uri.path = 'submit'
             body = [ list: list, queryDescription: queryDescription, query: list.query]
@@ -231,7 +246,7 @@ class SearchController {
 
     def reloadConfig = {
         def resolver = new PathMatchingResourcePatternResolver()
-        def resource = resolver.getResource(ConfigurationHolder.config.reloadable.cfgs[0])
+        def resource = resolver.getResource(grailsApplication.config.reloadable.cfgs[0])
         def stream
 
         try {
@@ -239,14 +254,14 @@ class SearchController {
             ConfigSlurper configSlurper = new ConfigSlurper(GrailsUtil.getEnvironment())
             if(resource.filename.endsWith('.groovy')) {
                 def newConfig = configSlurper.parse(stream.text)
-                ConfigurationHolder.getConfig().merge(newConfig)
+                grailsApplication.getConfig().merge(newConfig)
                 render "Config reloaded"
             }
             else if(resource.filename.endsWith('.properties')) {
                 def props = new Properties()
                 props.load(stream)
                 def newConfig = configSlurper.parse(props)
-                ConfigurationHolder.getConfig().merge(newConfig)
+                grailsApplication.getConfig().merge(newConfig)
                 render "Config reloaded: " + props.toString()
             }
         }

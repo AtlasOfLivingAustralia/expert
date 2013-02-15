@@ -1,6 +1,5 @@
 package au.org.ala.expert
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.converters.JSON
 
 class BieService {
@@ -63,11 +62,8 @@ class BieService {
     }
 
     def doBulkLookup(guids) {
-        def url = ConfigurationHolder.config.bie.baseURL
-        //println url
-        def data = webService.doJsonPost(url,
+        def data = webService.doJsonPost(grailsApplication.config.bie.services.baseURL,
                 "species/guids/bulklookup.json", "", (guids as JSON).toString())
-        //println data
         Map results = [:]
         data.searchDTOList.each {item ->
             results.put item.guid, [
@@ -81,4 +77,36 @@ class BieService {
         return results
     }
 
+    def listMissingImages(list) {
+        def matchedWithMissingImage = []
+        def unmatched = []
+        def buckets = 0..(Math.ceil((list.size() as int)/1000) - 1)
+        buckets.each { i ->
+            def upper = Math.min(999 + i*1000, list.size() - 1)
+            println "processing records ${i*1000} to ${upper}"
+            def guids = list[i*1000..upper].collect {it.guid}
+            def res = doBulkLookup(guids)
+
+            // find guids that did not have a bie match
+            guids.each { guid ->
+                if (!res.containsKey(guid)) {
+                    unmatched << [guid: guid, name: list.find({it.guid == guid}).name]
+                }
+            }
+
+            // how many matched species have no image
+            res.each { guid, rec ->
+                if (!rec.image?.largeImageUrl ||
+                        rec.image.imageSource != grailsApplication.config.image.source.dataResourceUid) {
+                    matchedWithMissingImage << [guid: guid, common: rec.common, name: list.find({it.guid == guid}).name]
+                }
+            }
+        }
+        println "${matchedWithMissingImage.size()} matched species have no image"
+        println "${unmatched.size()} guids could not be matched in the BIE"
+
+        matchedWithMissingImage.sort {it.name}
+
+        return [matchedWithMissingImage: matchedWithMissingImage, unmatched: unmatched]
+    }
 }
