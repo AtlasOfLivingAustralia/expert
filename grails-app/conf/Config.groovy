@@ -47,7 +47,10 @@ if (!expert.images.useConstructedUrls) {
  *  EXTERNAL SERVERS
  \******************************************************************************/
 if (!bie.baseURL) {
-    bie.baseURL = "http://bie.ala.org.au/ws"
+    bie.baseURL = "http://bie.ala.org.au"
+}
+if (!bie.services.baseURL) {
+    bie.services.baseURL = "http://bie.ala.org.au/ws"
 }
 /*
 if (!bie.searchPath) {
