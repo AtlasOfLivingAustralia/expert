@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,8 +10,8 @@
 <header id="page-header">
     <div class="inner">
         <nav id="breadcrumb"><ol>
-            <li><a href="${ConfigurationHolder.config.ala.baseUrl}">Home</a></li>
-            <li><a href="${ConfigurationHolder.config.grails.serverURL}/search">Expert distribution search</a></li>
+            <li><a href="${grailsApplication.config.ala.baseUrl}">Home</a></li>
+            <li><a href="${grailsApplication.config.grails.serverURL}/search">Expert distribution search</a></li>
             <li class="last">Expert distribution results</li></ol></nav>
         <hgroup>
             <h1>ALA Fish Finder - Spatial Search Results</h1>
@@ -26,7 +25,7 @@
         <ul style="list-style-type:none;">
             <g:each in="${list}" var="obj">
                 <li>
-                    <a href="${ConfigurationHolder.config.bie.baseURL}/species/${obj.guid}">${obj.name}</a>
+                    <a href="${grailsApplication.config.bie.baseURL}/species/${obj.guid}">${obj.name}</a>
                     (${obj.family})
                 </li>
             </g:each>

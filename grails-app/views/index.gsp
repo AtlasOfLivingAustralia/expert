@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" %>
 <html>
     <head>
         <title>Expert distributions - search prototype</title>
@@ -105,9 +104,9 @@
             <p>The following links will give some idea of the look and feel of the search tool at
             this stage of prototyping:</p>
             <ul>
-                <li><a href="${ConfigurationHolder.config.grails.serverURL}/search">
+                <li><a href="${grailsApplication.config.grails.serverURL}/search">
                     Simple search interface</a></li>
-                <li><a href="${ConfigurationHolder.config.grails.serverURL}/taxon/list?search=2">
+                <li><a href="${grailsApplication.config.grails.serverURL}/taxon/list?search=2">
                     Advanced search interface</a></li>
             </ul>
         </div>

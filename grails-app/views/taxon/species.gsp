@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +13,7 @@
 <body>
 <header id="page-header">
     <div class="inner">
-        <nav id="breadcrumb"><ol><li><a href="${ConfigurationHolder.config.grails.serverURL}">Home</a></li> <li class="last"><i>search</i></li></ol></nav>
+        <nav id="breadcrumb"><ol><li><a href="${grailsApplication.config.grails.serverURL}">Home</a></li> <li class="last"><i>search</i></li></ol></nav>
         <hgroup>
             <h1>Visual explorer - species list</h1>
             <h2>Defined region: ${region ?: 'Australia'}</h2>
@@ -51,7 +50,7 @@
                 <!-- checkbox -->
                 <td><input type="checkbox" alt="${i.guid}"/></td>
                 <!-- name -->
-                <td><em><a href="${ConfigurationHolder.config.bie.baseURL}/species/${i.name}" title="Show ${rank} page">${i.name}</a></em>
+                <td><em><a href="${grailsApplication.config.bie.baseURL}/species/${i.name}" title="Show ${rank} page">${i.name}</a></em>
                 <!-- common -->
                 <g:if test="${i.common && i.common.toString() != 'null'}">
                     <br/>${i.common}

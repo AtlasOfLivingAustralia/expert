@@ -1,7 +1,6 @@
 package au.org.ala.resultsCache
 
 import grails.converters.JSON
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ResultsController {
 
@@ -211,7 +210,7 @@ class ResultsController {
         def results = [totalEntries: cache.size(), keys: []]
         results.keys = cache.keySet().collect {
             [key:  it, query: cache[it].query, time: cache[it].time,
-             view: ConfigurationHolder.config.grails.serverURL + "/results/getResults?key=" + it]
+             view: grailsApplication.config.grails.serverURL + "/results/getResults?key=" + it]
         }
         if (params.key) {
             def data = cache[params.key]

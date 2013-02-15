@@ -1,7 +1,5 @@
 package au.org.ala.expert
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-
 class ResultsService {
 
     def webService
@@ -10,7 +8,7 @@ class ResultsService {
         def model = [:]
         if (key) {
             def action = "looking up page from results cache"
-            def url = ConfigurationHolder.config.results.cache.baseUrl + '/getPage' +
+            def url = grailsApplication.config.results.cache.baseUrl + '/getPage' +
                     "?key=${key}"
             if (facets) { url += "&facets=${facets}" }
             if (includeFacetMembers) { url += "&includeFacetMembers=${includeFacetMembers}" }
@@ -42,7 +40,7 @@ class ResultsService {
         def model = [:]
         if (key) {
             def action = "looking up results from results cache"
-            def url = ConfigurationHolder.config.results.cache.baseUrl + "/getResults?key=${key}"
+            def url = grailsApplication.config.results.cache.baseUrl + "/getResults?key=${key}"
             assert webService
             def resp = webService.getJson(url)
             if (resp.error) {

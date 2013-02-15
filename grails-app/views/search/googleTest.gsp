@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +11,7 @@
 <body>
 <header id="page-header">
     <div class="inner">
-        <nav id="breadcrumb"><ol><li><a href="${ConfigurationHolder.config.ala.baseUrl}">Home</a></li> <li class="last">Expert distribution search</li></ol></nav>
+        <nav id="breadcrumb"><ol><li><a href="${grailsApplication.config.ala.baseUrl}">Home</a></li> <li class="last">Expert distribution search</li></ol></nav>
         <hgroup>
             <h1>ALA Fish Finder - Spatial Search</h1>
             <h2>Test drawing polygons with Google maps</h2>
@@ -79,10 +78,10 @@
 <script type="text/javascript">
     $(document).ready(function() {
         init_map({
-            server: '${ConfigurationHolder.config.grails.serverURL}',
-            spatialService: '${ConfigurationHolder.config.spatial.layers.service.url}',
-            spatialWms: '${ConfigurationHolder.config.spatial.wms.url}',
-            spatialCache: '${ConfigurationHolder.config.spatial.wms.cache.url}',
+            server: '${grailsApplication.config.grails.serverURL}',
+            spatialService: '${grailsApplication.config.spatial.layers.service.url}',
+            spatialWms: '${grailsApplication.config.spatial.wms.url}',
+            spatialCache: '${grailsApplication.config.spatial.wms.cache.url}',
             mapContainer: 'map-canvas'
         });
     });

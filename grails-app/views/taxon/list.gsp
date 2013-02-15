@@ -1,4 +1,3 @@
-<%@ page import="org.codehaus.groovy.grails.commons.ConfigurationHolder" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +13,7 @@
 <body>
 <header id="page-header">
     <div class="inner">
-        <nav id="breadcrumb"><ol><li><a href="${ConfigurationHolder.config.grails.serverURL}">Home</a></li> <li class="last"><i>search</i></li></ol></nav>
+        <nav id="breadcrumb"><ol><li><a href="${grailsApplication.config.grails.serverURL}">Home</a></li> <li class="last"><i>search</i></li></ol></nav>
         <hgroup>
             <h1>Visual explorer - ${rank} list</h1>
             <h2>Defined region: ${region ?: 'Australia'}</h2>
@@ -51,7 +50,7 @@
                     <!-- checkbox -->
                     <td><input type="checkbox" id="${i.name}" alt="${i.guid}"/></td>
                     <!-- name -->
-                    <td><a href="${ConfigurationHolder.config.bie.baseURL}/species/${i.name}" title="Show ${rank} page">${i.name}</a>
+                    <td><a href="${grailsApplication.config.bie.baseURL}/species/${i.name}" title="Show ${rank} page">${i.name}</a>
                     <!-- common name -->
                     <g:if test="${i.common && i.common.toString() != 'null'}">
                         ${i.common}
@@ -87,7 +86,7 @@
                                 </g:if>
                                 <td><div>
                                     <img class="thumb" src="${g.image?.repo}"/>
-                                    <a href="${ConfigurationHolder.config.bie.baseURL}/species/${g.guid}">${g.name}</a>
+                                    <a href="${grailsApplication.config.bie.baseURL}/species/${g.guid}">${g.name}</a>
                                     <details open="open">
                                         <summary id="${g.name}">${g.name} (<em>${g.image?.title}</em>)</summary>
                                         <dl>
@@ -173,7 +172,7 @@
                     alert("No families selected");
                 }
                 else {
-                    document.location.href = "${ConfigurationHolder.config.grails.serverURL}" +
+                    document.location.href = "${grailsApplication.config.grails.serverURL}" +
                     "/taxon/species?taxa=" + checked;
                 }
             });
