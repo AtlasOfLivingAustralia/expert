@@ -11,8 +11,8 @@ class MetadataService {
     static bathomeValues = [
             'coastal/shallow water (0-40m)',
             'shelf (0-200m)',
-            'shelf+slope (0-500m)',
-            'slope only (200-500m)',
+            'shelf + upper slope (0-500m)',
+            'upper slope only (200-500m)',
             'any (0-2000+m)']
 
     def getFishGroups() {

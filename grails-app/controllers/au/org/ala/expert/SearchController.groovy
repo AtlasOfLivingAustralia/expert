@@ -414,10 +414,12 @@ class SearchCommand {
         switch (depthBasedOn) {
             case 'bathome':
                 switch (bathome) {
+                    // TODO: use a common source for these strings and the values in MetadataService
                     case "coastal/shallow water (0-40m)": return [minD:0, maxD:40]
                     case "shelf (0-200m)": return [minD:0, maxD:200]
-                    case "shelf+slope (0-500m)": return [minD:0, maxD:500]
-                    case "slope only (200-500m)": return [minD:200, maxD:500]
+                    case "shelf + upper slope (0-500m)": return [minD:0, maxD:500]
+                    case "upper slope only (200-500m)": return [minD:200, maxD:500]
+                    default: return [minD:0, maxD:0]
                 }
                 break
             case 'min and max': return [minD: minDepth, maxD: maxDepth]
