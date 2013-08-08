@@ -168,31 +168,45 @@ environments {
 
 // log4j configuration
 log4j = {
-    // Example of changing the log pattern for the default console
-    // appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
     appenders {
         environments {
             production {
+                rollingFile name: "expert",
+                    maxFileSize: 104857600,
+                    file: "/var/log/tomcat6/expert.log",
+                    threshold: org.apache.log4j.Level.WARN,
+                    layout: pattern(conversionPattern: "%d [%c{1}]  %m%n")
                 rollingFile name: "stacktrace", maxFileSize: 1024, file: "/var/log/tomcat6/expert-stacktrace.log"
+            }
+            development{
+                console name: "stdout", layout: pattern(conversionPattern: "%d [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.DEBUG
             }
         }
     }
 
-    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
-            'org.codehaus.groovy.grails.web.pages', //  GSP
-            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-            'org.codehaus.groovy.grails.commons', // core / classloading
-            'org.codehaus.groovy.grails.plugins', // plugins
-            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate'
+    root {
+        debug  'expert'
+    }
 
-    warn   'org.mortbay.log'
+    error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
+           'org.codehaus.groovy.grails.web.pages', //  GSP
+           'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+	         'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+           'org.codehaus.groovy.grails.web.mapping', // URL mapping
+	         'org.codehaus.groovy.grails.commons', // core / classloading
+	         'org.codehaus.groovy.grails.plugins', // plugins
+           'org.springframework.jdbc',
+           'org.springframework.transaction',
+           'org.codehaus.groovy',
+           'org.grails',
+           'org.apache',
+           'grails.spring',
+           'grails.util.GrailsUtil',
+           'net.sf.ehcache'
+           'grails.app.service.org.grails.plugin.resource'
+           'grails.app.service'
+           'org.ala'
+           'au.org.ala'
+           'grails.app.service.org.grails.plugin.resource.ResourceTagLib'
+    debug  'au.org.ala'
 }

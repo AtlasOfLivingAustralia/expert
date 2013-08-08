@@ -60,7 +60,7 @@ class SearchController {
         // do the search
         def results = searchService.search(cmd)
         if (results.error) {
-            println results.error
+            log.error results.error
         }
         def list = results.results
 
@@ -70,7 +70,7 @@ class SearchController {
         if (key == null) {
             error = "Failed to save search results."
         }
-        println "stored key = ${key}"
+        log.debug "stored key = ${key}"
 
         // create a summary
         def summary = searchService.speciesListSummary(list)
@@ -94,9 +94,9 @@ class SearchController {
      */
     def ajaxSearch(SearchCommand cmd) {
 
-        /*println "params-----"
-        params.each { println it }
-        println "params-----"*/
+        /*log.debug "params-----"
+        params.each { log.debug it }
+        log.debug "params-----"*/
 
         def result
 
@@ -105,30 +105,30 @@ class SearchController {
 
         // check to see if the same search is already in the results cache
         def key = searchService.buildQuery(cmd).encodeAsMD5()
-        //println "Calculated key = ${key}"
+        //log.debug "Calculated key = ${key}"
         if (resultsCacheService.hasKey(key)) {
             def cachedResult = resultsCacheService.get(key)
             // bundle the results
             result = [summary: [total: cachedResult.list.total,
                     familyCount: cachedResult.list.familyCount], query: cachedResult.query,
                     queryDescription: cmd.queryDescription, key: key, cached: true]
-            //println "serving results from cache"
+            //log.debug "serving results from cache"
         }
         else {
             // do the search
             /*long startTime = System.currentTimeMillis();
-            println "timing----- 0"*/
+            log.debug "timing----- 0"*/
             def searchResults = searchService.search(cmd)
-            //println "search took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+            //log.debug "search took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
             if (searchResults.error) {
-                println searchResults.error
+                log.debug searchResults.error
             }
 
             // add the family metadata (image, common name, etc)
             /*startTime = System.currentTimeMillis();
-            println "timing----- 0"*/
+            log.debug "timing----- 0"*/
             searchResults.families = bieService.getFamilyMetadata(searchResults.results/*, startTime*/)
-            /*println "family processing took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+            /*log.debug "family processing took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
             startTime = System.currentTimeMillis();*/
 
@@ -141,7 +141,7 @@ class SearchController {
             searchResults.total = summary.total
             searchResults.familyCount = summary.familyCount
 
-            //println "summary at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
+            //log.debug "summary at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
             // register the results with the results service
             def storeError = ""
@@ -150,7 +150,7 @@ class SearchController {
                 if (key == null) {
                     storeError = "Failed to save search results."
                 }
-                println "stored key = ${key}"
+                log.debug "stored key = ${key}"
             }
             //println "stored at ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
 
@@ -223,7 +223,7 @@ class SearchController {
             }
 
             response.failure = { resp ->
-                println "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
+                log.debug "Unexpected error: ${resp.statusLine.statusCode} : ${resp.statusLine.reasonPhrase}"
                 return null
             }
         }
@@ -266,7 +266,7 @@ class SearchController {
             }
         }
         catch (GroovyRuntimeException gre) {
-            println "Unable to reload configuration. Please correct problem and try again: " + gre.getMessage()
+            log.error "Unable to reload configuration. Please correct problem and try again: " + gre.getMessage()
             render "Unable to reload configuration - " + gre.getMessage()
         }
         finally {

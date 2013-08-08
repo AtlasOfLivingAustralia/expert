@@ -40,7 +40,7 @@ class MetadataService {
         }
         def wkt = webService.get("http://spatial.ala.org.au/ws/shape/wkt/${pid}")
         imcraWktCache.put pid, wkt
-        println wkt
+        log.debug wkt
         return wkt
     }
 
@@ -61,8 +61,8 @@ class MetadataService {
         // add each unique name to cache
         all.each {
             // families
-            if (it.family == "") println it.scientific + " has blank family"
-            if (it.family == null) println it.scientific + " has null family"
+            if (it.family == "") log.debug it.scientific + " has blank family"
+            if (it.family == null) log.debug it.scientific + " has null family"
             if (!familiesCache.contains(it.family) && it.family != "" && it.family != null) {
                 familiesCache << it.family
             }
@@ -197,7 +197,7 @@ class MetadataService {
                     lat: convert(loc.lat), lng: convert(loc.lng)]
             localities.put loc.local, x
         }
-        println (localities as JSON).toString()
+        log.debug (localities as JSON).toString()
     }
     
     def convert = {

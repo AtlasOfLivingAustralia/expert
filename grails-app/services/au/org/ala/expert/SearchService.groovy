@@ -56,7 +56,7 @@ class SearchService {
         //println "Radius = ${cmd.radius}"
         def results = []
         def query = buildQuery(cmd)
-        println "Query = " + query
+        log.debug "Query = " + query
         def servicePath = '/ws/distributions'
         if (cmd.locationBasedOn == 'circle' || cmd.locationBasedOn == 'locality') {
             servicePath += '/radius'

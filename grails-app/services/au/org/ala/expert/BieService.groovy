@@ -46,7 +46,7 @@ class BieService {
                 fam.common = famData.common
             }
             else {
-                println "no common name found for ${name}"
+                log.debug "no common name found for ${name}"
             }
             def sppData = sppBieData[fam.repSpeciesGuid]
             if (sppData && sppData.image && sppData.image.largeImageUrl?.toString() != "null" &&
@@ -54,7 +54,7 @@ class BieService {
                 fam.image = sppData.image
             }
             else {
-                println "no image found for ${name}"
+                log.debug "no image found for ${name}"
             }
         }
 
@@ -83,7 +83,7 @@ class BieService {
         def buckets = 0..(Math.ceil((list.size() as int)/1000) - 1)
         buckets.each { i ->
             def upper = Math.min(999 + i*1000, list.size() - 1)
-            println "processing records ${i*1000} to ${upper}"
+            log.debug "processing records ${i*1000} to ${upper}"
             def guids = list[i*1000..upper].collect {it.guid}
             def res = doBulkLookup(guids)
 
@@ -102,8 +102,8 @@ class BieService {
                 }
             }
         }
-        println "${matchedWithMissingImage.size()} matched species have no image"
-        println "${unmatched.size()} guids could not be matched in the BIE"
+        log.debug "${matchedWithMissingImage.size()} matched species have no image"
+        log.debug "${unmatched.size()} guids could not be matched in the BIE"
 
         matchedWithMissingImage.sort {it.name}
 
