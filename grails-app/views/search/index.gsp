@@ -81,6 +81,19 @@
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
                         </g:each>
                     </select>
+                    <!-- Added by Alan Lin for 2014 CAPAD bioregions on 28/07/2014 --- START -->
+                    <br />
+                    <span>OR</span>
+                    <g:set var="capad2014Title" value="Add 2014 CAPAD regions"/>
+                    <label for="capad2014" title="${capad2014Title}">2014 CAPAD bioregion:&nbsp;&nbsp;</label>
+                    <select name="capad2014" id="capad2014" title="${capad2014Title}">
+                        <option value="">any</option>
+                        <g:each in="${capad2014}" var="ix">
+                            <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.capad2014 ? "selected='selected'" : ""}>${ix.name}</option>
+                        </g:each>
+                    </select>
+                    <!-- Added by Alan Lin --- END -->
+                    <br />
                     <span>OR use the tools below the map to draw a region.</span>
                 </div>
             </div>
@@ -90,6 +103,7 @@
             <g:hiddenField name="circleLon" value="${criteria.circleLon}"/>
             <g:hiddenField name="circleRadius" value="${criteria.circleRadius}"/>
             <g:hiddenField name="imcraPid" value="${criteria.imcraPid}"/>
+            <g:hiddenField name="capad2014Pid" value="${criteria.capad2014Pid}"/>
             <fieldset id="submit-buttons" class='one-line'>
                 <button type="button" id="searchButton" class="search" title="Search using the selected criteria.">Search</button>
                 <img src="${resource(dir:'images',file:'spinner.gif')}" id="waiting" style="visibility:hidden"/>
@@ -283,6 +297,7 @@
         $('#circleLon').val("");
         $('#circleRadius').val("");
         $('#imcraPid').val("");
+        $('#capad2014Pid').val("");
     }
 
     function shapeDrawn(source, type, shape) {

@@ -154,7 +154,7 @@ environments {
     development {
         grails.host = "localhost"
         //grails.host = "woodfired.ala.org.au"
-        grails.serverURL = "http://${grails.host}:8081/${appName}"
+        grails.serverURL = "http://${grails.host}:8080/${appName}"
         results.cache.baseUrl = grails.serverURL + "/results"
         explorer.baseUrl = "http://${grails.host}:8082/tviewer"
     }

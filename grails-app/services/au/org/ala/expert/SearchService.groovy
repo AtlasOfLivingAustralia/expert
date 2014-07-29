@@ -17,6 +17,9 @@ class SearchService {
             case 'marine area':
                 criteria << "fid=cl21"
                 criteria << "objectName=" + cmd.getMarineArea().imcra
+            case 'CAPAD 2014':
+                criteria << "fid=cl1050"
+                criteria << "objectName=" + cmd.getCapad2014Area().capad2014
         }
 
         if (cmd.depthBasedOn != 'all') {
