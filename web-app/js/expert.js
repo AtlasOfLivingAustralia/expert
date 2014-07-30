@@ -137,6 +137,7 @@ var customDepth = {
 var locationWidgets = {
     $locality: null,
     $imcra: null,
+    $capad2014: null,
     $slider: null,
     init: function (initialRadius, localities) {
         var that = this,
@@ -145,6 +146,7 @@ var locationWidgets = {
         // initialise cached jquery objects after the page is rendered
         this.$locality = $('#locality');
         this.$imcra = $('#imcra');
+        this.$capad2014 = $('#capad2014');
         this.$slider = $('#radiusSlider');
 
         // init locations list
@@ -160,6 +162,7 @@ var locationWidgets = {
         // bind listeners
         this.$locality.on('change', function () { that.localityChange(); });
         this.$imcra.on('change', function () { that.imcraChange(); });
+        this.$capad2014.on('change', function () { that.capad2014Change(); });
 
         // initialise slider for locality radius
         this.$slider.slider({
@@ -213,6 +216,20 @@ var locationWidgets = {
             clearSessionData('imcra');
         }
     },
+    capad2014Change: function () {
+        if (this.$capad2014.val()) {
+            this.$locality.val('');
+            clearData();
+            var selectedId = this.$capad2014.find('option[value="' + this.$capad2014.val() + '"]').attr('id');
+            showOnMap('wktFromPid', selectedId);//selected.id);
+            $('#capad2014Pid').val(selectedId);
+        } else {
+            // has been set back to 'any'
+            clearMap();
+            clearData();
+            clearSessionData('capad2014');
+        }
+    },
     getLocality: function () {
         return this.parseLocality($('#locality').val());
     },
@@ -237,9 +254,13 @@ var locationWidgets = {
     clear: function () {
         this.$locality.val('');
         this.$imcra.val('');
+        this.$capad2014.val('');
     },
     hasImcra: function () {
         return this.$imcra.val() !== '';
+    },
+    hasCapad2014: function () {
+        return this.$capad2014.val() !== '';
     },
     // returns true if advanced search criteria exist
     isAdvanced: function () {
@@ -333,6 +354,9 @@ var searchMode = {
             return true;
         }
         if ($('#imcra').val() !== "") {
+            return true;
+        }
+        if ($('#capad2014').val() !== "") {
             return true;
         }
         return false;
@@ -553,6 +577,7 @@ function setPageValues() {
 
         // imcra
         if (queryParams.objectName) {
+            //console.log(queryParams);
             $('#imcra').val(queryParams.objectName);
             locationWidgets.imcraChange();
         }

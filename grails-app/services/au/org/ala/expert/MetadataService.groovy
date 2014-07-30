@@ -46,6 +46,20 @@ class MetadataService {
         return wkt
     }
 
+    static capad2014WktCache = [:]
+
+    def getCapad2014PolyAsWkt(pid) {
+        if (capad2014WktCache[pid]) {
+            return capad2014WktCache[pid]
+        }
+
+        def wkt = webService.get("http://spatial.ala.org.au/ws/shape/wkt/${pid}")
+
+        capad2014WktCache.put pid, wkt
+        log.debug wkt
+        return wkt
+    }
+
     static familiesCache = []
     static groupsCache = []
 
@@ -194,7 +208,7 @@ class MetadataService {
             [name: "Abrolhos Islands", pid: "5746593"],
             [name: "Adelaide Dolphin Sanctuary", pid: "5746474"],
             [name: "Aldinga Reef", pid: "5746578"],
-            [name: "American River", pid: "5746560 "],
+            [name: "American River", pid: "5746560"],
             [name: "Annan River", pid: "5746643"],
             [name: "Annan River", pid: "5746637"],
             [name: "Apollo", pid: "5746550"],

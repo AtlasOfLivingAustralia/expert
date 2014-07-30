@@ -175,7 +175,7 @@ class SearchController {
     }
     
     def getWkt = {
-        //log.debug "SearchController::getWkt = ${params.pid}"
+        log.debug "SearchController::getWkt = ${params.pid}"
 
         if (params.pid) {
             render metadataService.getImcraPolyAsWkt(params.pid)
