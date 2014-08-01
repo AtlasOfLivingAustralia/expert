@@ -46,6 +46,7 @@ class MetadataService {
         return wkt
     }
 
+    /*
     static capad2014WktCache = [:]
 
     def getCapad2014PolyAsWkt(pid) {
@@ -59,6 +60,7 @@ class MetadataService {
         log.debug wkt
         return wkt
     }
+    */
 
     static familiesCache = []
     static groupsCache = []
@@ -197,6 +199,17 @@ class MetadataService {
             [name: "Timor Transition", pid: "3742599"],
             [name: "West Tasmania Transition", pid: "3742593"],
             [name: "Western Bass Strait Shelf Transition", pid: "3742574"]
+    ]
+
+    //Modified by Alan on for fetching multiple layers on 30/07/2014 --- START
+    def getMyLayerRegions() {
+        return myLayer
+    }
+
+    // some imcras removed as out of scope for distribution maps
+    static myLayer = [
+            [name: "Marine bioregion", pid: "cl21"],
+            [name: "2014 CAPAD bioregion", pid: "cl1050"],
     ]
 
     def getCapad2014Regions() {
@@ -436,59 +449,8 @@ class MetadataService {
             [name: "Yorkeys Creek", pid: "5746585"],
             [name: "Zanoni", pid: "5746676"],
             [name: "Zeehan", pid: "5746557"]
-
-/*
-            [name: "Aboriginal Area", pid: "17532820"],
-            [name: "Conservation Covenant", pid: "15028131"],
-            [name: "Antarctic Specially Managed Areas", pid: "12523443"],
-            [name: "Antarctic Specially Protected Areas", pid: "10018754"],
-            [name: "Botanic Gardens (Commonwealth)", pid: "20037507"],
-            [name: "Conservation Area", pid: "20037507"],
-            [name: "Coordinated Conservation Area", pid: "20037507"],
-            [name: "CCA Zone 1 National Park", pid: "20037507"],
-            [name: "CCA Zone 2 Aboriginal Area", pid: "20037507"],
-            [name: "CCA Zone 3 State Conservation Area", pid: "20037507"],
-            [name: "Coastal Reserve", pid: "20037507"],
-            [name: "Conservation Park", pid: "20037507"],
-            [name: "Conservation Reserve", pid: "20037507"],
-            [name: "Flora Reserva", pid: "20037507"],
-            [name: "Forest Reserve", pid: "20037507"],
-            [name: "Game Reserve", pid: "20037507"],
-            [name: "Heritage Agreement", pid: "20037507"],
-            [name: "Historical Reserve", pid: "20037507"],
-            [name: "Heritage River", pid: "20037507"],
-            [name: "Historic Site", pid: "20037507"],
-            [name: "Hunting Reserve", pid: "20037507"],
-            [name: "Indigenous Protected Area", pid: "20037507"],
-            [name: "Karst Conservation Reserve", pid: "20037507"],
-            [name: "Management Agreement", pid: "20037507"],
-            [name: "National Parks ACT Schedule 4 Park or Reserve", pid: "20037507"],
-            [name: "Marine National Park", pid: "20037507"],
-            [name: "Commonwealth Land Managed for Conservation", pid: "20037507"],
-            [name: "Marine Sanctuary", pid: "20037507"],
-            [name: "Nature Park", pid: "20037507"],
-            [name: "Nature Park (Aboriginal)", pid: "20037507"],
-            [name: "Nature Catchment Area", pid: "20037507"],
-            [name: "Nature Conservation Reserve", pid: "20037507"],
-            [name: "National Park", pid: "20037507"],
-            [name: "National Park Aboriginal", pid: "20037507"],
-            [name: "National Park (Commonwealth)", pid: "20037507"],
-            [name: "National Park (Recovery)", pid: "20037507"],
-            [name: "Nature Reserve", pid: "20037507"],
-            [name: "Nature Recreation Area", pid: "20037507"],
-            [name: "Nature Refuge", pid: "20037507"],
-            [name: "National Park (Scientific)", pid: "20037507"],
-            [name: "Other Conservation Area", pid: "20037507"],
-            [name: "Other Conservation Area / Nature Park", pid: "20037507"],
-            [name: "Other", pid: "20037507"],
-            [name: "Protected Area", pid: "20037507"],
-            [name: "Proposed National Parks Act park or park addition", pid: "20037507"],
-            [name: "Private Nature Reserve", pid: "20037507"],
-            [name: "Permanent Nature Reserve", pid: "20037507"],
-            [name: "Private Sanctuary", pid: "20037507"],
-            [name: "Reference Area", pid: "20037507"]
-  */
     ]
+    //Added by Alan --- END
 
     def parseCsv() {
         CSVReader reader = new CSVReader(new StringReader(csv),',' as char)

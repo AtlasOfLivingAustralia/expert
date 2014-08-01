@@ -15,11 +15,8 @@ class SearchService {
                 criteria << "radius=" + circ.radius
                 break
             case 'marine area':
-                criteria << "fid=cl21"
+                criteria << cmd.myLayer
                 criteria << "objectName=" + cmd.getMarineArea().imcra
-            case 'CAPAD 2014':
-                criteria << "fid=cl1050"
-                criteria << "objectName=" + cmd.getCapad2014Area().capad2014
         }
 
         if (cmd.depthBasedOn != 'all') {
@@ -55,8 +52,10 @@ class SearchService {
     }
 
     def search(SearchCommand cmd) {
-        //println "location based on ${cmd.locationBasedOn}"
-        //println "Radius = ${cmd.radius}"
+        println "location based on ${cmd.locationBasedOn}"
+        println "Radius = ${cmd.radius}"
+        cmd.families.each { log.debug it }
+        //println "Families = ${cmd.families}"
         def results = []
         def query = buildQuery(cmd)
         log.debug "Query = " + query
@@ -121,7 +120,4 @@ class SearchService {
             default: return [""]
         }
     }
-
-
-
 }

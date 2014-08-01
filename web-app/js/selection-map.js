@@ -355,6 +355,21 @@ function showWktForObject(pid) {
     });
 }
 
+//Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+function showRegionForObject(pid) {
+    $.get(config.baseUrl + "/search/getMyLayer", {pid: pid}, function (data) {
+        if(data.length > 0) {
+            $('#imcra').find('option').remove().end().append('<option value="any">any</option>').val('any');
+
+            for(var i=0; i<data.length; i++) {
+                var regions = data[i];
+                $("#imcra").append("<option value=\"" + data[i].name + "\" id=\"" + data[i].pid + "\">" + data[i].name + "</option>");
+            }
+        }
+    });
+}
+//Added by Alan --- END
+
 /**
  * Initialises everything including the map.
  *
@@ -384,6 +399,7 @@ function init (options) {
     // init controls
     controls.init(config.baseUrl);
 }
+
 function showOnMap(arg1, arg2, arg3, arg4) {
     if (arg1 === 'wktFromPid') {
         showWktForObject(arg2);
@@ -391,12 +407,19 @@ function showOnMap(arg1, arg2, arg3, arg4) {
         map.showArea(arg1, arg2, arg3, arg4);
     }
 }
+
+function showOnRegion(pid) {
+    showRegionForObject(pid);
+}
+
 function updateMap(arg1, arg2, arg3, arg4) {
     map.changeArea(arg1, arg2, arg3, arg4);
 }
+
 function clearShapes() {
     map.clearShapes();
 }
+
 function setCurrentShapeCallback(callback) {
     map.setCurrentShapeCallback(callback);
 }
@@ -404,6 +427,7 @@ function setCurrentShapeCallback(callback) {
     // expose these methods to the global scope
     windows.init_map = init;
     windows.showOnMap = showOnMap;
+    windows.showOnRegion = showOnRegion;
     windows.updateMap = updateMap;
     windows.clearMap = clearShapes;
     windows.setCurrentShapeCallback = setCurrentShapeCallback;

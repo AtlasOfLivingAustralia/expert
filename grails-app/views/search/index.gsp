@@ -72,27 +72,26 @@
                     <div id="radiusSlider"></div><span id="radiusDisplay">50km</span>
                 </div>
                 <div class="advanced top-pad" id="advancedRegionSearch">
-                    <span>OR</span>
-                    <g:set var="imcraTitle" value="Restrict your search to the IMCRA demersal marine bioregion selected from the list or choose ‘any’ to include all areas. Bioregion will appear on map when selected. (Source: IMCRA v.4.0, June 1996)"/>
-                    <label for="imcra" title="${imcraTitle}">Marine bioregion</label>
+                    <span>OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <!-- Added by Alan on for fetching multiple layers on 30/07/2014 --- START -->
+                    <select name="myLayer" id="myLayer" title="Select a layer">
+                        <g:each in="${myLayer}" var="ix">
+                            <option value="${ix.pid}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
+                        </g:each>
+                        <!--
+                        <option value="cl21">Marine bioregion</option>
+                        <option value="cl1050">2014 CAPAD bioregion</option>
+                        -->
+                    </select>
+                    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <!-- Added by Alan Lin --- END -->
+                    <g:set var="imcraTitle" value="Restrict your search to the following bioregion selected from the list or choose ‘any’ to include all areas. Bioregion will appear on map when selected."/>
                     <select name="imcra" id="imcra" title="${imcraTitle}">
                         <option value="">any</option>
                         <g:each in="${imcras}" var="ix">
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
                         </g:each>
                     </select>
-                    <!-- Added by Alan Lin for 2014 CAPAD bioregions on 28/07/2014 --- START -->
-                    <br />
-                    <span>OR</span>
-                    <g:set var="capad2014Title" value="Add 2014 CAPAD regions"/>
-                    <label for="capad2014" title="${capad2014Title}">2014 CAPAD bioregion:&nbsp;&nbsp;</label>
-                    <select name="capad2014" id="capad2014" title="${capad2014Title}">
-                        <option value="">any</option>
-                        <g:each in="${capad2014}" var="ix">
-                            <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.capad2014 ? "selected='selected'" : ""}>${ix.name}</option>
-                        </g:each>
-                    </select>
-                    <!-- Added by Alan Lin --- END -->
                     <br />
                     <span>OR use the tools below the map to draw a region.</span>
                 </div>
@@ -103,7 +102,7 @@
             <g:hiddenField name="circleLon" value="${criteria.circleLon}"/>
             <g:hiddenField name="circleRadius" value="${criteria.circleRadius}"/>
             <g:hiddenField name="imcraPid" value="${criteria.imcraPid}"/>
-            <g:hiddenField name="capad2014Pid" value="${criteria.capad2014Pid}"/>
+            <g:hiddenField name="myLayerPid" value="${criteria.myLayerPid}"/>
             <fieldset id="submit-buttons" class='one-line'>
                 <button type="button" id="searchButton" class="search" title="Search using the selected criteria.">Search</button>
                 <img src="${resource(dir:'images',file:'spinner.gif')}" id="waiting" style="visibility:hidden"/>
@@ -297,7 +296,8 @@
         $('#circleLon').val("");
         $('#circleRadius').val("");
         $('#imcraPid').val("");
-        $('#capad2014Pid').val("");
+        //$('#capad2014Pid').val("");
+        $('#myLayerPid').val("");
     }
 
     function shapeDrawn(source, type, shape) {

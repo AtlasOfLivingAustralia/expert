@@ -138,6 +138,7 @@ var locationWidgets = {
     $locality: null,
     $imcra: null,
     $capad2014: null,
+    $myLayer: null,
     $slider: null,
     init: function (initialRadius, localities) {
         var that = this,
@@ -146,7 +147,8 @@ var locationWidgets = {
         // initialise cached jquery objects after the page is rendered
         this.$locality = $('#locality');
         this.$imcra = $('#imcra');
-        this.$capad2014 = $('#capad2014');
+        //this.$capad2014 = $('#capad2014');
+        this.$myLayer = $('#myLayer');
         this.$slider = $('#radiusSlider');
 
         // init locations list
@@ -162,7 +164,9 @@ var locationWidgets = {
         // bind listeners
         this.$locality.on('change', function () { that.localityChange(); });
         this.$imcra.on('change', function () { that.imcraChange(); });
-        this.$capad2014.on('change', function () { that.capad2014Change(); });
+        //Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+        this.$myLayer.on('change', function () { that.myLayerChange(); });
+        //Added by Alan --- END
 
         // initialise slider for locality radius
         this.$slider.slider({
@@ -216,20 +220,11 @@ var locationWidgets = {
             clearSessionData('imcra');
         }
     },
-    capad2014Change: function () {
-        if (this.$capad2014.val()) {
-            this.$locality.val('');
-            clearData();
-            var selectedId = this.$capad2014.find('option[value="' + this.$capad2014.val() + '"]').attr('id');
-            showOnMap('wktFromPid', selectedId);//selected.id);
-            $('#capad2014Pid').val(selectedId);
-        } else {
-            // has been set back to 'any'
-            clearMap();
-            clearData();
-            clearSessionData('capad2014');
-        }
+    //Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+    myLayerChange: function () {
+        showOnRegion($('#myLayer').val());
     },
+    //Added by Alan --- END
     getLocality: function () {
         return this.parseLocality($('#locality').val());
     },
@@ -356,9 +351,9 @@ var searchMode = {
         if ($('#imcra').val() !== "") {
             return true;
         }
-        if ($('#capad2014').val() !== "") {
-            return true;
-        }
+        //if ($('#capad2014').val() !== "") {
+        //    return true;
+        //}
         return false;
     },
     init: function (isAdvanced) {

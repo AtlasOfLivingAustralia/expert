@@ -12,7 +12,7 @@ class SearchController {
 
     def index() {
         def model =
-            [bathomeValues: metadataService.bathomeValues, imcras: metadataService.getMarineRegions(), capad2014: metadataService.getCapad2014Regions(),
+            [bathomeValues: metadataService.bathomeValues, imcras: metadataService.getMarineRegions(), myLayer: metadataService.getMyLayerRegions(),
              localities: metadataService.localitiesByState, allFamilies: metadataService.getAllFamilies(),
              fishGroups: metadataService.getFishGroups(), criteria: new SearchCommand()]
         
@@ -84,7 +84,7 @@ class SearchController {
             key: key,
             searchError: error,
             imcras: metadataService.getMarineRegions(),
-            capad2014: metadataService.getCapad2014Regions(),
+            myLayer: metadataService.getMyLayerRegions(),
             query:  results.query,
             criteria: cmd])
     }
@@ -97,10 +97,6 @@ class SearchController {
      */
     def ajaxSearch(SearchCommand cmd) {
 
-        /*log.debug "params-----"
-        params.each { log.debug it }
-        log.debug "params-----"*/
-
         def result
 
         // families does not seem to bind automatically
@@ -108,19 +104,20 @@ class SearchController {
 
         // check to see if the same search is already in the results cache
         def key = searchService.buildQuery(cmd).encodeAsMD5()
-        //log.debug "Calculated key = ${key}"
+        log.debug "Calculated key = ${key}"
         if (resultsCacheService.hasKey(key)) {
             def cachedResult = resultsCacheService.get(key)
             // bundle the results
             result = [summary: [total: cachedResult.list.total,
                     familyCount: cachedResult.list.familyCount], query: cachedResult.query,
                     queryDescription: cmd.queryDescription, key: key, cached: true]
-            //log.debug "serving results from cache"
+            log.debug "serving results from cache"
         }
         else {
             // do the search
             /*long startTime = System.currentTimeMillis();
             log.debug "timing----- 0"*/
+
             def searchResults = searchService.search(cmd)
             //log.debug "search took ----- " + (System.currentTimeMillis() - startTime) / 1000 + " seconds"
             if (searchResults.error) {
@@ -184,7 +181,22 @@ class SearchController {
             render "error: you must supply a pid"
         }
     }
-    
+
+    def getMyLayer = {
+        log.debug "SearchController::getMyLayer = ${params.pid}"
+
+        if (params.pid) {
+            if(params.pid.equals("cl21")) {
+                render metadataService.getMarineRegions() as JSON;
+            } else if(params.pid.equals("cl1050")) {
+                render metadataService.getCapad2014Regions() as JSON;
+            }
+        }
+        else {
+            render "error: you must supply a layer pid"
+        }
+    }
+
     def test = {
         def html = searchService.test()
         render html
@@ -216,13 +228,26 @@ class SearchController {
     }
 
     String submitResults(list, queryDescription, key) {
-        def http = new HTTPBuilder(grailsApplication.config.results.cache.baseUrl + '/')
-        http.request( groovyx.net.http.Method.POST, groovyx.net.http.ContentType.JSON ) {
-            uri.path = 'submit'
-            body = [ list: list, queryDescription: queryDescription, query: list.query]
-            if (key) {body.key = key}
-            requestContentType = ContentType.URLENC
+        println grailsApplication.config.results.cache.baseUrl
 
+        def http = new HTTPBuilder(grailsApplication.config.results.cache.baseUrl + '/')
+        http.request( groovyx.net.http.Method.POST, groovyx.net.http.ContentType.JSON) {
+            //Modified by Alan on for fetching multiple layers on 30/07/2014 --- START
+            uri.path = 'submit'
+
+            def bodyMap = [ list: list, queryDescription: queryDescription, query: list.query]
+
+            if (key) {bodyMap.key = key}
+
+            def formDataStr = bodyMap as JSON
+
+            def stream = new ByteArrayOutputStream()
+            stream.write( formDataStr.toString().getBytes("UTF-8"))
+
+            body = stream
+            //Modified by Alan --- END
+
+            requestContentType = ContentType.URLENC
             response.success = { resp, json ->
                 return json.key
             }
@@ -323,8 +348,10 @@ class SearchCommand {
     String families
     String imcra
     String imcraPid
-    String capad2014
-    String capad2014Pid
+    //Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+    String myLayer
+    String myLayerPid
+    //Added by Alan --- END
     String circleLat
     String circleLon
     float circleRadius
@@ -337,12 +364,12 @@ class SearchCommand {
         locality(nullable: true)
         bathome(nullable: true)
         imcra(nullable: true)
-        capad2014(nullable: true)
+        myLayer(nullable: true)
         fishGroup(nullable: true)
         ecosystem(nullable: true)
         families(nullable: true)
         imcraPid(nullable: true)
-        capad2014Pid(nullable: true)
+        myLayerPid(nullable: true)
         circleLat(nullable: true)
         circleLon(nullable: true)
         search(nullable: true)
@@ -361,9 +388,6 @@ class SearchCommand {
         }
         else if (imcra && imcra != 'any') {
             return "marine area"
-        }
-        else if (capad2014 && capad2014 != 'any') {
-            return "CAPAD 2010"
         }
         else if (state) {
             return "state"
@@ -422,10 +446,6 @@ class SearchCommand {
         return [imcra: imcra, pid: imcraPid]
     }
 
-    def getCapad2014Area() {
-        return [capad2014: capad2014, pid: capad2014Pid]
-    }
-
     def getDepthRange() {
         switch (depthBasedOn) {
             case 'bathome':
@@ -475,7 +495,6 @@ class SearchCommand {
                 loc = "Circle (${circleLat.toFloat().round(3)}, ${circleLon.toFloat().round(3)} " +
                             "@ ${(circleRadius/1000).round(2)}km)"; break
             case 'marine area': loc = imcra; break
-            case 'CAPAD 2014': loc = capad2014; break
             case 'locality': loc = parseLocality().name + " (${radius/1000}km)"; break
             //case 'state': loc = state; break
             case 'wkt': loc = "user defined area"/*condenseWkt(wkt)*/; break
