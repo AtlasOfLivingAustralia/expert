@@ -46,22 +46,6 @@ class MetadataService {
         return wkt
     }
 
-    /*
-    static capad2014WktCache = [:]
-
-    def getCapad2014PolyAsWkt(pid) {
-        if (capad2014WktCache[pid]) {
-            return capad2014WktCache[pid]
-        }
-
-        def wkt = webService.get("http://spatial.ala.org.au/ws/shape/wkt/${pid}")
-
-        capad2014WktCache.put pid, wkt
-        log.debug wkt
-        return wkt
-    }
-    */
-
     static familiesCache = []
     static groupsCache = []
 
@@ -485,45 +469,45 @@ class MetadataService {
     }
 
     static csv = """NSW,Coffs Harbour,-30º 17' 47'' S,153º 6' 49'' E
-NSW,Port Macquarie,-31º 25' 54'' S,152º 55' 4'' E
-NSW,Newcastle,-32º 55' 54'' S,151º 47' 5'' E
-NSW,Sydney,-33º 51' 55'' S,151º 12' 35'' E
-NSW,Bateman's Bay,-35º 43' 54'' S,150º 13' 4'' E
-NSW,Eden,-37º 3' 48'' S,149º 54' 14'' E
-NT,Wessel Islands,-11º 36' 16'' S,136º 19' 44'' E
-NT,Darwin,-12º 27' 26'' S,130º 50' 12'' E
-NT,Groote Eylandt,-13º 55' 59'' S,136º 36' 0'' E
-Qld,Thursday Island,-10º 34' 51'' S,142º 13' 11'' E
-Qld,Weipa,-12º 15' 0'' S,142º 3' 0'' E
-Qld,Princess Charlotte Bay,-14º 13' 1'' S,143º 58' 5'' E
-Qld,Cairns,-16º 55' 23'' S,145º 45' 59'' E
-Qld,Karumba,-17º 29' 20'' S,140º 50' 18'' E
-Qld,Townsville,-19º 15' 59'' S,146º 48' 20'' E
-Qld,Mackay,-21º 9' 12'' S,149º 9' 56'' E
-Qld,Gladstone,-23º 50' 51'' S,151º 15' 23'' E
-Qld,Fraser Island,-25º 15' 1'' S,153º 10' 1'' E
-Qld,Brisbane,-27º 28' 16'' S,153º 1' 27'' E
-SA,Port Lincoln,-34º 43' 35'' S,135º 52' 28'' E
-SA,Kangaroo Island,-35º 48' 42'' S,137º 12' 19'' E
-SA,Cape Jaffa,-36º 57' 12'' S,139º 40' 24'' E
-Tas,Devonport,-41º 10' 37'' S,146º 21' 5'' E
-Tas,St Marys,-41º 34' 45'' S,148º 11' 14'' E
-Tas,Hobart,-42º 52' 59'' S,147º 19' 54'' E
-Tas,Strahan,-42º 9' 7'' S,145º 19' 38'' E
-Tas,South East Cape,-43º 38' 24'' S,146º 49' 12'' E
-Vic,Lakes Entrance,-37º 52' 36'' S,147º 59' 39'' E
-Vic,Warrnambool,-38º 22' 54'' S,142º 29' 17'' E
-Vic,Geelong,-38º 9' 12'' S,144º 21' 29'' E
-Vic,Wilsons Promontory,-39º 2' 53'' S,146º 23' 19'' E
-WA,Cape Londonderry,-13º 44' 28'' S,126º 57' 52'' E
-WA,Broome,-17º 57' 42'' S,122º 14' 11'' E
-WA,Port Hedland,-20º 18' 44'' S,118º 36' 38'' E
-WA,Exmouth,-21º 56' 25'' S,114º 7' 30'' E
-WA,Carnarvon,-24º 52' 51'' S,113º 39' 34'' E
-WA,Geraldton,-28º 46' 45'' S,114º 36' 52'' E
-WA,Perth,-31º 57' 8'' S,115º 51' 41'' E
-WA,Eyre,-32º 14' 45'' S,126º 18' 15'' E
-WA,Esperance,-33º 51' 36'' S,121º 52' 57'' E
-WA,Cape Leeuwin,-34º 22' 36'' S,115º 8' 9'' E
-WA,Albany,-35º 0' 11'' S,117º 51' 57'' E"""
+                    NSW,Port Macquarie,-31º 25' 54'' S,152º 55' 4'' E
+                    NSW,Newcastle,-32º 55' 54'' S,151º 47' 5'' E
+                    NSW,Sydney,-33º 51' 55'' S,151º 12' 35'' E
+                    NSW,Bateman's Bay,-35º 43' 54'' S,150º 13' 4'' E
+                    NSW,Eden,-37º 3' 48'' S,149º 54' 14'' E
+                    NT,Wessel Islands,-11º 36' 16'' S,136º 19' 44'' E
+                    NT,Darwin,-12º 27' 26'' S,130º 50' 12'' E
+                    NT,Groote Eylandt,-13º 55' 59'' S,136º 36' 0'' E
+                    Qld,Thursday Island,-10º 34' 51'' S,142º 13' 11'' E
+                    Qld,Weipa,-12º 15' 0'' S,142º 3' 0'' E
+                    Qld,Princess Charlotte Bay,-14º 13' 1'' S,143º 58' 5'' E
+                    Qld,Cairns,-16º 55' 23'' S,145º 45' 59'' E
+                    Qld,Karumba,-17º 29' 20'' S,140º 50' 18'' E
+                    Qld,Townsville,-19º 15' 59'' S,146º 48' 20'' E
+                    Qld,Mackay,-21º 9' 12'' S,149º 9' 56'' E
+                    Qld,Gladstone,-23º 50' 51'' S,151º 15' 23'' E
+                    Qld,Fraser Island,-25º 15' 1'' S,153º 10' 1'' E
+                    Qld,Brisbane,-27º 28' 16'' S,153º 1' 27'' E
+                    SA,Port Lincoln,-34º 43' 35'' S,135º 52' 28'' E
+                    SA,Kangaroo Island,-35º 48' 42'' S,137º 12' 19'' E
+                    SA,Cape Jaffa,-36º 57' 12'' S,139º 40' 24'' E
+                    Tas,Devonport,-41º 10' 37'' S,146º 21' 5'' E
+                    Tas,St Marys,-41º 34' 45'' S,148º 11' 14'' E
+                    Tas,Hobart,-42º 52' 59'' S,147º 19' 54'' E
+                    Tas,Strahan,-42º 9' 7'' S,145º 19' 38'' E
+                    Tas,South East Cape,-43º 38' 24'' S,146º 49' 12'' E
+                    Vic,Lakes Entrance,-37º 52' 36'' S,147º 59' 39'' E
+                    Vic,Warrnambool,-38º 22' 54'' S,142º 29' 17'' E
+                    Vic,Geelong,-38º 9' 12'' S,144º 21' 29'' E
+                    Vic,Wilsons Promontory,-39º 2' 53'' S,146º 23' 19'' E
+                    WA,Cape Londonderry,-13º 44' 28'' S,126º 57' 52'' E
+                    WA,Broome,-17º 57' 42'' S,122º 14' 11'' E
+                    WA,Port Hedland,-20º 18' 44'' S,118º 36' 38'' E
+                    WA,Exmouth,-21º 56' 25'' S,114º 7' 30'' E
+                    WA,Carnarvon,-24º 52' 51'' S,113º 39' 34'' E
+                    WA,Geraldton,-28º 46' 45'' S,114º 36' 52'' E
+                    WA,Perth,-31º 57' 8'' S,115º 51' 41'' E
+                    WA,Eyre,-32º 14' 45'' S,126º 18' 15'' E
+                    WA,Esperance,-33º 51' 36'' S,121º 52' 57'' E
+                    WA,Cape Leeuwin,-34º 22' 36'' S,115º 8' 9'' E
+                    WA,Albany,-35º 0' 11'' S,117º 51' 57'' E"""
 }
