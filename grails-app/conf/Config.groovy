@@ -159,10 +159,11 @@ environments {
         explorer.baseUrl = "http://${grails.host}:8082/tviewer"
     }
     test {
-        grails.host = "ala-testweb1.vm.csiro.au"
-        grails.serverURL = "http://${grails.host}:8080/${appName}"
+        grails.host = "152.83.195.75"
+        //grails.host = "ala-testweb1.vm.csiro.au"
+        grails.serverURL = "http://${grails.host}:8082/${appName}"
         results.cache.baseUrl = grails.serverURL + "/results"
-        explorer.baseUrl = "http://${grails.host}:8080/tviewer"
+        explorer.baseUrl = "http://${grails.host}:8082/tviewer"
     }
 }
 

@@ -186,9 +186,11 @@ class SearchController {
         log.debug "SearchController::getMyLayer = ${params.pid}"
 
         if (params.pid) {
+            response.setHeader("Access-Control-Allow-Origin", "*");
+
             if(params.pid.equals("cl21")) {
                 render metadataService.getMarineRegions() as JSON;
-            } else if(params.pid.equals("cl1050")) {
+            } else if(params.pid.equals("cl1051")) {
                 render metadataService.getCapad2014Regions() as JSON;
             }
         }
