@@ -15,7 +15,7 @@ class SearchService {
                 criteria << "radius=" + circ.radius
                 break
             case 'marine area':
-                criteria << cmd.myLayer
+                criteria << "fid=" + cmd.myLayer
                 criteria << "objectName=" + cmd.getMarineArea().imcra
         }
 
