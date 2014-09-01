@@ -137,6 +137,8 @@ var customDepth = {
 var locationWidgets = {
     $locality: null,
     $imcra: null,
+    $capad2014: null,
+    $myLayer: null,
     $slider: null,
     init: function (initialRadius, localities) {
         var that = this,
@@ -145,6 +147,8 @@ var locationWidgets = {
         // initialise cached jquery objects after the page is rendered
         this.$locality = $('#locality');
         this.$imcra = $('#imcra');
+        //this.$capad2014 = $('#capad2014');
+        this.$myLayer = $('#myLayer');
         this.$slider = $('#radiusSlider');
 
         // init locations list
@@ -160,6 +164,9 @@ var locationWidgets = {
         // bind listeners
         this.$locality.on('change', function () { that.localityChange(); });
         this.$imcra.on('change', function () { that.imcraChange(); });
+        //Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+        this.$myLayer.on('change', function () { that.myLayerChange(); });
+        //Added by Alan --- END
 
         // initialise slider for locality radius
         this.$slider.slider({
@@ -213,6 +220,11 @@ var locationWidgets = {
             clearSessionData('imcra');
         }
     },
+    //Added by Alan on for fetching multiple layers on 30/07/2014 --- START
+    myLayerChange: function () {
+        showOnRegion($('#myLayer').val());
+    },
+    //Added by Alan --- END
     getLocality: function () {
         return this.parseLocality($('#locality').val());
     },
@@ -237,9 +249,13 @@ var locationWidgets = {
     clear: function () {
         this.$locality.val('');
         this.$imcra.val('');
+        this.$capad2014.val('');
     },
     hasImcra: function () {
         return this.$imcra.val() !== '';
+    },
+    hasCapad2014: function () {
+        return this.$capad2014.val() !== '';
     },
     // returns true if advanced search criteria exist
     isAdvanced: function () {
@@ -335,6 +351,9 @@ var searchMode = {
         if ($('#imcra').val() !== "") {
             return true;
         }
+        //if ($('#capad2014').val() !== "") {
+        //    return true;
+        //}
         return false;
     },
     init: function (isAdvanced) {
@@ -553,6 +572,7 @@ function setPageValues() {
 
         // imcra
         if (queryParams.objectName) {
+            //console.log(queryParams);
             $('#imcra').val(queryParams.objectName);
             locationWidgets.imcraChange();
         }

@@ -1,6 +1,7 @@
 package au.org.ala.resultsCache
 
 import grails.converters.JSON
+import org.apache.commons.io.IOUtils
 
 class ResultsController {
 

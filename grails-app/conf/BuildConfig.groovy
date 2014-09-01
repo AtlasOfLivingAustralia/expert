@@ -30,6 +30,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+        mavenRepo "http://repository.codehaus.org"
         mavenRepo "http://maven.ala.org.au/repository"        
     }
     dependencies {
@@ -42,8 +43,8 @@ grails.project.dependency.resolution = {
     plugins {
         runtime ":hibernate:$grailsVersion"
         //runtime ":jquery:1.8.0"
-        runtime ":resources:1.1.6"
-        runtime ":rest:0.7"
+        runtime ":resources:1.2.2"
+        runtime ":rest:0.8"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -54,6 +55,6 @@ grails.project.dependency.resolution = {
 
         runtime ":database-migration:1.2.1"
 
-        compile ':cache:1.0.1'
+        compile ':cache:1.1.1'
     }
 }

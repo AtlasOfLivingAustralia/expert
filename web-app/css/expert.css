@@ -328,6 +328,16 @@ input.depthInput {
     margin: 0 0 4px 0;
 }
 
+#myLayer {
+    margin: 0 0 4px 0;
+}
+
+/*
+#capad2014 {
+    margin: 0 0 4px 0;
+}
+*/
+
 /* results */
 #searchResults {
     margin: 20px 10px 0 0;

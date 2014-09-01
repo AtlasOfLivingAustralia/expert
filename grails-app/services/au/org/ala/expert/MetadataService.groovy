@@ -38,7 +38,9 @@ class MetadataService {
         if (imcraWktCache[pid]) {
             return imcraWktCache[pid]
         }
+
         def wkt = webService.get("http://spatial.ala.org.au/ws/shape/wkt/${pid}")
+
         imcraWktCache.put pid, wkt
         log.debug wkt
         return wkt
@@ -183,6 +185,258 @@ class MetadataService {
             [name: "Western Bass Strait Shelf Transition", pid: "3742574"]
     ]
 
+    //Modified by Alan on for fetching multiple layers on 30/07/2014 --- START
+    def getMyLayerRegions() {
+        return myLayer
+    }
+
+    // some imcras removed as out of scope for distribution maps
+    static myLayer = [
+            [name: "Marine bioregion", pid: "cl21"],
+            //[name: "2014 CAPAD bioregion", pid: "cl1050"]
+            [name: "SE CMR Network", pid: "cl1051"]
+    ]
+
+    def getCapad2014Regions() {
+        return capad2014
+    }
+
+    // Define the 2014 CAPAD bioregions
+    static capad2014 = [
+            //[name: "Abrolhos Islands", pid: "5746593"],
+            //[name: "Adelaide Dolphin Sanctuary", pid: "5746474"],
+            //[name: "Aldinga Reef", pid: "5746578"],
+            //[name: "American River", pid: "5746560"],
+            //[name: "Annan River", pid: "5746643"],
+            //[name: "Annan River", pid: "5746637"],
+            [name: "Apollo", pid: "5746550"],
+            //[name: "Ashmore Reef", pid: "5746488"],
+            //[name: "Baffle Creek", pid: "5746657"],
+            //[name: "Bales Beach", pid: "5746588"],
+            //[name: "Ball Bay - Sand Bay", pid: "5746693"],
+            //[name: "Barker Inlet", pid: "5746634"],
+            //[name: "Barr Creek", pid: "5746530"],
+            //[name: "Barrenjoey", pid: "5746629"],
+            //[name: "Barrow Island", pid: "5746610"],
+            //[name: "Barrow Island", pid: "5746567"],
+            //[name: "Bass Pyramid", pid: "5746525"],
+            //[name: "Bassett Basin (Rev.1)", pid: "5746587"],
+            //[name: "Batemans", pid: "5746501"],
+            [name: "Beagle", pid: "5746603"],
+            //[name: "Beware Reef", pid: "5746658"],
+            //[name: "Beelbi", pid: "5746689"],
+            //[name: "Beelbi", pid: "5746679"],
+            //[name: "Blackman Rivulet", pid: "5746503"],
+            //[name: "Blanche Harbour - Douglas Bank", pid: "5746665"],
+            [name: "Boags", pid: "5746520"],
+            //[name: "Boat Harbour", pid: "5746670"],
+            //[name: "Bohle River", pid: "5746598"],
+            //[name: "Booderee", pid: "5746518"],
+            //[name: "Bowling Green Bay", pid: "5746524"],
+            //[name: "Bowling Green Bay", pid: "5746611"],
+            //[name: "Broad Sound", pid: "5746672"],
+            //[name: "Bronte-Coogee", pid: "5746616"],
+            //[name: "Burdekin", pid: "5746606"],
+            //[name: "Burrum", pid: "5746596"],
+            //[name: "Burrum", pid: "5746594"],
+            //[name: "Bushrangers Bay", pid: "5746526"],
+            //[name: "Cabbage Tree Bay", pid: "5746589"],
+            //[name: "Cape Banks", pid: "5746528"],
+            //[name: "Cape Byron", pid: "5746482"],
+            //[name: "Cape Jaffa", pid: "5746669"],
+            //[name: "Cape Palmerston - Rocky Dam", pid: "5746517"],
+            //[name: "Cape Palmerston - Rocky Dam", pid: "5746485"],
+            //[name: "Cartier Island", pid: "5746636"],
+            //[name: "Cattle Creek", pid: "5746579"],
+            //[name: "Cawarral Creek", pid: "5746645"],
+            //[name: "Central Channel", pid: "5746674"],
+            //[name: "Clairview Bluff - Carmilla Creek", pid: "5746659"],
+            //[name: "Cleveland Bay", pid: "5746683"],
+            //[name: "Cleveland Bay - Magnetic Island", pid: "5746580"],
+            //[name: "Cod Grounds", pid: "5746602"],
+            //[name: "Colosseum Inlet", pid: "5746633"],
+            //[name: "Colosseum Inlet", pid: "5746539"],
+            //[name: "Coobowie Bay", pid: "5746572"],
+            //[name: "Cook Island", pid: "5746631"],
+            //[name: "Coombabah", pid: "5746582"],
+            //[name: "Coomera", pid: "5746542"],
+            //[name: "Coringa-Herald", pid: "5746653"],
+            //[name: "Corio Bay", pid: "5746595"],
+            //[name: "Cottesloe Reef", pid: "5746662"],
+            //[name: "Currumbin Creek", pid: "5746533"],
+            //[name: "Dallachy Creek", pid: "5746493"],
+            //[name: "Deception Bay", pid: "5746667"],
+            [name: "East Gippsland", pid: "5746642"],
+            //[name: "Eastern Spencer Gulf", pid: "5746516"],
+            //[name: "Edgecumbe Bay", pid: "5746569"],
+            //[name: "Edgecumbe Bay", pid: "5746656"],
+            //[name: "Edgecumbe Bay – Bowen", pid: "5746608"],
+            //[name: "Eight Mile Creek", pid: "5746506"],
+            //[name: "Elizabeth and Middleton Reefs", pid: "5746540"],
+            //[name: "Elliott River", pid: "5746478"],
+            //[name: "Encounter", pid: "5746463"],
+            //[name: "Escape River", pid: "5746576"],
+            //[name: "Eurimbula", pid: "5746621"],
+            //[name: "Far West Coast", pid: "5746522"],
+            //[name: "Fitzroy River", pid: "5746583"],
+            [name: "Flinders", pid: "5746483"],
+            [name: "Franklin", pid: "5746639"],
+            //[name: "Franklin Harbor", pid: "5746515"],
+            //[name: "Fraser Island", pid: "5746680"],
+            [name: "Freycinet", pid: "5746552"],
+            //[name: "Gambier Islands Group", pid: "5746604"],
+            //[name: "Garig Gunak Barlu", pid: "5746677"],
+            //[name: "Gleesons Landing", pid: "5746650"],
+            //[name: "Goose Island", pid: "5746666"],
+            //[name: "Great Australian Bight", pid: "5746466"],
+            //[name: "Great Australian Bight (Commonwealth Waters)", pid: "5746673"],
+            //[name: "Great Australian Bight (Conservation Zone)", pid: "5746492"],
+            //[name: "Great Australian Bight (Sanctuary Zone)", pid: "5746632"],
+            //[name: "Great Barrier Reef", pid: "5746529"],
+            //[name: "Great Barrier Reef Coast", pid: "5746622"],
+            //[name: "Great Sandy", pid: "5746489"],
+            //[name: "Half Moon Creek", pid: "5746577"],
+            //[name: "Halifax", pid: "5746685"],
+            //[name: "Hamelin Pool", pid: "5746558"],
+            //[name: "Hay's Inlet", pid: "5746519"],
+            //[name: "Heard Island and McDonald Islands", pid: "5746675"],
+            //[name: "Hervey Bay - Tin Can Bay", pid: "5746486"],
+            //[name: "Hinchinbrook", pid: "5746502"],
+            //[name: "Hinchinbrook Island area", pid: "5746612"],
+            //[name: "Hippolyte Rocks", pid: "5746546"],
+            //[name: "HMAS Hobart", pid: "5746534"],
+            //[name: "Hull River", pid: "5746495"],
+            [name: "Huon", pid: "5746500"],
+            //[name: "Ince Bay (Cape Palmerston - Allom Point)", pid: "5746635"],
+            //[name: "Investigator", pid: "5746547"],
+            //[name: "Jervis Bay", pid: "5746472"],
+            //[name: "Jumpinpin-Broadwater", pid: "5746671"],
+            //[name: "Jurien Bay", pid: "5746597"],
+            //[name: "Kalbarri Blue Holes", pid: "5746692"],
+            //[name: "Kauri Creek", pid: "5746523"],
+            //[name: "Kinkuna", pid: "5746541"],
+            //[name: "Kippa-Ring", pid: "5746512"],
+            //[name: "Kolan River", pid: "5746655"],
+            //[name: "Lancelin Island Lagoon", pid: "5746564"],
+            //[name: "Lihou Reef", pid: "5746532"],
+            //[name: "Llewellyn Bay", pid: "5746668"],
+            //[name: "Long Reef", pid: "5746654"],
+            //[name: "Lord Howe Island", pid: "5746553"],
+            //[name: "Lower South East", pid: "5746615"],
+            //[name: "Lower Yorke Peninsula", pid: "5746559"],
+            //[name: "Lord Howe Island", pid: "5746498"],
+            //[name: "Lucinda to Allingham - Halifax Bay", pid: "5746507"],
+            //[name: "Maaroom", pid: "5746467"],
+            //[name: "Macquarie Island", pid: "5746623"],
+            //[name: "Margaret Bay \"Wuthathi\" (Rev.1)", pid: "5746575"],
+            //[name: "Margaret Bay \"Wuthathi\" (Rev.1)", pid: "5746487"],
+            //[name: "Margaret Brock Reef", pid: "5746601"],
+            //[name: "Marmion", pid: "5746531"],
+            //[name: "Maroochy", pid: "5746599"],
+            //[name: "Marengo Reefs", pid: "5746543"],
+            //[name: "Maroochy", pid: "5746496"],
+            //[name: "Mermaid Reef", pid: "5746663"],
+            //[name: "Meunga Creek", pid: "5746497"],
+            //[name: "Miaboolya Beach", pid: "5746566"],
+            //[name: "Midge", pid: "5746477"],
+            //[name: "Monk Bay", pid: "5746551"],
+            //[name: "Montebello Islands", pid: "5746627"],
+            //[name: "Moreton Banks", pid: "5746617"],
+            //[name: "Moreton Bay", pid: "5746508"],
+            //[name: "Morning Inlet - Bynoe River", pid: "5746554"],
+            //[name: "Muiron Islands", pid: "5746480"],
+            //[name: "Murray River", pid: "5746499"],
+            [name: "Murray", pid: "5746479"],
+            //[name: "Myora - Amity Banks", pid: "5746591"],
+            //[name: "Narrabeen", pid: "5746682"],
+            //[name: "Nassau River", pid: "5746609"],
+            [name: "Nelson", pid: "5746664"],
+            //[name: "Neptune Islands Group", pid: "5746545"],
+            //[name: "Ningaloo", pid: "5746510"],
+            //[name: "Ningaloo (Commonwealth Waters)", pid: "5746641"],
+            //[name: "Noosa River (Rev.2)", pid: "5746511"],
+            //[name: "Noosa River (Rev.2)", pid: "5746574"],
+            //[name: "North Sydney Harbour", pid: "5746592"],
+            //[name: "Nuyts Archipelago", pid: "5746470"],
+            //[name: "Palm Creek", pid: "5746581"],
+            //[name: "Peel Island", pid: "5746681"],
+            //[name: "Pimpama", pid: "5746678"],
+            //[name: "Point Labatt", pid: "5746571"],
+            //[name: "Point Quobba", pid: "5746646"],
+            //[name: "Port Clinton (Reef Point - Cape Clinton)", pid: "5746644"],
+            //[name: "Port Cygnet", pid: "5746555"],
+            //[name: "Port Noarlunga Reef", pid: "5746600"],
+            //[name: "Port of Gladstone - Rodds Bay", pid: "5746652"],
+            //[name: "Port Stephens - Great Lakes", pid: "5746465"],
+            //[name: "Princess Charlotte Bay", pid: "5746688"],
+            //[name: "Pumicestone Channel", pid: "5746562"],
+            //[name: "Pumicestone Channel", pid: "5746625"],
+            //[name: "Reid Rocks", pid: "5746514"],
+            //[name: "Repulse", pid: "5746468"],
+            //[name: "Repulse Bay", pid: "5746544"],
+            //[name: "Rivoli Bay (Including Penguin Island)", pid: "5746504"],
+            //[name: "Roberts Point", pid: "5746607"],
+            //[name: "Rodds Bay", pid: "5746563"],
+            //[name: "Rodds Bay", pid: "5746481"],
+            //[name: "Rowley Shoals", pid: "5746537"],
+            //[name: "Sand Bay", pid: "5746535"],
+            //[name: "Seal Bay", pid: "5746618"],
+            //[name: "Seventeen Seventy-Round Hill", pid: "5746638"],
+            //[name: "Shark Bay", pid: "5746475"],
+            //[name: "Shiprock", pid: "5746630"],
+            //[name: "Shoalwater Bay", pid: "5746471"],
+            //[name: "Shoalwater Islands", pid: "5746660"],
+            //[name: "Simpsons Point", pid: "5746605"],
+            //[name: "Silver Plains", pid: "5746490"],
+            //[name: "Sir Joseph Banks Group", pid: "5746628"],
+            //[name: "Sloping Island", pid: "5746640"],
+            //[name: "Solitary Islands", pid: "5746651"],
+            //[name: "Solitary Islands (Commonwealth Waters)", pid: "5746509"],
+            [name: "South Tasman Rise", pid: "5746464"],
+            //[name: "Southern Kangaroo Island", pid: "5746624"],
+            //[name: "Southern Spencer Gulf", pid: "5746505"],
+            //[name: "St Kilda - Chapman Creek", pid: "5746476"],
+            //[name: "Staaten-Gilbert", pid: "5746556"],
+            //[name: "Starcke River (Ngulun)", pid: "5746620"],
+            //[name: "Starcke River (Ngulun)", pid: "5746619"],
+            //[name: "Stewart Peninsula - Newry Island - Ball Bay", pid: "5746484"],
+            //[name: "Susan River", pid: "5746584"],
+            //[name: "Swan Estuary", pid: "5746568"],
+            //[name: "Swan Estuary", pid: "5746573"],
+            //[name: "Swan Estuary – Milyu", pid: "5746473"],
+            //[name: "Swan Estuary - Pelican Point", pid: "5746647"],
+            //[name: "Tallebudgera Creek", pid: "5746538"],
+            [name: "Tasman Fracture", pid: "5746690"],
+            //[name: "Temple Bay", pid: "5746494"],
+            //[name: "The Arches", pid: "5746613"],
+            //[name: "Thorny Passage", pid: "5746491"],
+            //[name: "Tin Can Inlet", pid: "5746648"],
+            //[name: "Trinity Inlet", pid: "5746513"],
+            //[name: "Trinity Inlet", pid: "5746691"],
+            //[name: "Towra Point", pid: "5746614"],
+            //[name: "Troubridge Hill", pid: "5746686"],
+            //[name: "Tully River", pid: "5746684"],
+            //[name: "Upper Gulf St Vincent", pid: "5746649"],
+            //[name: "Upper South East", pid: "5746548"],
+            //[name: "Upper Spencer Gulf", pid: "5746661"],
+            //[name: "Upstart Bay", pid: "5746565"],
+            //[name: "Walpole-Nornalup Inlets", pid: "5746549"],
+            //[name: "Waterfall-Fortescue", pid: "5746469"],
+            //[name: "West Coast Bays", pid: "5746561"],
+            //[name: "West Hill", pid: "5746687"],
+            //[name: "West Hill", pid: "5746570"],
+            //[name: "West Island - Encounter Bay", pid: "5746590"],
+            //[name: "Western Kangaroo Island", pid: "5746527"],
+            //[name: "Whyalla - Cowleds Landing", pid: "5746462"],
+            //[name: "Wreck Creek", pid: "5746586"],
+            //[name: "Wright Rock", pid: "5746626"],
+            //[name: "Yatala Harbour", pid: "5746536"],
+            //[name: "Yorkeys Creek", pid: "5746585"],
+            //[name: "Zanoni", pid: "5746676"],
+            [name: "Zeehan", pid: "5746557"]
+    ]
+    //Added by Alan --- END
+
     def parseCsv() {
         CSVReader reader = new CSVReader(new StringReader(csv),',' as char)
         String [] nextLine;
@@ -216,45 +470,45 @@ class MetadataService {
     }
 
     static csv = """NSW,Coffs Harbour,-30º 17' 47'' S,153º 6' 49'' E
-NSW,Port Macquarie,-31º 25' 54'' S,152º 55' 4'' E
-NSW,Newcastle,-32º 55' 54'' S,151º 47' 5'' E
-NSW,Sydney,-33º 51' 55'' S,151º 12' 35'' E
-NSW,Bateman's Bay,-35º 43' 54'' S,150º 13' 4'' E
-NSW,Eden,-37º 3' 48'' S,149º 54' 14'' E
-NT,Wessel Islands,-11º 36' 16'' S,136º 19' 44'' E
-NT,Darwin,-12º 27' 26'' S,130º 50' 12'' E
-NT,Groote Eylandt,-13º 55' 59'' S,136º 36' 0'' E
-Qld,Thursday Island,-10º 34' 51'' S,142º 13' 11'' E
-Qld,Weipa,-12º 15' 0'' S,142º 3' 0'' E
-Qld,Princess Charlotte Bay,-14º 13' 1'' S,143º 58' 5'' E
-Qld,Cairns,-16º 55' 23'' S,145º 45' 59'' E
-Qld,Karumba,-17º 29' 20'' S,140º 50' 18'' E
-Qld,Townsville,-19º 15' 59'' S,146º 48' 20'' E
-Qld,Mackay,-21º 9' 12'' S,149º 9' 56'' E
-Qld,Gladstone,-23º 50' 51'' S,151º 15' 23'' E
-Qld,Fraser Island,-25º 15' 1'' S,153º 10' 1'' E
-Qld,Brisbane,-27º 28' 16'' S,153º 1' 27'' E
-SA,Port Lincoln,-34º 43' 35'' S,135º 52' 28'' E
-SA,Kangaroo Island,-35º 48' 42'' S,137º 12' 19'' E
-SA,Cape Jaffa,-36º 57' 12'' S,139º 40' 24'' E
-Tas,Devonport,-41º 10' 37'' S,146º 21' 5'' E
-Tas,St Marys,-41º 34' 45'' S,148º 11' 14'' E
-Tas,Hobart,-42º 52' 59'' S,147º 19' 54'' E
-Tas,Strahan,-42º 9' 7'' S,145º 19' 38'' E
-Tas,South East Cape,-43º 38' 24'' S,146º 49' 12'' E
-Vic,Lakes Entrance,-37º 52' 36'' S,147º 59' 39'' E
-Vic,Warrnambool,-38º 22' 54'' S,142º 29' 17'' E
-Vic,Geelong,-38º 9' 12'' S,144º 21' 29'' E
-Vic,Wilsons Promontory,-39º 2' 53'' S,146º 23' 19'' E
-WA,Cape Londonderry,-13º 44' 28'' S,126º 57' 52'' E
-WA,Broome,-17º 57' 42'' S,122º 14' 11'' E
-WA,Port Hedland,-20º 18' 44'' S,118º 36' 38'' E
-WA,Exmouth,-21º 56' 25'' S,114º 7' 30'' E
-WA,Carnarvon,-24º 52' 51'' S,113º 39' 34'' E
-WA,Geraldton,-28º 46' 45'' S,114º 36' 52'' E
-WA,Perth,-31º 57' 8'' S,115º 51' 41'' E
-WA,Eyre,-32º 14' 45'' S,126º 18' 15'' E
-WA,Esperance,-33º 51' 36'' S,121º 52' 57'' E
-WA,Cape Leeuwin,-34º 22' 36'' S,115º 8' 9'' E
-WA,Albany,-35º 0' 11'' S,117º 51' 57'' E"""
+                    NSW,Port Macquarie,-31º 25' 54'' S,152º 55' 4'' E
+                    NSW,Newcastle,-32º 55' 54'' S,151º 47' 5'' E
+                    NSW,Sydney,-33º 51' 55'' S,151º 12' 35'' E
+                    NSW,Bateman's Bay,-35º 43' 54'' S,150º 13' 4'' E
+                    NSW,Eden,-37º 3' 48'' S,149º 54' 14'' E
+                    NT,Wessel Islands,-11º 36' 16'' S,136º 19' 44'' E
+                    NT,Darwin,-12º 27' 26'' S,130º 50' 12'' E
+                    NT,Groote Eylandt,-13º 55' 59'' S,136º 36' 0'' E
+                    Qld,Thursday Island,-10º 34' 51'' S,142º 13' 11'' E
+                    Qld,Weipa,-12º 15' 0'' S,142º 3' 0'' E
+                    Qld,Princess Charlotte Bay,-14º 13' 1'' S,143º 58' 5'' E
+                    Qld,Cairns,-16º 55' 23'' S,145º 45' 59'' E
+                    Qld,Karumba,-17º 29' 20'' S,140º 50' 18'' E
+                    Qld,Townsville,-19º 15' 59'' S,146º 48' 20'' E
+                    Qld,Mackay,-21º 9' 12'' S,149º 9' 56'' E
+                    Qld,Gladstone,-23º 50' 51'' S,151º 15' 23'' E
+                    Qld,Fraser Island,-25º 15' 1'' S,153º 10' 1'' E
+                    Qld,Brisbane,-27º 28' 16'' S,153º 1' 27'' E
+                    SA,Port Lincoln,-34º 43' 35'' S,135º 52' 28'' E
+                    SA,Kangaroo Island,-35º 48' 42'' S,137º 12' 19'' E
+                    SA,Cape Jaffa,-36º 57' 12'' S,139º 40' 24'' E
+                    Tas,Devonport,-41º 10' 37'' S,146º 21' 5'' E
+                    Tas,St Marys,-41º 34' 45'' S,148º 11' 14'' E
+                    Tas,Hobart,-42º 52' 59'' S,147º 19' 54'' E
+                    Tas,Strahan,-42º 9' 7'' S,145º 19' 38'' E
+                    Tas,South East Cape,-43º 38' 24'' S,146º 49' 12'' E
+                    Vic,Lakes Entrance,-37º 52' 36'' S,147º 59' 39'' E
+                    Vic,Warrnambool,-38º 22' 54'' S,142º 29' 17'' E
+                    Vic,Geelong,-38º 9' 12'' S,144º 21' 29'' E
+                    Vic,Wilsons Promontory,-39º 2' 53'' S,146º 23' 19'' E
+                    WA,Cape Londonderry,-13º 44' 28'' S,126º 57' 52'' E
+                    WA,Broome,-17º 57' 42'' S,122º 14' 11'' E
+                    WA,Port Hedland,-20º 18' 44'' S,118º 36' 38'' E
+                    WA,Exmouth,-21º 56' 25'' S,114º 7' 30'' E
+                    WA,Carnarvon,-24º 52' 51'' S,113º 39' 34'' E
+                    WA,Geraldton,-28º 46' 45'' S,114º 36' 52'' E
+                    WA,Perth,-31º 57' 8'' S,115º 51' 41'' E
+                    WA,Eyre,-32º 14' 45'' S,126º 18' 15'' E
+                    WA,Esperance,-33º 51' 36'' S,121º 52' 57'' E
+                    WA,Cape Leeuwin,-34º 22' 36'' S,115º 8' 9'' E
+                    WA,Albany,-35º 0' 11'' S,117º 51' 57'' E"""
 }
