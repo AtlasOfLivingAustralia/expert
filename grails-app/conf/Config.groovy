@@ -155,29 +155,54 @@ environments {
         grails.host = "localhost"
         //grails.host = "woodfired.ala.org.au"
         grails.serverURL = "http://${grails.host}:8080/${appName}"
-        results.cache.baseUrl = grails.serverURL + "/results"
-        explorer.baseUrl = "http://${grails.host}:8082/tviewer"
+
+        //results.cache.baseUrl = grails.serverURL + "/results"
+        results.cache.baseUrl = "http://fish.ala.org.au/results"
+
+        explorer.baseUrl = "http://taxaexp.ala.org.au"
+
+
+        //explorer.baseUrl = "http://${grails.host}:8082/tviewer"
     }
     test {
-        grails.host = "152.83.195.75"
+        grails.host = "130.56.248.132"
+
+        grails.serverURL = "http://130.56.248.132/expert"
+
+        //results.cache.baseUrl = "http://fish.ala.org.au/results"
+        //explorer.baseUrl = "http://taxaexp.ala.org.au"
+
         //grails.host = "ala-testweb1.vm.csiro.au"
-        grails.serverURL = "http://${grails.host}:8082/${appName}"
+        //grails.serverURL = "http://${grails.host}/${appName}"
+
         results.cache.baseUrl = grails.serverURL + "/results"
-        explorer.baseUrl = "http://${grails.host}:8082/tviewer"
+        explorer.baseUrl = "http://${grails.host}/tviewer"
     }
 }
 
+def catalinaBase = System.properties.getProperty('catalina.base')
+if (!catalinaBase) catalinaBase = '.'   // just in case
+def logDirectory = "${catalinaBase}/logs"
+
+//grails.plugin.databasemigration.updateOnStart = true
+
 // log4j configuration
 log4j = {
+    /*
+    appenders {
+        rollingFile name: 'stdout', file: "${logDirectory}/${appName}.log".toString(), maxFileSize: '1MB'
+        rollingFile name: 'stacktrace', file: "${logDirectory}/${appName}_stack.log".toString(), maxFileSize: '1MB'
+    }
+    */
     appenders {
         environments {
             production {
                 rollingFile name: "expert",
                     maxFileSize: 104857600,
-                    file: "/var/log/tomcat6/expert.log",
+                    file: "${logDirectory}/${appName}.log",
                     threshold: org.apache.log4j.Level.WARN,
                     layout: pattern(conversionPattern: "%d [%c{1}]  %m%n")
-                rollingFile name: "stacktrace", maxFileSize: 1024, file: "/var/log/tomcat6/expert-stacktrace.log"
+                rollingFile name: "stacktrace", maxFileSize: 1024, file: "${logDirectory}/${appName}-stacktrace.log"
             }
             development{
                 console name: "stdout", layout: pattern(conversionPattern: "%d [%c{1}]  %m%n"), threshold: org.apache.log4j.Level.DEBUG

@@ -15,7 +15,7 @@ class SearchService {
                 criteria << "radius=" + circ.radius
                 break
             case 'marine area':
-                criteria << cmd.myLayer
+                criteria << "fid=" + cmd.myLayer
                 criteria << "objectName=" + cmd.getMarineArea().imcra
         }
 
@@ -54,15 +54,20 @@ class SearchService {
     def search(SearchCommand cmd) {
         println "location based on ${cmd.locationBasedOn}"
         println "Radius = ${cmd.radius}"
-        cmd.families.each { log.debug it }
+
+        //cmd.families.each { log.debug it }
         //println "Families = ${cmd.families}"
+
         def results = []
         def query = buildQuery(cmd)
+
         log.debug "Query = " + query
+
         def servicePath = '/ws/distributions'
         if (cmd.locationBasedOn == 'circle' || cmd.locationBasedOn == 'locality') {
             servicePath += '/radius'
         }
+
         try {
             withHttp(uri: grailsApplication.config.spatial.baseURL) {
                 def json = post(path: servicePath, body: query)
