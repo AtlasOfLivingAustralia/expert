@@ -157,12 +157,14 @@ environments {
         grails.serverURL = "http://${grails.host}:8080/${appName}"
 
         //results.cache.baseUrl = grails.serverURL + "/results"
-        results.cache.baseUrl = "http://fish.ala.org.au/results"
+        //results.cache.baseUrl = "http://fish.ala.org.au/results"
+        //explorer.baseUrl = "http://taxaexp.ala.org.au"
 
-        explorer.baseUrl = "http://taxaexp.ala.org.au"
 
-
-        //explorer.baseUrl = "http://${grails.host}:8082/tviewer"
+        results.cache.baseUrl = grails.serverURL + "/results"
+        explorer.baseUrl = "http://${grails.host}:8082/tviewer"
+        //results.cache.baseUrl = "http://130.56.248.132/results"
+        //explorer.baseUrl = "http://130.56.248.132/tviewer"
     }
     test {
         grails.host = "130.56.248.132"
