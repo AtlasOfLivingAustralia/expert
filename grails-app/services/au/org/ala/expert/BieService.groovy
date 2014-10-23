@@ -62,6 +62,7 @@ class BieService {
     }
 
     def doBulkLookup(guids) {
+        println (guids as JSON).toString()
         def data = webService.doJsonPost(grailsApplication.config.bie.services.baseURL,
                 "species/guids/bulklookup.json", "", (guids as JSON).toString())
         Map results = [:]

@@ -137,6 +137,10 @@ class SearchController {
                     familyCount: searchResults.families.size()]
             //searchService.speciesListSummary(searchResults.results)
 
+
+            log.debug(summary)
+
+
             // inject some summary counts into the results
             searchResults.total = summary.total
             searchResults.familyCount = summary.familyCount
@@ -235,6 +239,8 @@ class SearchController {
         def http = new HTTPBuilder(grailsApplication.config.results.cache.baseUrl + '/')
         http.request( groovyx.net.http.Method.POST, groovyx.net.http.ContentType.JSON) {
             //Modified by Alan on for fetching multiple layers on 30/07/2014 --- START
+
+            /*
             uri.path = 'submit'
 
             def bodyMap = [ list: list, queryDescription: queryDescription, query: list.query]
@@ -247,9 +253,15 @@ class SearchController {
             stream.write( formDataStr.toString().getBytes("UTF-8"))
 
             body = stream
+            requestContentType = ContentType.URLENC
+            */
             //Modified by Alan --- END
 
+            uri.path = 'submit'
+            body = [ list: list, queryDescription: queryDescription, query: list.query]
+            if (key) {body.key = key}
             requestContentType = ContentType.URLENC
+
             response.success = { resp, json ->
                 return json.key
             }
