@@ -544,3 +544,7 @@ body.attribution p {
 #references p {
     padding-bottom: 16px;
 }
+
+abbr, acronym {
+    border-bottom: .1em dotted;
+}

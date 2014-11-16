@@ -32,19 +32,29 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
         mavenRepo "http://repository.codehaus.org"
-        mavenRepo "http://maven.ala.org.au/repository"        
+        mavenRepo "http://nexus.ala.org.au/content/groups/public/"
+        mavenRepo "http://maven.ala.org.au/repository"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.13'
+
         runtime 'net.sf.opencsv:opencsv:2.1'
+
+        compile group: 'au.org.ala',
+                name: 'ala-cas-client',
+                version:'2.1-SNAPSHOT',
+                transitive:false
+        compile 'org.jasig.cas.client:cas-client-core:3.1.12'
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
+        build ":tomcat:7.0.54"
+        build  ":release:3.0.1"
+        //runtime ":hibernate:$grailsVersion"
         //runtime ":jquery:1.8.0"
-        runtime ":resources:1.2.2"
+        runtime ":resources:1.2.8"
         runtime ":rest:0.8"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
@@ -52,10 +62,7 @@ grails.project.dependency.resolution = {
         //runtime ":cached-resources:1.0"
         //runtime ":yui-minify-resources:0.1.4"
 
-        build ":tomcat:$grailsVersion"
-
-        runtime ":database-migration:1.3.2"
-
         compile ':cache:1.1.1'
+        compile ":cache-ehcache:1.0.0"
     }
 }

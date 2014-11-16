@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'expert.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css/smoothness',file:'jquery-ui-1.8.19.custom.css')}" type="text/css" media="screen"/>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=drawing"></script>
-    <r:require modules="jquery, jqueryui, application"/>
+    <r:require modules="jquery, jqueryui, tooltipster, application"/>
     <r:layoutResources />
 </head>
 <body class="search">
@@ -57,6 +57,11 @@
                         <button type="button" id="addFamily">
                             <img alt="add selected family" title="Add selected family to search criteria"
                                  src="${resource(dir:'images/skin',file:'plus_icon.gif')}"/></button>
+                    </div>
+                    <div>
+                        <label class="advanced">
+                            Only inlcude <abbr class="tooltip" title="Species is not found in any other areas">Endemic</abbr> species:
+                            <g:checkBox name="endemic" id="endemic" value="${params.endemic}"/></label>
                     </div>
                     <g:hiddenField name="families"/>
                     <div><ul id="familyList"></ul></div>
@@ -286,6 +291,9 @@
         // wire simple/advanced toggle and set initial state
         var advanced = window.sessionStorage ? window.sessionStorage.getItem('advancedSearch') : false;
         searchMode.init(advanced);
+
+
+        $('.tooltip').tooltipster();
     });
 
     function clearData() {
