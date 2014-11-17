@@ -60,7 +60,7 @@
                     </div>
                     <div>
                         <label class="advanced">
-                            Only inlcude <abbr class="tooltip" title="Species is not found in any other areas">Endemic</abbr> species:
+                            Only include <abbr class="tooltip" title="Species is not found in any other areas">Endemic</abbr> species:
                             <g:checkBox name="endemic" id="endemic" value="${params.endemic}"/></label>
                     </div>
                     <g:hiddenField name="families"/>
