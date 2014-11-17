@@ -59,9 +59,10 @@
                                  src="${resource(dir:'images/skin',file:'plus_icon.gif')}"/></button>
                     </div>
                     <div>
-                        <label class="advanced">
-                            Only include <abbr class="tooltip" title="Species is not found in any other areas">Endemic</abbr> species:
-                            <g:checkBox name="endemic" id="endemic" value="${params.endemic}"/></label>
+                        <label for="endemic" class="advanced">
+                            Only include <abbr class="tooltip" title="Species is not found in any other areas">Endemic</abbr> species
+                        </label>
+                        <g:checkBox name="endemic" id="endemic" value="${params.endemic}"/>
                     </div>
                     <g:hiddenField name="families"/>
                     <div><ul id="familyList"></ul></div>
