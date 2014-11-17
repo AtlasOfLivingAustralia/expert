@@ -358,6 +358,7 @@ class SearchCommand {
     int minDepth
     int maxDepth
     String fishGroup
+    boolean endemic
     String ecosystem
     String families
     String imcra
@@ -380,6 +381,7 @@ class SearchCommand {
         imcra(nullable: true)
         myLayer(nullable: true)
         fishGroup(nullable: true)
+        endemic(nullable: true)
         ecosystem(nullable: true)
         families(nullable: true)
         imcraPid(nullable: true)

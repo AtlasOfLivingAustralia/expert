@@ -18,6 +18,12 @@ modules = {
         resource url:'js/jquery-ui-1.8.19.custom.min.js', disposition: 'head'
     }
 
+    tooltipster {
+        dependsOn 'jquery'
+        resource url:'css/tooltipster.css'
+        resource url:'js/jquery.tooltipster.min.js', disposition: 'head'
+    }
+
     html5 {
         resource url:'js/html5.js',
                 wrapper: { s -> "<!--[if lt IE 9]>$s<![endif]-->" }

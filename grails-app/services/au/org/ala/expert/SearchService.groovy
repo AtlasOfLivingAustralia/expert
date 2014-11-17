@@ -43,6 +43,10 @@ class SearchService {
             }
         }
 
+        if (cmd.endemic) {
+            criteria << "endemic=true"
+        }
+
         return criteria.join('&')
     }
 
@@ -92,6 +96,7 @@ class SearchService {
                              wmsurl: it.wmsurl,
                              minDepth: it.min_depth,
                              maxDepth: it.max_depth,
+                             endemic: it.endemic,
                              primaryEcosystem: (it.pelagic_fl > 0 ? "p" : "") +
                                      (it.coastal_fl ? "c" : "") +
                                      (it.estuarine_fl ? "e" : "") +
@@ -102,6 +107,8 @@ class SearchService {
         } catch (Exception e) {
             return [error: "Spatial search: " + e.message, results: [], query: query]
         }
+
+        log.info "results = ${results}"
 
         return [results: results, query: query/*, error: "spatial webservice not available"*/]
     }
