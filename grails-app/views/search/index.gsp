@@ -29,10 +29,10 @@
         <g:form action="search" class="searchGroup">
             <div class="search-block">
                 <g:set var="bathomeTitle" value="Select broad depth category or use advanced search to set custom depth range."/>
-                <label for="bathome" class="mainLabel" title="${bathomeTitle}">Depth</label>
-                <g:select name="bathome" from="${bathomeValues}" title="${bathomeTitle}"
+                <label for="bathome" class="mainLabel tooltip" title="${bathomeTitle}">Depth</label>
+                <g:select name="bathome" class="tooltip" from="${bathomeValues}" title="${bathomeTitle}"
                           value="${criteria.bathome ?: 'coastal/shallow water (0-40m)'}"/>
-                <div class="advanced top-pad" id="advancedDepthSearch" title="Set custom depth range using the sliders or the value boxes.">
+                <div class="advanced top-pad tooltip" id="advancedDepthSearch" title="Set custom depth range using the sliders or the value boxes.">
                     <span>OR</span>
                     <label style="padding-right: 5px;">Custom depth range (m)</label>
                     Min: <g:textField name="minDepth" class="depthInput" value="${criteria.minDepth}"/>
@@ -43,17 +43,17 @@
             </div>
             <div class="search-block">
                 <g:set var="groupTitle" value="Commonly recognisable fish ‘groupings’ are included. To search for a specific family or multiple families click on advanced search link above and select from ‘only these families’ pull-down menu, then click ‘+’ button."/>
-                <label for="fishGroup" class="mainLabel" title="${groupTitle}">Fish group</label>
-                <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}"
+                <label for="fishGroup" class="mainLabel tooltip" title="${groupTitle}">Fish group</label>
+                <g:select name="fishGroup" from="${fishGroups.display}" value="${criteria.fishGroup}" class="tooltip"
                           keys="${fishGroups.keys}" noSelection="['':'All fishes']" title="${groupTitle}"/>
                 <div class="advanced top-pad" id="advancedTaxonSearch">
                     <g:set var="ecosystemTitle" value="Restrict search to the selected ecosystem or choose ‘any’ to include all options."/>
-                    <label for="ecosystem" title="${ecosystemTitle}">Primary ecosystem</label>
-                    <g:select name="ecosystem" from="['estuarine','coastal','demersal','pelagic']"
+                    <label for="ecosystem" title="${ecosystemTitle}" class="tooltip">Primary ecosystem</label>
+                    <g:select name="ecosystem" from="['estuarine','coastal','demersal','pelagic']" class="tooltip"
                               noSelection="['':'any']" style="margin-top:0;" title="${ecosystemTitle}"/><br/>
-                    <div id="family-widget" title="Restrict the search to specified families. Type a few letters or select from pulldown menu. Select any number of families but ensure you click the + button after selecting each family to add it to the search list. Remove a family from a completed search by clicking the red X or click the ‘clear’ button below to remove all criteria.">
+                    <div id="family-widget" class="tooltip" title="Restrict the search to specified families. Type a few letters or select from pulldown menu. Select any number of families but ensure you click the + button after selecting each family to add it to the search list. Remove a family from a completed search by clicking the red X or click the ‘clear’ button below to remove all criteria.">
                         <label for="family">Only these families</label>
-                        <g:select title="Type a few letters or pick from list." name="family" from="${allFamilies}" noSelection="['':'']"/>
+                        <g:select title="Type a few letters or pick from list." name="family" class="tooltip" from="${allFamilies}" noSelection="['':'']"/>
                         <button type="button" id="addFamily">
                             <img alt="add selected family" title="Add selected family to search criteria"
                                  src="${resource(dir:'images/skin',file:'plus_icon.gif')}"/></button>
@@ -71,16 +71,16 @@
             </div>
             <div class="search-block">
                 <g:set var="localityTitle" value="If area of interest is not listed, use map tools in advanced search to draw region of interest."/>
-                <label for="locality" class="mainLabel" title="${localityTitle}">Locality</label>
-                <select name="locality" id="locality" title="${localityTitle}"><option value="">any</option></select>
-                <div class="top-pad" title="Choose the radius of the area around the selected locality. You can only adjust slider bar if a locality is selected.">
+                <label for="locality" class="mainLabel tooltip" title="${localityTitle}">Locality</label>
+                <select name="locality" id="locality" class="tooltip" title="${localityTitle}"><option value="">any</option></select>
+                <div class="top-pad tooltip" title="Choose the radius of the area around the selected locality. You can only adjust slider bar if a locality is selected.">
                     <label for="radiusSlider">Distance from locality</label>
                     <div id="radiusSlider"></div><span id="radiusDisplay">50km</span>
                 </div>
                 <div class="advanced top-pad" id="advancedRegionSearch">
                     <span>OR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <!-- Added by Alan on for fetching multiple layers on 30/07/2014 --- START -->
-                    <select name="myLayer" id="myLayer" title="Select a layer">
+                    <select name="myLayer" id="myLayer" class="tooltip" title="Select a layer">
                         <g:each in="${myLayer}" var="ix">
                             <option value="${ix.pid}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
                         </g:each>
@@ -92,7 +92,7 @@
                     <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <!-- Added by Alan Lin --- END -->
                     <g:set var="imcraTitle" value="Restrict your search to the following bioregion selected from the list or choose ‘any’ to include all areas. Bioregion will appear on map when selected."/>
-                    <select name="imcra" id="imcra" title="${imcraTitle}">
+                    <select name="imcra" id="imcra" class="tooltip" title="${imcraTitle}">
                         <option value="">any</option>
                         <g:each in="${imcras}" var="ix">
                             <option value="${ix.name}" id="${ix.pid}" ${ix.name == criteria.imcra ? "selected='selected'" : ""}>${ix.name}</option>
@@ -152,27 +152,27 @@
     of the group. Read more <g:link target="_maps" action="distributionModelling">here</g:link>.</div>
         <div id="map-controls" style="display: none">
             <ul id="control-buttons">
-                <li class="active" id="pointer" title="Drag to move. Double click or use the zoom control to zoom.">
+                <li class="active tooltip" id="pointer" title="Drag to move. Double click or use the zoom control to zoom.">
                     <img src="${resource(dir:'images/map',file:'pointer.png')}" alt="pointer"/>
                     Move & zoom
                 </li>
-                <li id="circle" title="Click at centre and drag the desired radius. Values can be adjusted in the boxes.">
+                <li id="circle" class="tooltip" title="Click at centre and drag the desired radius. Values can be adjusted in the boxes.">
                     <img src="${resource(dir:'images/map',file:'circle.png')}" alt="center and radius"/>
                     Draw circle
                 </li>
-                <li id="rectangle" title="Click and drag a rectangle.">
+                <li id="rectangle" class="tooltip" title="Click and drag a rectangle.">
                     <img src="${resource(dir:'images/map',file:'rectangle.png')}" alt="rectangle"/>
                     Draw rect
                 </li>
-                <li id="polygon" title="Click any number of times to draw a polygon. Double click to close the polygon.">
+                <li id="polygon" class="tooltip" title="Click any number of times to draw a polygon. Double click to close the polygon.">
                     <img src="${resource(dir:'images/map',file:'polygon.png')}" alt="polygon"/>
                     Draw polygon
                 </li>
-                <li id="clear" title="Clear the region from the map.">
+                <li id="clear" class="tooltip" title="Clear the region from the map.">
                     <img src="${resource(dir:'images/map',file:'clear.png')}" alt="clear"/>
                     Clear
                 </li>
-                <li id="reset" title="Zoom and centre on Australia.">
+                <li id="reset" class="tooltip" title="Zoom and centre on Australia.">
                     <img src="${resource(dir:'images/map',file:'reset.png')}" alt="reset map"/>
                     Reset
                 </li>
@@ -294,7 +294,7 @@
         searchMode.init(advanced);
 
 
-        $('.tooltip').tooltipster();
+        $('.tooltip').tooltipster({maxWidth: 450});
     });
 
     function clearData() {
