@@ -18,7 +18,6 @@
     <g:layoutHead />
     <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/superfish/superfish.js"></script>
     %{-- This clashes with jqueryui autocomplete used on the search page -- <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>--}%
-    <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/uservoice.js"></script>
     <r:script>
 
         // initialise plugins
