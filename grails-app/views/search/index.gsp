@@ -305,7 +305,6 @@
         $('#circleLon').val("");
         $('#circleRadius').val("");
         $('#imcraPid').val("");
-        //$('#capad2014Pid').val("");
         $('#myLayerPid').val("");
     }
 

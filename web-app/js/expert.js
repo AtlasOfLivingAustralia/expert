@@ -137,7 +137,6 @@ var customDepth = {
 var locationWidgets = {
     $locality: null,
     $imcra: null,
-    $capad2014: null,
     $myLayer: null,
     $slider: null,
     init: function (initialRadius, localities) {
@@ -147,7 +146,6 @@ var locationWidgets = {
         // initialise cached jquery objects after the page is rendered
         this.$locality = $('#locality');
         this.$imcra = $('#imcra');
-        //this.$capad2014 = $('#capad2014');
         this.$myLayer = $('#myLayer');
         this.$slider = $('#radiusSlider');
 
@@ -249,13 +247,10 @@ var locationWidgets = {
     clear: function () {
         this.$locality.val('');
         this.$imcra.val('');
-        this.$capad2014.val('');
+        this.$myLayer.val('');
     },
     hasImcra: function () {
         return this.$imcra.val() !== '';
-    },
-    hasCapad2014: function () {
-        return this.$capad2014.val() !== '';
     },
     // returns true if advanced search criteria exist
     isAdvanced: function () {
