@@ -293,8 +293,7 @@
         var advanced = window.sessionStorage ? window.sessionStorage.getItem('advancedSearch') : false;
         searchMode.init(advanced);
 
-
-        $('.tooltip').tooltipster({maxWidth: 450});
+        //$('.tooltip').tooltipster({maxWidth: 450, delay: 2000});
     });
 
     function clearData() {
