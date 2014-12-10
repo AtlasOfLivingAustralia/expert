@@ -17,17 +17,12 @@ grails.project.dependency.resolution = {
     log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 
     repositories {
-        grailsPlugins()
-        grailsHome()
-        grailsCentral()
-
         mavenLocal()
-        mavenCentral()
-
-        mavenRepo "http://repository.codehaus.org"
-        mavenRepo "http://nexus.ala.org.au/content/groups/public/"
-        mavenRepo "http://maven.ala.org.au/repository"
+        mavenRepo ("http://nexus.ala.org.au/content/groups/public/") {
+            updatePolicy 'always'
+        }
     }
+
     dependencies {
         runtime 'net.sf.opencsv:opencsv:2.1'
         compile group: 'au.org.ala',
