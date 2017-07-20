@@ -2,11 +2,10 @@
 <html>
 <head>
     <title>Species missing ANFC images | FishMap | Atlas of Living Australia</title>
-    <meta name="layout" content="ala2"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'expert.css')}" />
-    <r:require module="jquery"/>
-    <r:layoutResources />
-    <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>
+
+    <meta name="layout" content="main"/>
+
+    <asset:stylesheet src="expert"/>
 </head>
 <body class="search">
     <header id="page-header">

@@ -2,11 +2,12 @@
 <html>
 <head>
     <title>Modelled Fish Distributions | FishMap | Atlas of Living Australia</title>
-    <meta name="layout" content="ala2"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="${resource(dir:'css',file:'expert.css')}" />
-    <r:require module="jquery"/>
-    <r:layoutResources />
-    <script language="JavaScript" type="text/javascript" src="http://ala.org.au/wp-content/themes/ala2011/scripts/jquery.autocomplete.js"></script>
+    <meta name="breadcrumbs" content="${createLink(controller: 'search')},FishMap | Search"/>
+    <meta name="breadcrumb" content="Modelled Fish Distributions"/>
+
+    <meta name="layout" content="main"/>
+    <asset:stylesheet src="expert"/>
+
 </head>
 <body class="attribution">
     <header id="page-header">
@@ -14,10 +15,6 @@
             <hgroup>
                 <h1 title="fishmap - modelled fish distributions"></h1>
             </hgroup>
-            <nav id="breadcrumb"><ol>
-                <li><a href="${searchPage}">Search</a></li>
-                <li class="last"><i>Modelled fish distributions</i></li></ol>
-            </nav>
         </div>
     </header>
     <div class="inner">

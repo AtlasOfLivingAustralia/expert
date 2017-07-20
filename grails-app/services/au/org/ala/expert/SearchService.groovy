@@ -1,8 +1,14 @@
 package au.org.ala.expert
 
+import grails.converters.JSON
+import grails.plugin.cache.Cacheable
+
+
 class SearchService {
 
     def grailsApplication
+    def webService
+    def bieService
 
     def buildQuery(SearchCommand cmd) {
         def criteria = ['dataResourceUid=' + grailsApplication.config.distribution.maps.dataResourceUid]
@@ -56,11 +62,6 @@ class SearchService {
     }
 
     def search(SearchCommand cmd) {
-        println "location based on ${cmd.locationBasedOn}"
-        println "Radius = ${cmd.radius}"
-
-        //cmd.families.each { log.debug it }
-        //println "Families = ${cmd.families}"
 
         def results = []
         def query = buildQuery(cmd)
@@ -73,36 +74,34 @@ class SearchService {
         }
 
         try {
-            withHttp(uri: grailsApplication.config.spatial.baseURL) {
-                def json = post(path: servicePath, body: query)
-                //println json
-                json.each {
-                    results <<
-                            [name: it.scientific,
-                             common: it.common_nam,
-                             caabCode: it.caab_species_number,
-                             guid: it.lsid,
-                             spcode: it.spcode,
-                             family: it.family,
-                             familyGuid: it.family_lsid,
-                             familyCaabCode: it.caab_family_number,
-                             genus: it.genus_name,
-                             genusGuid: it.genus_lsid,
-                             specific: it.specific_n,
-                             group: it.group_name,
-                             gidx: it.geom_idx,
-                             authority: it.authority_,
-                             imageQuality: it.image_quality,
-                             wmsurl: it.wmsurl,
-                             minDepth: it.min_depth,
-                             maxDepth: it.max_depth,
-                             endemic: it.endemic,
-                             primaryEcosystem: (it.pelagic_fl > 0 ? "p" : "") +
-                                     (it.coastal_fl ? "c" : "") +
-                                     (it.estuarine_fl ? "e" : "") +
-                                     (it.desmersal_fl ? "d" : "")
-                            ]
-                }
+            def json = JSON.parse(webService.doJsonPost(grailsApplication.config.spatial.baseURL, servicePath, null, query, 'application/x-www-form-urlencoded'))
+
+            json.each {
+                results <<
+                        [name            : it.scientific,
+                         common          : it.common_nam,
+                         caabCode        : it.caab_species_number,
+                         guid            : it.lsid,
+                         spcode          : it.spcode,
+                         family          : it.family,
+                         familyGuid      : it.family_lsid,
+                         familyCaabCode  : it.caab_family_number,
+                         genus           : it.genus_name,
+                         genusGuid       : it.genus_lsid,
+                         specific        : it.specific_n,
+                         group           : it.group_name,
+                         gidx            : it.geom_idx,
+                         authority       : it.authority_,
+                         imageQuality    : it.image_quality,
+                         wmsurl          : it.wmsurl,
+                         minDepth        : it.min_depth,
+                         maxDepth        : it.max_depth,
+                         endemic         : it.endemic,
+                         primaryEcosystem: (it.pelagic_fl > 0 ? "p" : "") +
+                                 (it.coastal_fl ? "c" : "") +
+                                 (it.estuarine_fl ? "e" : "") +
+                                 (it.desmersal_fl ? "d" : "")
+                        ]
             }
         } catch (Exception e) {
             return [error: "Spatial search: " + e.message, results: [], query: query]
@@ -110,7 +109,7 @@ class SearchService {
 
         log.info "results = ${results}"
 
-        return [results: results, query: query/*, error: "spatial webservice not available"*/]
+        return [results: results, query: query]
     }
 
     def speciesListSummary(List species) {
@@ -131,5 +130,53 @@ class SearchService {
             case 'coastal': return ['coastal=true']
             default: return [""]
         }
+    }
+
+    @Cacheable(value = "searchService", key = { key ?: cmd ? buildQuery(cmd).encodeAsMD5() : '' })
+    def ajaxSearch(SearchCommand cmd, String key) {
+        //test for cache hit failure
+        if (cmd == null) {
+            log.error('search cache hit failure for key:' + key)
+            return null
+        }
+
+        def result
+
+        // do the search
+        def searchResults = search(cmd)
+        if (searchResults.error) {
+            log.debug searchResults.error
+        }
+
+        // add the family metadata (image, common name, etc)
+        searchResults.families = bieService.getFamilyMetadata(searchResults.results)
+
+        // create a summary
+        def summary = [total      : searchResults.results.size(),
+                       familyCount: searchResults.families.size()]
+
+        // inject some summary counts into the results
+        searchResults.total = summary.total
+        searchResults.familyCount = summary.familyCount
+
+        // register the results with the results service
+        def storeError = ""
+        if (!searchResults.error) {
+            key = searchResults.query.encodeAsMD5()
+
+            log.debug "stored key = ${key}"
+        }
+
+        // bundle the results
+        result = [summary: summary, query: searchResults.query, queryDescription: cmd.queryDescription,
+                  key    : key, families: searchResults.families, results: searchResults]
+        if (storeError) {
+            result.error = storeError
+        }
+        if (searchResults.error) {
+            result.error = searchResults.error
+        }
+
+        result
     }
 }

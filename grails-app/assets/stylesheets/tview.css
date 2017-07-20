@@ -1,0 +1,334 @@
+/*
+*= require ala-colorbox.css
+ */
+
+/*body {*/
+/*background-color: white;*/
+/*}*/
+
+/*.link {*/
+/*text-decoration: underline;*/
+/*cursor: pointer;*/
+/*}*/
+
+/* banners */
+.family-list #page-header hgroup {
+    background: url("fishmap-banner-family-list.jpg") white center no-repeat;
+}
+
+.species-list #page-header hgroup {
+    background: url("fishmap-banner-species-list.jpg") white center no-repeat;
+}
+
+.species-data #page-header hgroup {
+    background: url("fishmap-banner-species-data.jpg") white center no-repeat;
+}
+
+#page-header hgroup {
+    height: 136px;
+    color: transparent; /* only for text readers - visual title is in the banner image */
+}
+
+div.no-top {
+    padding-top: 0;
+}
+
+#page-header h2 {
+    font-size: 1.6em;
+    padding: 10px 0 0 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/*#breadcrumb {*/
+/*margin-top: -15px;*/
+/*color: #007c84;*/
+/*font-weight: bold;*/
+/*font-size: 1.2em;*/
+/*}*/
+
+/* layout table */
+
+thead, thead th {
+    background-color: white;
+}
+
+th {
+    vertical-align: middle;
+}
+
+table.taxonList, table.taxonData {
+    width: 100%;
+    background-color: white;
+}
+
+table.taxonList {
+    table-layout: fixed;
+    width: 972px;
+}
+
+table.taxonList td {
+    text-align: left;
+}
+
+table.taxonList td.mainImage {
+    text-align: center;
+    width: 400px;
+}
+
+#tdCaabCode {
+    width: 70px;
+}
+
+img.list {
+    max-width: 285px;
+    /*max-height: 150px;*/
+}
+
+img.dist {
+    max-width: 200px;
+}
+
+table.taxonList td:first-child {
+    text-align: center;
+}
+
+table.genera td:first-child {
+    text-align: left;
+}
+
+table.taxonList > tbody > tr > td:nth-child(2) a {
+    font-weight: bold;
+}
+
+table.taxonList > tbody > tr, table.taxonList > thead > tr {
+    border-bottom: 3px solid #F0F0E8; /*#FaF9F2;*/
+}
+
+table.taxonData > tbody > tr, table.taxonList > thead > tr {
+    border-bottom: 1px solid #F0F0E8; /*#FaF9F2;*/
+}
+
+table.taxonList > thead > tr, table.taxonData > thead > tr {
+    border-top: 3px solid #F0F0E8;
+}
+
+/*table.taxonList tr:nth-child(even) {
+    background-color: #FaF9F2;
+}*/
+
+/* image */
+a.imageContainer {
+    text-align: center;
+}
+
+a.no-image {
+    cursor: default;
+}
+
+table.taxonList span.rights {
+    font-size: 8px;
+}
+
+#popupMetadata p {
+    margin: 0;
+    padding-bottom: 3px;
+}
+
+div.gContent {
+    display: none;
+}
+
+div.summary {
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+}
+
+span.dt {
+    font-weight: bold;
+    padding-right: 4px;
+}
+
+#cboxLoadedContent {
+    margin-bottom: 10px !important;
+}
+
+/* columns */
+#tlCheckbox {
+    width: 5%;
+    text-align: center;
+}
+
+#tlCheckbox input {
+    padding-left: 20px;
+    float: right;
+}
+
+#tlName {
+    width: 15%;
+}
+
+#tlImage {
+    text-align: center;
+    width: 40%;
+}
+
+#tlGenera {
+    width: 30%;
+}
+
+/* for data table */
+#tdName {
+    width: 30%;
+}
+
+/* names */
+div.name {
+    font-size: 16px;
+    padding-bottom: 3px;
+}
+
+div.common {
+    font-size: 16px;
+    padding-bottom: 8px;
+}
+
+/* genus */
+img.thumb {
+    max-width: 75px;
+    max-height: 75px;
+    display: block;
+}
+
+img.no-image-small {
+    display: block;
+    padding-bottom: 10px;
+}
+
+td.genera {
+    width: 374px;
+}
+
+table.genera {
+    table-layout: fixed;
+    width: 341px;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+table.genera td {
+    padding: 0 10px 0 0;
+}
+
+.align-left {
+    text-align: left;
+}
+
+table.genera td {
+    vertical-align: bottom;
+}
+
+span.tight {
+    font-family: 'Arial Narrow', Arial, Helvetica, sans-serif;
+}
+
+span.veryTight {
+    font-size: 0.8em;
+}
+
+/* distribution map */
+
+div.distribution-popup {
+    text-align: left;
+}
+
+div.distribution-popup a {
+    position: relative;
+    top: -20px;
+    left: 10px;
+}
+
+div.distribution-popup div.details {
+    position: relative;
+    top: -15px;
+}
+
+/* pagination */
+#pagination {
+    padding-top: 30px;
+}
+
+#pagination ul {
+    display: inline-block;
+    width: 90%;
+    text-align: center;
+}
+
+#pagination li {
+    display: inline;
+    list-style: none;
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+#pagination li a {
+    text-decoration: none;
+}
+
+li.currentPage {
+    font-size: 110%;
+    font-weight: bold;
+    color: #DD3102;
+}
+
+/* footer */
+#pagination ul {
+    padding-bottom: 12px;
+}
+
+#pagination p {
+    text-align: left;
+    margin-left: 30px;
+}
+
+#pagination span {
+    margin-left: 30px;
+}
+
+/* search controls */
+#controls {
+    float: right;
+    padding: 2px 0;
+    /*width: 927%;*/
+}
+
+#controls label {
+    margin-left: 5px;
+}
+
+#viewLinks {
+    padding: 0;
+}
+
+#checkboxButtons {
+    margin-left: 190px;
+}
+
+#colorbox, #cboxWrapper {
+    overflow: visible;
+}
+
+.popupContent {
+    margin: 30px;
+}
+
+.taxonData > tbody > tr > td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 13px;
+}
+
+.ui-front {
+    z-index: 9999;
+}
