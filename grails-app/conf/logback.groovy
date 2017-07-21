@@ -1,3 +1,4 @@
+import ch.qos.logback.core.util.FileSize
 import grails.util.BuildSettings
 import grails.util.Environment
 import org.springframework.boot.logging.logback.ColorConverter
@@ -12,7 +13,7 @@ final TOMCAT_LOG = 'TOMCAT_LOG'
 switch (Environment.current) {
     case Environment.PRODUCTION:
         appender(TOMCAT_LOG, RollingFileAppender) {
-            file = "$loggingDir/$appName.log"
+            file = "${loggingDir}/${appName}.log"
             encoder(PatternLayoutEncoder) {
                 pattern =
                         '%d{yyyy-MM-dd HH:mm:ss.SSS} ' + // Date
@@ -22,7 +23,7 @@ switch (Environment.current) {
                                 '%m%n%wex' // Message
             }
             rollingPolicy(FixedWindowRollingPolicy) {
-                fileNamePattern = "$loggingDir/$appName.%i.log.gz"
+                fileNamePattern = "${loggingDir}/${appName}.%i.log.gz"
                 minIndex = 1
                 maxIndex = 4
             }
@@ -33,7 +34,7 @@ switch (Environment.current) {
         break
     case Environment.TEST:
         appender(TOMCAT_LOG, RollingFileAppender) {
-            file = "$loggingDir/$appName.log"
+            file = "${loggingDir}/${appName}.log"
             encoder(PatternLayoutEncoder) {
                 pattern =
                         '%d{yyyy-MM-dd HH:mm:ss.SSS} ' + // Date
@@ -43,7 +44,7 @@ switch (Environment.current) {
                                 '%m%n%wex' // Message
             }
             rollingPolicy(FixedWindowRollingPolicy) {
-                fileNamePattern = "$loggingDir/$appName.%i.log.gz"
+                fileNamePattern = "${loggingDir}/${appName}.%i.log.gz"
                 minIndex = 1
                 maxIndex = 4
             }
