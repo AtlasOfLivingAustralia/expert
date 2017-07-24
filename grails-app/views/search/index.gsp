@@ -52,8 +52,9 @@
         <p class="searchInstructions">Select depth, fish group and location and press the 'Search' button below or
         use the <span style="padding: 0;" class="toggleAdvanced link">advanced search</span><span
                 class="sea"></span>.<br>
-            <span id="advWarning"><img uri="/images/skin/warning.png"
-                                       style="padding-right:4px;"/>Some advanced criteria are hidden.</span>
+            <span id="advWarning">
+                <asset:image src='skin/warning.png'
+                             style="padding-right:4px;"/>Some advanced criteria are hidden.</span>
         </p>
         <g:form class="searchGroup">
             <div class="search-block">

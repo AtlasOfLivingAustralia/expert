@@ -16,7 +16,8 @@ class BootStrap {
                 def json = new URL("${grailsApplication.config.spatial.layers.service.url}/distributions?dataResourceUid=${grailsApplication.config.distribution.maps.dataResourceUid}").text
                 def result = new JsonSlurper().parseText(json)
 
-                def sld = '&sld_body=' + URLEncoder.encode(ResourceBundle.getResource('/dist.sld').text, "UTF-8")
+
+                def sld = '&sld_body=' + URLEncoder.encode(DataController.classLoader.getResourceAsStream('dist.sld').text, "UTF-8")
 
                 try {
                     result.eachWithIndex { it, i ->

@@ -90,12 +90,14 @@
                 <!-- distribution -->
                 <td><g:if test="${i.gidx}">
                     <a rel="dist" class="distributionImageContainer lightbox" href="#${i.name.replace(' ','_')}-dist">
-                        <img class="dist" src="/data/images/dist${i.gidx}.png"
+                        <img class="dist"
+                             src="${grailsApplication.config.grails.serverURL}/data/images/dist${i.gidx}.png"
                              alt title="Click for larger view"/>
                     </a>
                     <div style="display:none">
                         <div class="popupContent distribution-popup" id="${i.name.replace(' ','_')}-dist">
-                            <img src="/data/images/dist${i.gidx}.png" alt /><br>
+                            <img src="${grailsApplication.config.grails.serverURL}/data/images/dist${i.gidx}.png"
+                                 alt/><br>
                             <a target="_maps" href="${createLink(controller: 'search', action:'distributionModelling')}">About the map</a><br>
                             <div class="details">
                                 <div class="summary" id="${i.name.replace(' ','_')}-distsummary"><strong><em>${i.name}</em></strong></div>
