@@ -544,6 +544,7 @@ label {
 #main {
     margin-top: -30px;
     padding-top: 0px;
+    z-index: -1;
 }
 
 .ui-front {
