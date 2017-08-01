@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Search | FishMap | Atlas of Living Australia</title>
-    <meta name="breadcrumb" content="Search"/>
+    <title>FishMap | Atlas of Living Australia</title>
+    <meta name="breadcrumb" content="FishMap"/>
 
     <asset:stylesheet src="jquery"/>
 
