@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-version "1.0-SNAPSHOT"
+version "2.0-SNAPSHOT"
 group "au.org.ala"
 
 apply plugin: "eclipse"
@@ -51,8 +51,9 @@ dependencies {
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     testRuntime "net.sourceforge.htmlunit:htmlunit:2.18"
 
-    compile "org.grails.plugins:ala-auth:3.0.0-SNAPSHOT"
-    compile "org.grails.plugins:ala-bootstrap3:3.0.0-SNAPSHOT"
+    compile "org.grails.plugins:ala-auth:3.0.3"
+    compile "org.grails.plugins:ala-bootstrap3:3.0.3"
+    compile "org.grails.plugins:ala-admin-plugin:2.1-SNAPSHOT"
 
     compile 'org.grails.plugins:external-config:1.1.1'
 
