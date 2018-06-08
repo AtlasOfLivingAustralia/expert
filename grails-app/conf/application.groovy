@@ -76,6 +76,7 @@ distribution.image.cache = "/data/expert/images"
  \******************************************************************************/
 
 ignoreCookie = 'true'
+/*
 security {
     cas {
         // appServerName is automatically set from grails.serverURL
@@ -87,6 +88,7 @@ security {
         authenticateOnlyIfLoggedInPattern = '.*'
     }
 }
+*/
 
 headerAndFooter.excludeApplicationJs = true
 orgNameLong = 'Atlas of Living Australia'

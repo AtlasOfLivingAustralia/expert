@@ -18,11 +18,27 @@ spring:
         template:
             check-template-location: false
 
+---
+security:
+  cas:
+      uriFilterPattern: '/alaAdmin.*'
+      uriExclusionFilterPattern: '/assets/.*,/images/.*,/css/.*,/js/.*,/less/.*'
+      authenticateOnlyIfLoggedInPattern: '.*'
+
+---
+
+skin:
+  fluidLayout: false
+  layout: main
+
+---
+
 # Spring Actuator Endpoints are Disabled by Default
 endpoints:
-    enabled: false
+    enabled: true
     jmx:
         enabled: true
+        unique-names: true
 
 ---
 grails:
@@ -76,6 +92,3 @@ grails:
                 scriptlets: html
                 taglib: none
                 staticparts: none
-endpoints:
-    jmx:
-        unique-names: true
