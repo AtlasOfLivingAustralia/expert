@@ -5,15 +5,10 @@
 		<meta name="breadcrumbs" content="${createLink(controller: 'search')},FishMap | Search" />
 		<meta name="breadcrumb" content="${request.'javax.servlet.error.status_code'}" />
 		<meta name="layout" content="main"/>
-		<asset:stylesheet src="application"/>
-		<asset:stylesheet src="tview"/>
-		<asset:javascript src="tviewer"/>
 
 		<style  type="text/css">
 			#main {
-				margin-top: 20px;
-				padding-top: 0px;
-				padding-left: 40px;
+				padding-left: 45px;
 			}
 
 			.detailedError {
@@ -23,8 +18,7 @@
 				border: solid 1px;
 				border-color: lightgrey;
             }
-
-	</style>
+		</style>
 
 	</head>
 
