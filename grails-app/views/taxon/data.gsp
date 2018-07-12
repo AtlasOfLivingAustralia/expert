@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <g:render template="/layout/ga" />
+
     <title>Species data | FishMap | Atlas of Living Australia</title>
     <meta name="breadcrumbs" content="${createLink(controller: 'search')},FishMap | Search"/>
     <meta name="breadcrumb" content="Species data"/>
