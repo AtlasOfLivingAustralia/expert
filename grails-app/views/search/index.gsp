@@ -9,6 +9,8 @@
 
     <script src="https://maps.google.com/maps/api/js?key=${grailsApplication.config.google.apikey}&libraries=drawing"></script>
 
+    <g:render template="/layout/ga" />
+
     <meta name="layout" content="main"/>
 
     <asset:javascript src="application"/>
