@@ -16,4 +16,10 @@ class DataController {
             render status: 404, text: ''
         }
     }
+
+    def sld = DataController.classLoader.getResourceAsStream('dist.sld').text
+
+    def dist() {
+        render text: sld, contentType: 'application/xml'
+    }
 }
