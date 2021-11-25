@@ -59,9 +59,9 @@ if (!spatial.wms.cache.url) {
 if (!spatial.layers.service.url) {
     spatial.layers.service.url = spatial.baseURL + "/layers-service"
 }
-if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = 'https://wpprod2017.ala.org.au/commonui-bs3-v2/commonui-bs3'
-}
+
+headerAndFooter.baseURL = 'https://www.ala.org.au/commonui-bs3-2019'
+headerAndFooter.excludeApplicationJs = true
 
 /******************************************************************************\
  *  APP CONFIG

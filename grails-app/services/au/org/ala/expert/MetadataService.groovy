@@ -17,8 +17,8 @@ class MetadataService {
     }
 
     def getLocalitiesByState() {
-        Holders.config.localityStates.collect() { it ->
-            [state: it.label, localities: localities.values().findAll({ it.state == 'NSW' })]
+        Holders.config.localityStates.collect() { theState ->
+            [state: theState.label, localities: localities.values().findAll({ it.state == theState.state })]
         }
     }
     
