@@ -1,1 +1,1 @@
-### expert   [![Build Status](https://travis-ci.org/AtlasOfLivingAustralia/expert.svg?branch=master)](https://travis-ci.org/AtlasOfLivingAustralia/expert)
+### expert   [![Build Status](https://travis-ci.com/AtlasOfLivingAustralia/expert.svg?branch=develop)](https://travis-ci.com/AtlasOfLivingAustralia/expert)
