@@ -30,10 +30,10 @@ grails.cors.enabled = true
  *  EXTERNAL SERVERS
  \******************************************************************************/
 if (!bie.baseURL) {
-    bie.baseURL = "http://bie.ala.org.au"
+    bie.baseURL = "https://bie.ala.org.au"
 }
 if (!bie.services.baseURL) {
-    bie.services.baseURL = "http://bie.ala.org.au/ws"
+    bie.services.baseURL = "https://bie.ala.org.au/ws"
 }
 /*
 if (!bie.searchPath) {
@@ -41,13 +41,13 @@ if (!bie.searchPath) {
 }
 */
 if (!biocache.baseURL) {
-    biocache.baseURL = "http://biocache.ala.org.au"
+    biocache.baseURL = "https://biocache.ala.org.au"
 }
 if (!spatial.baseURL) {
-    spatial.baseURL = "http://spatial.ala.org.au"
+    spatial.baseURL = "https://spatial.ala.org.au"
 }
 if (!ala.baseURL) {
-    ala.baseURL = "http://www.ala.org.au"
+    ala.baseURL = "https://www.ala.org.au"
 }
 // spatial services
 if (!spatial.wms.url) {
@@ -59,15 +59,15 @@ if (!spatial.wms.cache.url) {
 if (!spatial.layers.service.url) {
     spatial.layers.service.url = spatial.baseURL + "/layers-service"
 }
-if (!headerAndFooter.baseURL) {
-    headerAndFooter.baseURL = 'https://wpprod2017.ala.org.au/commonui-bs3-v2/commonui-bs3'
-}
+
+headerAndFooter.baseURL = 'https://www.ala.org.au/commonui-bs3-2019'
+headerAndFooter.excludeApplicationJs = true
 
 /******************************************************************************\
  *  APP CONFIG
  \******************************************************************************/
 distribution.maps.dataResourceUid = 'dr803'
-distribution.image.baseURL = 'http://spatial.ala.org.au/geoserver/ALA/wms?service=WMS&version=1.1.0&request=GetMap&layers=ALA:aus1,ALA:Distributions&styles=&bbox=109,-47,157,-7&srs=EPSG:4326&format=image/png&width=512&height=454&viewparams=s:'
+distribution.image.baseURL = 'https://spatial.ala.org.au/geoserver/ALA/wms?service=WMS&version=1.1.0&request=GetMap&layers=ALA:aus1,ALA:Distributions&styles=&bbox=109,-47,157,-7&srs=EPSG:4326&format=image/png&width=512&height=454&viewparams=s:'
 image.source.dataResourceUid = 'dr660'
 distribution.image.cache = "/data/expert/images"
 
@@ -92,8 +92,8 @@ security {
 
 headerAndFooter.excludeApplicationJs = true
 orgNameLong = 'Atlas of Living Australia'
-collections.url = 'http://collections.ala.org.au'
-image.ws.url = 'http://images.ala.org.au/ws'
+collections.url = 'https://collections.ala.org.au'
+image.ws.url = 'https://images.ala.org.au/ws'
 
 
 depthMeasures = [
