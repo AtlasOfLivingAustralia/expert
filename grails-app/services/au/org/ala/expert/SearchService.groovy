@@ -16,8 +16,8 @@ class SearchService {
             case 'wkt': criteria << "wkt=" + cmd.wkt; break
             case ['circle','locality']:
                 def circ = cmd.circle
-                criteria << "lat=" + circ.lat
-                criteria << "lon=" + circ.lng
+                criteria << "latitude=" + circ.lat
+                criteria << "longitude=" + circ.lng
                 criteria << "radius=" + circ.radius
                 break
             case 'marine area':
